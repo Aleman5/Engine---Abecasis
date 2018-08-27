@@ -13,7 +13,7 @@ int main()
 {
 	Game* game = new Game();
 
-	if (game->Start())
+	if (game->Start(1024, 720, "Hi world!"))
 	{
 		game->Loop();
 	}
@@ -21,8 +21,6 @@ int main()
 	game->Stop();
 
 	delete game;
-
-	cin.get();
 
 	return 0;
 }

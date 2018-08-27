@@ -2,9 +2,12 @@
 
 #include "Exports.h"
 #include "Renderer.h"
+#include "Window.h"
+#include "Typedef.h"
 
 class ENGINEDLL_API GameBase
 {
+	Window* window;
 	Renderer* renderer;
 
 protected:
@@ -13,7 +16,7 @@ protected:
 	virtual bool OnUpdate() = 0;
 
 public:
-	bool Start();
+	bool Start(int width, int height, const char* window);
 	bool Stop();
 	void Loop();
 

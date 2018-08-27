@@ -22,9 +22,7 @@ bool Game::OnStop()
 
 bool Game::OnUpdate()
 {
-	frame++;
+	
 
-	if (frame >= 100)
-		return false;
 	return true;
 }

@@ -8,10 +8,17 @@ GameBase::~GameBase()
 {
 }
 
-bool GameBase::Start()
+bool GameBase::Start(int width, int height, const char* windowMe)
 {
 	if (!OnStart())
 	{
+		return false;
+	}
+
+	window = new Window();
+	if (!window->Start(width, height, windowMe))
+	{
+		delete window;
 		return false;
 	}
 
@@ -30,17 +37,25 @@ bool GameBase::Stop()
 	OnStop();
 
 	renderer->Stop();
-
 	delete renderer;
+
+	window->Stop();
+	delete window;
 
 	return true;
 }
 
 void GameBase::Loop()
 {
+	renderer->SetClearColor(0.0, 0.3, 0.3, 0.0);
+
 	bool state = true;
-	do
+	while (!window->ShouldClose() && state)
 	{
 		state = OnUpdate();
-	} while (state);
+
+		
+
+		window->PollEvents();
+	}
 }

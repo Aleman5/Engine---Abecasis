@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);ENGINEDLL_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
@@ -126,10 +127,13 @@
     <ClInclude Include="Exports.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Typedef.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
