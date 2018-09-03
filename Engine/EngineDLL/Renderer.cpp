@@ -10,11 +10,11 @@ Renderer::~Renderer()
 {
 }
 
-bool Renderer::Start(Window* window)
+bool Renderer::Start(Window* win)
 {
-	this->window = window;
+	window = win;
 
-	glfwMakeContextCurrent((GLFWwindow*)this->window);
+	glfwMakeContextCurrent((GLFWwindow*)window);
 	
 	return true;
 }
@@ -26,7 +26,7 @@ bool Renderer::Stop()
 
 void Renderer::SetClearColor(float r, float g, float b, float a)
 {
-	// setea el color del fondo
+	glClearColor(r, g, b, a);
 }
 
 void Renderer::SwapBuffers()

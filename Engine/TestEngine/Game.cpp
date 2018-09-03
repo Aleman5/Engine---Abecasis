@@ -10,8 +10,6 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	frame = 0;
-
 	return true;
 }
 

@@ -4,7 +4,6 @@
 
 class Game : public GameBase
 {
-	int frame;
 protected:
 	bool OnStart() override;
 	bool OnStop() override;

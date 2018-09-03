@@ -19,6 +19,9 @@ public:
 	bool ShouldClose();
 	void PollEvents();
 
+	int GetWidth();
+	int GetHeight();
+
 	Window();
 	~Window();
 };
