@@ -2,12 +2,16 @@
 
 #include "Entity.h"
 
-class Triangle : public Entity
+class ENGINEDLL_API Triangle : public Entity
 {
+	float* verticesData;
+	int count; // total vertices
+	int variables; //  total data for each vertice
 public:
 
+	void Draw() override;
 
-	Triangle();
+	Triangle(Renderer* renderer);
 	~Triangle();
 };
 

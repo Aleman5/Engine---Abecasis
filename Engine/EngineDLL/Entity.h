@@ -1,10 +1,17 @@
 #pragma once
-class Entity
+
+#include "Renderer.h"
+
+class ENGINEDLL_API Entity
 {
+protected:
+	Renderer* renderer;
+	unsigned int vertexbuffer;
+
 public:
+	virtual void Draw() = 0;
 
-
-	Entity();
+	Entity(Renderer* renderer);
 	~Entity();
 };
 

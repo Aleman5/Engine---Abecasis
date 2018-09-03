@@ -21,6 +21,9 @@ public:
 	void ClearScreen();
 	void SwapBuffers();
 
+	unsigned int GenBuffer(float* buffer, int size);
+	void DrawBuffer(unsigned int vertexbuffer, int size);
+
 	Renderer();
 	~Renderer();
 };
