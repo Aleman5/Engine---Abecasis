@@ -13,7 +13,7 @@ int main()
 {
 	Game* game = new Game();
 
-	if (game->Start(1024, 720, "Hi world!"))
+	if (game->Start(1024, 768, "Hi world!"))
 	{
 		game->Loop();
 	}

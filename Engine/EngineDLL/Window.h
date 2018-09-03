@@ -19,6 +19,7 @@ public:
 	bool ShouldClose();
 	void PollEvents();
 
+	void* GetContext(); // Retorna un puntero de un void
 	int GetWidth();
 	int GetHeight();
 

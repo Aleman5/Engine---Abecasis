@@ -22,8 +22,6 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		return false;
 	}
 
-	if (!window) cout << "Holi";
-
 	renderer = new Renderer();
 	if (!renderer->Start(window))
 	{
@@ -49,14 +47,15 @@ bool GameBase::Stop()
 
 void GameBase::Loop()
 {
-	renderer->SetClearColor(0.3, 0.3, 0.3, 0.0);
+	renderer->SetClearColor(0.0, 0.0, 1, 0.0);
 
 	bool state = true;
 	while (!window->ShouldClose() && state)
 	{
-		state = OnUpdate();
-
 		renderer->ClearScreen();
+
+		state = OnUpdate();
+		
 		renderer->SwapBuffers();
 
 		window->PollEvents();

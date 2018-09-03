@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include "GLFW/glfw3.h"
+#include "GLFW/glfw3.h" // For math functions
 
 Renderer::Renderer()
 {
@@ -14,7 +14,10 @@ bool Renderer::Start(Window* win)
 {
 	window = win;
 
-	glfwMakeContextCurrent((GLFWwindow*)window);
+	glfwMakeContextCurrent((GLFWwindow*)window->GetContext());
+
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 	
 	return true;
 }
@@ -31,7 +34,7 @@ void Renderer::SetClearColor(float r, float g, float b, float a)
 
 void Renderer::SwapBuffers()
 {
-	glfwSwapBuffers((GLFWwindow*)window);
+	glfwSwapBuffers((GLFWwindow*)window->GetContext());
 }
 
 void Renderer::ClearScreen()
