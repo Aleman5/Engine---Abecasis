@@ -61,3 +61,8 @@ void GameBase::Loop()
 		window->PollEvents();
 	}
 }
+
+Renderer* GameBase::GetRenderer()
+{
+	return renderer;
+}

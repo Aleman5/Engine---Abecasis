@@ -1,7 +1,5 @@
 #include "Renderer.h"
 
-#include "GLFW/glfw3.h" // For math functions
-
 Renderer::Renderer()
 {
 }

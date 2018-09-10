@@ -2,10 +2,8 @@
 
 #include "Exports.h"
 #include "Window.h"
-
 #include "GL\glew.h"
-#include "glm\glm.hpp"
-using namespace glm;
+#include "GLFW\glfw3.h"
 
 class ENGINEDLL_API Renderer
 {

@@ -7,7 +7,7 @@
 
 class ENGINEDLL_API GameBase
 {
-	Window* window;
+	Window * window;
 	Renderer* renderer;
 
 protected:
@@ -19,6 +19,7 @@ public:
 	bool Start(int width, int height, const char* window);
 	bool Stop();
 	void Loop();
+	Renderer* GetRenderer();
 
 	GameBase();
 	~GameBase();

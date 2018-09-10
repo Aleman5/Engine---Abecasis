@@ -1,8 +1,16 @@
 #pragma once
 
-#include<ios>
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<string>
+#include<vector>
 #include "Exports.h"
 #include "GL\glew.h"
+#include "GLFW\glfw3.h"
+#include "glm/glm.hpp"
+
+using namespace glm;
 
 class ENGINEDLL_API Material
 {
