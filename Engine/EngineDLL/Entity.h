@@ -6,10 +6,12 @@ class ENGINEDLL_API Entity
 {
 protected:
 	Renderer* renderer;
-	unsigned int vertexbuffer;
+	unsigned int bufferId;
+	bool shouldDispose;
 
 public:
 	virtual void Draw() = 0;
+	virtual void ShouldDispose() = 0;
 
 	Entity(Renderer* renderer);
 	~Entity();

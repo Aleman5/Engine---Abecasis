@@ -10,10 +10,6 @@ GameBase::~GameBase()
 
 bool GameBase::Start(int width, int height, const char* windowMe)
 {
-	if (!OnStart())
-	{
-		return false;
-	}
 
 	window = new Window();
 	if (!window->Start(width, height, windowMe))
@@ -29,6 +25,10 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		return false;
 	}
 	
+	if (!OnStart())
+	{
+		return false;
+	}
 	return true;
 }
 

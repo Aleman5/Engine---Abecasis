@@ -18,6 +18,7 @@ public:
 	void SetClearColor(float r, float g, float b, float a);
 	void ClearScreen();
 	void SwapBuffers();
+	void DestroyBuffer(unsigned int* bufferId);
 
 	unsigned int GenBuffer(float* buffer, int size);
 	void DrawBuffer(unsigned int vertexbuffer, int size);

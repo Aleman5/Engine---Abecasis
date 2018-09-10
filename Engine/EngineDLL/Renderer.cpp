@@ -14,8 +14,6 @@ bool Renderer::Start(Window* win)
 
 	glfwMakeContextCurrent((GLFWwindow*)window->GetContext());
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
 	
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK)
@@ -25,6 +23,8 @@ bool Renderer::Start(Window* win)
 		return false;
 	}
 
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 	return true;
 }
 
@@ -46,6 +46,11 @@ void Renderer::SwapBuffers()
 void Renderer::ClearScreen()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Renderer::DestroyBuffer(unsigned int* bufferId)
+{
+	glDeleteBuffers(1, bufferId);
 }
 
 unsigned int Renderer::GenBuffer(float* buffer, int size)
