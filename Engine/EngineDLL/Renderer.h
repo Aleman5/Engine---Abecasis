@@ -2,6 +2,7 @@
 
 #include "Exports.h"
 #include "Window.h"
+#include "Material.h"
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
@@ -18,7 +19,7 @@ public:
 	void SetClearColor(float r, float g, float b, float a);
 	void ClearScreen();
 	void SwapBuffers();
-	void DestroyBuffer(unsigned int* bufferId);
+	void DestroyBuffer(unsigned int bufferId);
 
 	unsigned int GenBuffer(float* buffer, int size);
 	void DrawBuffer(unsigned int vertexbuffer, int size);

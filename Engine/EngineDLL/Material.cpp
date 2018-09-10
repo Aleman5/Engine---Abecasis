@@ -7,7 +7,6 @@ Material::~Material()
 {
 }
 
-
 unsigned int Material::LoadShader(const char * vertex_file_path, const char * fragment_file_path)
 {
 	// Crear los shaders
@@ -100,5 +99,12 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 	glDeleteShader(VertexShaderID);
 	glDeleteShader(FragmentShaderID);
 
+	Bind(ProgramID);
+
 	return ProgramID;
+}
+
+void Material::Bind(unsigned int programId)
+{
+	glUseProgram(programId);
 }

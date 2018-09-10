@@ -48,9 +48,9 @@ void Renderer::ClearScreen()
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::DestroyBuffer(unsigned int* bufferId)
+void Renderer::DestroyBuffer(unsigned int bufferId)
 {
-	glDeleteBuffers(1, bufferId);
+	glDeleteBuffers(1, &bufferId);
 }
 
 unsigned int Renderer::GenBuffer(float* buffer, int size)

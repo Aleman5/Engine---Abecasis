@@ -5,6 +5,7 @@
 
 class Game : public GameBase
 {
+	Material* material;
 	Triangle* t;
 
 protected:

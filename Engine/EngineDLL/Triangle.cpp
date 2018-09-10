@@ -1,6 +1,6 @@
 #include "Triangle.h"
 
-Triangle::Triangle(Renderer* renderer) : Entity(renderer)
+Triangle::Triangle(Renderer* renderer, Material* material) : Entity(renderer, material)
 {
 	verticesData = new float[9]{
 		-1.0f, -1.0f, 0.0f,
@@ -9,9 +9,8 @@ Triangle::Triangle(Renderer* renderer) : Entity(renderer)
 	};
 
 	count = 3;
-	variables = 3;
-
-	GenBuffer();
+	
+	SetVertices(verticesData, count);
 }
 Triangle::~Triangle()
 {
@@ -26,21 +25,18 @@ void Triangle::ShouldDispose()
 {
 	if (shouldDispose)
 	{
-		renderer->DestroyBuffer(&bufferId);
+		renderer->DestroyBuffer(bufferId);
 		delete[] verticesData;
 		shouldDispose = false;
 	}
 }
 
-void Triangle::SetVertices(unsigned int bufferId, int count)
+void Triangle::SetVertices(float* vertices, int count)
 {
-	this->bufferId = bufferId;
-
+	verticesData = vertices;
 	this->count = count;
-}
+	variables = 3;
 
-void Triangle::GenBuffer()
-{
 	bufferId = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
 	shouldDispose = true;
 }

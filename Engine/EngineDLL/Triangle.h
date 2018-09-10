@@ -12,10 +12,9 @@ public:
 	void Draw() override;
 	void ShouldDispose() override;
 
-	void SetVertices(unsigned int bufferId, int count);
-	void GenBuffer();
+	void SetVertices(float* vertices, int count);
 
-	Triangle(Renderer* renderer);
+	Triangle(Renderer* renderer, Material* material);
 	~Triangle();
 };
 
