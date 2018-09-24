@@ -34,16 +34,18 @@ public:
 	void DestroyBuffer(unsigned int bufferId);
 
 	unsigned int GenBuffer(float* buffer, int size);
-	void DrawBuffer(unsigned int vertexbuffer, int size);
+	//void DrawBuffer(unsigned int vertexbuffer, int size);
 
-	void EnableAttributes(unsigned int bufferId);
-	void BindBuffer(unsigned int bufferId);
-	void DrawBuffer(unsigned int bufferId, int size);
-	void DisableAttributes(unsigned int bufferId);
+	void EnableAttributes(unsigned int attributeId);
+	void BindBuffer(unsigned int bufferId, unsigned int attributeId);
+	void DrawBuffer(unsigned int attributeId, int size);
+	void DisableAttributes(unsigned int attributeId);
 
-	void loadIdentityMatrix(glm::mat4 model);
+	void loadIdentityMatrix();
+	void SetModelMatrix(glm::mat4 model);
 	void MultiplyModelMatrix(glm::mat4 model);
 	void SetMVP();
+	glm::mat4& GetMVP();
 
 	Renderer();
 	~Renderer();

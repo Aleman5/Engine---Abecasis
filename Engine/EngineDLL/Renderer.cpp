@@ -76,7 +76,7 @@ unsigned int Renderer::GenBuffer(float* buffer, int size)
 	return vertexbuffer;
 }
 
-void Renderer::DrawBuffer(unsigned int vertexbuffer, int size)
+/*void Renderer::DrawBuffer(unsigned int vertexbuffer, int size)
 {
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -91,18 +91,18 @@ void Renderer::DrawBuffer(unsigned int vertexbuffer, int size)
 	// Dibujar el triángulo !
 	glDrawArrays(GL_TRIANGLES, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 	glDisableVertexAttribArray(0);
-}
+}*/
 
-void Renderer::EnableAttributes(unsigned int bufferId)
+void Renderer::EnableAttributes(unsigned int attributebId)
 {
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(attributebId);
 }
 
-void Renderer::BindBuffer(unsigned int bufferId)
+void Renderer::BindBuffer(unsigned int bufferId, unsigned int attributebId)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
 	glVertexAttribPointer(
-		0,                  // atributo 0. No hay razón particular para el 0, pero debe corresponder en el shader.
+		attributebId,                  // atributo 0. No hay razón particular para el 0, pero debe corresponder en el shader.
 		3,                  // tamaño
 		GL_FLOAT,           // tipo
 		GL_FALSE,           // normalizado?
@@ -111,27 +111,44 @@ void Renderer::BindBuffer(unsigned int bufferId)
 	);
 }
 
-void Renderer::DrawBuffer(unsigned int bufferId, int size)
+void Renderer::DrawBuffer(unsigned int attributeId, int size)
 {
 	glDrawArrays(GL_TRIANGLES, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 }
 
-void Renderer::DisableAttributes(unsigned int bufferId)
+void Renderer::DisableAttributes(unsigned int attributeId)
 {
-	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(attributeId);
 }
 
-void Renderer::loadIdentityMatrix(glm::mat4 model)
+void Renderer::loadIdentityMatrix()
+{
+	modelMatrix = glm::mat4(1.0f);
+
+	SetMVP();
+}
+
+void Renderer::SetModelMatrix(glm::mat4 model)
 {
 	modelMatrix = model;
+
+	SetMVP();
 }
+
 
 void Renderer::MultiplyModelMatrix(glm::mat4 model)
 {
 	modelMatrix *= model;
+
+	SetMVP();
 }
 
 void Renderer::SetMVP()
 {
 	MVP = projectionMatrix * viewMatrix * modelMatrix;
+}
+
+glm::mat4& Renderer::GetMVP()
+{
+	return MVP;
 }

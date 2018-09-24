@@ -27,14 +27,14 @@ public:
 	virtual void Draw() = 0;
 	virtual void ShouldDispose() = 0;
 
-	virtual void UpdateModel() = 0;
-	virtual void Translate(glm::vec3 vector3) = 0;
-	virtual void Translate(float newX, float newY, float newZ) = 0;
-	virtual void Scale(glm::vec3 vector3) = 0;
-	virtual void Scale(float newX, float newY, float newZ) = 0;
-	virtual void RotateX(float angle) = 0;
-	virtual void RotateY(float angle) = 0;
-	virtual void RotateZ(float angle) = 0;
+	void UpdateModel();
+	void Translate(glm::vec3 vector3);
+	void Translate(float newX, float newY, float newZ);
+	void Scale(glm::vec3 vector3);
+	void Scale(float newX, float newY, float newZ);
+	void RotateX(float angle);
+	void RotateY(float angle);
+	void RotateZ(float angle);
 	virtual void SetVertices(float* vertices, int count) = 0;
 
 	Entity(Renderer* renderer, Material* material);
