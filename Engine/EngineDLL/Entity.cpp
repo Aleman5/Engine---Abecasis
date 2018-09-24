@@ -28,7 +28,7 @@ void Entity::UpdateModel()
 void Entity::Translate(glm::vec3 vector3)
 {
 	// Changes the actual position multiplying Matrix4x4 * position
-	translationMatrix = glm::translate(glm::mat4(), vector3);
+	translationMatrix = glm::translate(glm::mat4(1.0f), vector3);
 
 	UpdateModel();
 }
@@ -38,7 +38,7 @@ void Entity::Translate(float newX, float newY, float newZ)
 	// Changes the actual position multiplying Matrix4x4 * position
 	glm::vec3 vector3(newX, newY, newZ);
 
-	translationMatrix = glm::translate(glm::mat4(), vector3);
+	translationMatrix = glm::translate(glm::mat4(1.0f), vector3);
 
 	UpdateModel();
 }
@@ -66,7 +66,7 @@ void Entity::RotateX(float angle)
 	vecAxis[1] = vecAxis[2] = 0.0f;
 	vecAxis[0] = 1.0f;
 
-	rotateX = glm::rotate(glm::mat4(), glm::radians(angle), vecAxis);
+	rotateX = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
 	UpdateModel();
 }
@@ -78,7 +78,7 @@ void Entity::RotateY(float angle)
 	vecAxis[0] = vecAxis[2] = 0.0f;
 	vecAxis[1] = 1.0f;
 
-	rotateY = glm::rotate(glm::mat4(), glm::radians(angle), vecAxis);
+	rotateY = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
 	UpdateModel();
 }
@@ -90,7 +90,7 @@ void Entity::RotateZ(float angle)
 	vecAxis[0] = vecAxis[1] = 0.0f;
 	vecAxis[2] = 1.0f;
 
-	rotateZ = glm::rotate(glm::mat4(), glm::radians(angle), vecAxis);
+	rotateZ = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
 	UpdateModel();
 }

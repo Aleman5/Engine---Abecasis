@@ -2,11 +2,13 @@
 
 #include "GameBase.h"
 #include "Triangle.h"
+#include "Rectangle.h"
 
 class Game : public GameBase
 {
 	Material* material;
 	Triangle* t;
+	Rectangle* r;
 
 protected:
 	bool OnStart() override;

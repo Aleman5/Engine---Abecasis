@@ -16,6 +16,7 @@ bool Game::OnStart()
 	);
 
 	t = new Triangle(GetRenderer(), material);
+	r = new Rectangle(GetRenderer(), material);
 
 	return true;
 }
@@ -23,13 +24,18 @@ bool Game::OnStart()
 bool Game::OnStop()
 {
 	delete t;
+	delete r;
 
 	return true;
 }
 
 bool Game::OnUpdate()
 {
+	r->Translate(1.5f, 1.5f, 0.0f);
+	r->RotateX(20);
+
 	t->Draw();
+	r->Draw();
 
 	return true;
 }

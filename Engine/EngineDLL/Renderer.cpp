@@ -113,7 +113,7 @@ void Renderer::BindBuffer(unsigned int bufferId, unsigned int attributebId)
 
 void Renderer::DrawBuffer(unsigned int attributeId, int size)
 {
-	glDrawArrays(GL_TRIANGLES, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 }
 
 void Renderer::DisableAttributes(unsigned int attributeId)
