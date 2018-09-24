@@ -108,3 +108,8 @@ void Material::Bind(unsigned int programId)
 {
 	glUseProgram(programId);
 }
+
+void Material::SetMatrixProperty(glm::mat4& mat)
+{
+	glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mat[0][0]);
+}

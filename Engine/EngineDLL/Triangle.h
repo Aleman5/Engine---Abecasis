@@ -12,14 +12,14 @@ public:
 	void Draw() override;
 	void ShouldDispose() override;
 
-	void World(glm::vec3 vector3) override;
+	void UpdateModel() override;
 	void Translate(glm::vec3 vector3) override;
 	void Translate(float newX, float newY, float newZ) override;
 	void Scale(glm::vec3 vector3) override;
 	void Scale(float newX, float newY, float newZ) override;
-	void Rotate(float angle) override;
-
-	glm::mat4 GetModelMatrix();
+	void RotateX(float angle) override;
+	void RotateY(float angle) override;
+	void RotateZ(float angle) override;
 
 	void SetVertices(float* vertices, int count) override;
 

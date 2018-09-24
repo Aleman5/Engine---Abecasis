@@ -25,6 +25,15 @@ bool Renderer::Start(Window* win)
 
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
+
+	projectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
+
+	viewMatrix = glm::lookAt(
+		glm::vec3(0, 0, 3), // Camera is at (0, 0, 3), is World Space
+		glm::vec3(0, 0, 0), // Looks at the origin
+		glm::vec3(0, 1, 0)  // Head is up to (0, -1, 0)
+	);
+
 	return true;
 }
 
@@ -82,4 +91,47 @@ void Renderer::DrawBuffer(unsigned int vertexbuffer, int size)
 	// Dibujar el triángulo !
 	glDrawArrays(GL_TRIANGLES, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
 	glDisableVertexAttribArray(0);
+}
+
+void Renderer::EnableAttributes(unsigned int bufferId)
+{
+	glEnableVertexAttribArray(0);
+}
+
+void Renderer::BindBuffer(unsigned int bufferId)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+	glVertexAttribPointer(
+		0,                  // atributo 0. No hay razón particular para el 0, pero debe corresponder en el shader.
+		3,                  // tamaño
+		GL_FLOAT,           // tipo
+		GL_FALSE,           // normalizado?
+		0,                    // Paso
+		(void*)0            // desfase del buffer
+	);
+}
+
+void Renderer::DrawBuffer(unsigned int bufferId, int size)
+{
+	glDrawArrays(GL_TRIANGLES, 0, size); // Empezar desde el vértice 0S; 3 vértices en total -> 1 triángulo
+}
+
+void Renderer::DisableAttributes(unsigned int bufferId)
+{
+	glDisableVertexAttribArray(0);
+}
+
+void Renderer::loadIdentityMatrix(glm::mat4 model)
+{
+	modelMatrix = model;
+}
+
+void Renderer::MultiplyModelMatrix(glm::mat4 model)
+{
+	modelMatrix *= model;
+}
+
+void Renderer::SetMVP()
+{
+	MVP = projectionMatrix * viewMatrix * modelMatrix;
 }

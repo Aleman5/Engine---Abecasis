@@ -18,6 +18,12 @@ class ENGINEDLL_API Renderer
 
 	GLuint VertexArrayID;
 
+	glm::mat4 modelMatrix;
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
+
+	glm::mat4 MVP;
+
 public:
 	bool Start(Window* window);
 	bool Stop();
@@ -29,6 +35,15 @@ public:
 
 	unsigned int GenBuffer(float* buffer, int size);
 	void DrawBuffer(unsigned int vertexbuffer, int size);
+
+	void EnableAttributes(unsigned int bufferId);
+	void BindBuffer(unsigned int bufferId);
+	void DrawBuffer(unsigned int bufferId, int size);
+	void DisableAttributes(unsigned int bufferId);
+
+	void loadIdentityMatrix(glm::mat4 model);
+	void MultiplyModelMatrix(glm::mat4 model);
+	void SetMVP();
 
 	Renderer();
 	~Renderer();
