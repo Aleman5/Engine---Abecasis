@@ -6,6 +6,12 @@
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
+
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
+#include <glm\glm.hpp>
+
 class ENGINEDLL_API Renderer
 {
 	Window* window;
