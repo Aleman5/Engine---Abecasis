@@ -3,8 +3,8 @@
 ColorShape::ColorShape(Renderer* renderer, Material* material) : Entity(renderer, material)
 {
 	verticesColorData = new float[12]{
-		0.3f, 0.1f, 0.9f,
-		0.5f, 0.3f, 0.43f,
+		0.5f, 0.5f, 0.9f,
+		0.5f, 0.5f, 0.43f,
 		0.7f, 0.5f, 0.8f,
 		0.12f, 0.33f, 0.8f,
 	};

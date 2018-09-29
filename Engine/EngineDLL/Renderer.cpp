@@ -36,7 +36,7 @@ bool Renderer::Start(Window* win)
 	viewMatrix = glm::lookAt(
 		glm::vec3(0, 0, 3), // Camera is at (0, 0, 3), is World Space
 		glm::vec3(0, 0, 0), // Looks at the origin
-		glm::vec3(0, 1, 0)  // Head is up to (0, -1, 0)
+		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
 	);
 
 	return true;
