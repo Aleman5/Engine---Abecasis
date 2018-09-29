@@ -34,7 +34,6 @@ public:
 	void DestroyBuffer(unsigned int bufferId);
 
 	unsigned int GenBuffer(float* buffer, int size);
-	//void DrawBuffer(unsigned int vertexbuffer, int size);
 
 	void EnableAttributes(unsigned int attributeId);
 	void BindBuffer(unsigned int bufferId, unsigned int attributeId);

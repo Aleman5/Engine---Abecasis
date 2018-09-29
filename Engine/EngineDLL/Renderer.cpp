@@ -23,6 +23,11 @@ bool Renderer::Start(Window* win)
 		return false;
 	}
 
+	// Habilidad el test de profundidad
+	glEnable(GL_DEPTH_TEST);
+	// Aceptar el fragmento si está más cerca de la cámara que el fragmento anterior
+	glDepthFunc(GL_LESS);
+
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
@@ -54,7 +59,7 @@ void Renderer::SwapBuffers()
 
 void Renderer::ClearScreen()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::DestroyBuffer(unsigned int bufferId)
@@ -102,11 +107,11 @@ void Renderer::BindBuffer(unsigned int bufferId, unsigned int attributebId)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
 	glVertexAttribPointer(
-		attributebId,                  // atributo 0. No hay razón particular para el 0, pero debe corresponder en el shader.
+		attributebId,       // debe corresponder en el shader.
 		3,                  // tamaño
 		GL_FLOAT,           // tipo
 		GL_FALSE,           // normalizado?
-		0,                    // Paso
+		0,                  // corrimiento
 		(void*)0            // desfase del buffer
 	);
 }
