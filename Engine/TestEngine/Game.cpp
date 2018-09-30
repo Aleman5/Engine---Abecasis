@@ -17,7 +17,7 @@ bool Game::OnStart()
 
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);
-	c = new ColorShape(GetRenderer(), material);
+	//c = new ColorShape(GetRenderer(), material);
 
 	return true;
 }
@@ -26,7 +26,7 @@ bool Game::OnStop()
 {
 	delete t;
 	delete r;
-	delete c;
+	//delete c;
 
 	return true;
 }
@@ -37,7 +37,7 @@ bool Game::OnUpdate()
 
 	t->Draw();
 	r->Draw();
-	c->Draw();
+	//c->Draw();
 
 	return true;
 }

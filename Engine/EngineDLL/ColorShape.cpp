@@ -19,14 +19,14 @@ ColorShape::~ColorShape()
 
 void ColorShape::Draw()
 {
-	renderer->loadIdentityMatrix();
-	renderer->SetModelMatrix(model);
+	//renderer->loadIdentityMatrix();
+	//renderer->SetModelMatrix(model);
 
-	if (material != NULL)
+	/*if (material != NULL)
 	{
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
-	}
+	}*/
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 1);
 	renderer->DrawBuffer(1, count);

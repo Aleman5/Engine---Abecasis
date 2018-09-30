@@ -10,8 +10,9 @@ Rectangle::Rectangle(Renderer* renderer, Material* material) : Entity(renderer, 
 	};
 
 	count = 4;
-
 	SetVertices(verticesData, count);
+
+	color = new ColorShape(renderer, material);
 }
 
 Rectangle::~Rectangle()
@@ -32,6 +33,8 @@ void Rectangle::Draw()
 	renderer->BindBuffer(bufferId, 0);
 	renderer->DrawBuffer(0, count);
 	renderer->DisableAttributes(0);
+
+	color->Draw();
 }
 
 void Rectangle::ShouldDispose()

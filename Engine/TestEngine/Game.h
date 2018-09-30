@@ -10,7 +10,7 @@ class Game : public GameBase
 	Material* material;
 	Triangle* t;
 	Rectangle* r;
-	ColorShape* c;
+	//ColorShape* c;
 
 protected:
 	bool OnStart() override;
