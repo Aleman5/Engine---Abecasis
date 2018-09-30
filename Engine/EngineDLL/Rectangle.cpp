@@ -30,11 +30,13 @@ void Rectangle::Draw()
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 	renderer->EnableAttributes(0);
+	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
+	renderer->BindBuffer(color->GetBufferId(), 1);
 	renderer->DrawBuffer(0, count);
 	renderer->DisableAttributes(0);
-
-	color->Draw();
+	renderer->DisableAttributes(1);
+	
 }
 
 void Rectangle::ShouldDispose()

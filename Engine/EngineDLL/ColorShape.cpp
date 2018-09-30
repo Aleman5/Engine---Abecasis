@@ -3,10 +3,10 @@
 ColorShape::ColorShape(Renderer* renderer, Material* material) : Entity(renderer, material)
 {
 	verticesColorData = new float[12]{
-		0.5f, 0.5f, 0.9f,
-		0.5f, 0.5f, 0.43f,
+		1.0f, 0.5f, 1.0f,
+		0.0f, 1.0f, 0.43f,
 		0.7f, 0.5f, 0.8f,
-		0.12f, 0.33f, 0.8f,
+		0.0f, 0.5f, 0.5f,
 	};
 
 	count = 3;
@@ -19,14 +19,14 @@ ColorShape::~ColorShape()
 
 void ColorShape::Draw()
 {
-	//renderer->loadIdentityMatrix();
-	//renderer->SetModelMatrix(model);
+	renderer->loadIdentityMatrix();
+	renderer->SetModelMatrix(model);
 
-	/*if (material != NULL)
+	if (material != NULL)
 	{
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
-	}*/
+	}
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 1);
 	renderer->DrawBuffer(1, count);

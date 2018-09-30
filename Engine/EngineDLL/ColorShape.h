@@ -13,6 +13,7 @@ public:
 	void ShouldDispose() override;
 
 	void SetVertices(float* vertices, int count) override;
+	unsigned int GetBufferId() { return bufferId; }
 
 	ColorShape(Renderer* renderer, Material* material);
 	~ColorShape();
