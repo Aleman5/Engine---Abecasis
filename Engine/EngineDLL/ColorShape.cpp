@@ -2,14 +2,20 @@
 
 ColorShape::ColorShape(Renderer* renderer, Material* material) : Entity(renderer, material)
 {
-	verticesColorData = new float[12]{
+	/*verticesColorData = new float[12]{
 		1.0f, 0.5f, 1.0f,
-		0.0f, 1.0f, 0.43f,
+		1.0f, 1.0f, 0.43f,
 		0.7f, 0.5f, 0.8f,
 		0.0f, 0.5f, 0.5f,
-	};
+	};*/
 
-	count = 3;
+	verticesColorData = new float[12]{
+		0.583f, 0.771f, 0.014f,
+		0.609f, 0.115f, 0.436f,
+		0.327f, 0.483f, 0.844f,
+		0.822f, 0.569f, 0.201f,
+	};
+	count = 4;
 
 	SetVertices(verticesColorData, count);
 }

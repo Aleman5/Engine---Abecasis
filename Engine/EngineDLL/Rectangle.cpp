@@ -4,8 +4,8 @@ Rectangle::Rectangle(Renderer* renderer, Material* material) : Entity(renderer, 
 {
 	verticesData = new float[12]{
 		-1.0f, -1.0f, 0.0f,
-		-1.0f, 1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
 		1.0f, 1.0f, 0.0f,
 	};
 

@@ -10,6 +10,9 @@ GameBase::~GameBase()
 
 bool GameBase::Start(int width, int height, const char* windowMe)
 {
+	time = 0.0f;
+	currentFrame = 0.0f;
+	lastFrame = 0.0f;
 
 	window = new Window();
 	if (!window->Start(width, height, windowMe))
@@ -55,11 +58,19 @@ void GameBase::Loop()
 		renderer->ClearScreen();
 
 		state = OnUpdate();
-		
+		state = OnDraw();
+
 		renderer->SwapBuffers();
 
 		window->PollEvents();
 	}
+}
+
+void GameBase::Time()
+{
+	currentFrame = glfwGetTime();		// Save the actual time
+	time = currentFrame - lastFrame;	// Make a difference btw the actualFrame and the lastFrame
+	lastFrame = currentFrame;			// Save the lastFrame with the actual time
 }
 
 Renderer* GameBase::GetRenderer()

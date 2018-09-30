@@ -11,6 +11,8 @@ Triangle::Triangle(Renderer* renderer, Material* material) : Entity(renderer, ma
 	count = 3;
 	
 	SetVertices(verticesData, count);
+
+	color = new ColorShape(renderer, material);
 }
 Triangle::~Triangle()
 {
@@ -27,9 +29,12 @@ void Triangle::Draw()
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 	renderer->EnableAttributes(0);
+	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
+	renderer->BindBuffer(color->GetBufferId(), 1);
 	renderer->DrawBuffer(0, count);
 	renderer->DisableAttributes(0);
+	renderer->DisableAttributes(1);
 }
 
 void Triangle::ShouldDispose()
