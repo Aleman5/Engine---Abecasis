@@ -11,10 +11,10 @@ class Game : public GameBase
 	Triangle* t;
 	Rectangle* r;
 
-	float speed;
-	float translating;
-	float rotating;
-	float scalling;
+	float speed;		// Speed of the entity
+	float translating;	// How much the entity has to translate
+	float rotating;		// How much the entity has to rotate
+	float scalling;		// How much the entity has to be scaled
 
 protected:
 	bool OnStart() override;

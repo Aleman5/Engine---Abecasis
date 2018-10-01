@@ -17,10 +17,16 @@ class ENGINEDLL_API Material
 	GLuint matrixId;
 	unsigned int programId;
 public:
-	unsigned int LoadShader(const char * vertex_file_path, const char * fragment_file_path);
+	unsigned int LoadShader(
+		const char * vertex_file_path,	// Path of the vexter file.
+		const char * fragment_file_path	// Path of the fragment file.
+	);
 	
 	void Bind();
-	void SetMatrixProperty(const char* name, glm::mat4& mat);
+	void SetMatrixProperty(
+		const char* name,	// Name of the matrix to fill a material.
+		glm::mat4& mat		// Value of the matrix.
+	);
 
 	Material();
 	~Material();

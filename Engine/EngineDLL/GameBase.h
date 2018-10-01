@@ -24,7 +24,11 @@ protected:
 	virtual bool OnDraw() = 0;
 
 public:
-	bool Start(int width, int height, const char* window);
+	bool Start(
+		int width,			// Width of the Window
+		int height,			// Height of the Window
+		const char* window	// Name of the Window
+	);
 	bool Stop();
 	void Loop();
 	void Time();

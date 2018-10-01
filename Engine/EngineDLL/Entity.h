@@ -11,33 +11,56 @@ protected:
 	unsigned int programId;
 	bool shouldDispose;
 
-	glm::vec3 vectorPosition;
-	glm::vec3 vectorRotation;
-	glm::vec3 vectorScale;
+	glm::vec3 vectorPosition;	// Actual Position.
+	glm::vec3 vectorRotation;	// Actual Rotation.
+	glm::vec3 vectorScale;		// Actual Scale.
 
-	glm::mat4 model;
+	glm::mat4 model;			// Model Matrix.
 
-	glm::mat4 translationMatrix;
-	glm::mat4 rotateX;
-	glm::mat4 rotateY;
-	glm::mat4 rotateZ;
-	glm::mat4 scallingMatrix;
+	glm::mat4 translationMatrix;// Translation Matrix.
+	glm::mat4 rotateX;			// RotationX Matrix.
+	glm::mat4 rotateY;			// RotationX Matrix.
+	glm::mat4 rotateZ;			// RotationX Matrix.
+	glm::mat4 scallingMatrix;	// Scale Matrix.
 
 public:
 	virtual void Draw() = 0;
 	virtual void ShouldDispose() = 0;
 
 	void UpdateModel();
-	void Translate(glm::vec3 vector3);
-	void Translate(float newX, float newY, float newZ);
-	void Scale(glm::vec3 vector3);
-	void Scale(float newX, float newY, float newZ);
-	void RotateX(float angle);
-	void RotateY(float angle);
-	void RotateZ(float angle);
-	virtual void SetVertices(float* vertices, int count) = 0;
+	void Translate(
+		glm::vec3 vector3	// Vector3 to Translate.
+	);
+	void Translate(
+		float newX,	// Value in X.
+		float newY,	// Value in Y.
+		float newZ	// Value in Z.
+	);
+	void Scale(
+		glm::vec3 vector3	// Vector3 to Scale.
+	);
+	void Scale(
+		float newX, // Value in X.
+		float newY, // Value in Y.
+		float newZ  // Value in Z.
+	);
+	void RotateX(
+		float angle // Value in X axis.
+	);
+	void RotateY(
+		float angle // Value in Y axis.
+	);
+	void RotateZ(
+		float angle // Value in Z axis.
+	);
+	virtual void SetVertices(
+		float* vertices,	// Vertices data.
+		int count			// Total of vertices.
+	) = 0;
 
-	Entity(Renderer* renderer, Material* material);
+	Entity(Renderer* renderer,	// Renderer reference.
+		Material* material		// Material reference.
+	);
 	~Entity();
 };
 

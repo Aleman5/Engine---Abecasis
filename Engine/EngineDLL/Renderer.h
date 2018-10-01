@@ -14,35 +14,60 @@
 
 class ENGINEDLL_API Renderer
 {
-	Window* window;
+	Window* window;				// Reference to the actual window.
 
 	GLuint VertexArrayID;
 
-	glm::mat4 modelMatrix;
-	glm::mat4 viewMatrix;
-	glm::mat4 projectionMatrix;
-
-	glm::mat4 MVP;
+	glm::mat4 modelMatrix;		// Position of the entity based on the origin.
+	glm::mat4 viewMatrix;		// Position of the entity based on the camera.
+	glm::mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera.
+	glm::mat4 MVP;				// The final position of the entity in world space.
 
 public:
-	bool Start(Window* window);
+	bool Start(
+		Window* window	// Actual window.
+	);
 	bool Stop();
 
-	void SetClearColor(float r, float g, float b, float a);
+	void SetClearColor(
+		float r,	// Red.
+		float g,	// Green.
+		float b,	// Blue.
+		float a		// Transparency.
+	);
 	void ClearScreen();
 	void SwapBuffers();
-	void DestroyBuffer(unsigned int bufferId);
+	void DestroyBuffer(
+		unsigned int bufferId		// Buffer to destroy.
+	);
 
-	unsigned int GenBuffer(float* buffer, int size);
+	unsigned int GenBuffer(
+		float* buffer,				// Data to fill in the buffer.
+		int size					// Size of the data.
+	);
 
-	void EnableAttributes(unsigned int attributeId);
-	void BindBuffer(unsigned int bufferId, unsigned int attributeId);
-	void DrawBuffer(unsigned int attributeId, int size);
-	void DisableAttributes(unsigned int attributeId);
+	void EnableAttributes(
+		unsigned int attributeId	// Location to fill in.
+	);
+	void BindBuffer(
+		unsigned int bufferId,		// Buffer to use.
+		unsigned int attributeId	// Location to fill in.
+	);
+	void DrawBuffer(
+		unsigned int attributeId,	// Location to fill in.
+		int size					// Total of vertices to draw.
+	);
+	void DisableAttributes(
+		unsigned int attributeId	// Location to fill in.
+	);
 
 	void loadIdentityMatrix();
-	void SetModelMatrix(glm::mat4 model);
-	void MultiplyModelMatrix(glm::mat4 model);
+	void SetModelMatrix(
+		glm::mat4 model				// Model matrix of the entity.
+	);
+	void MultiplyModelMatrix(
+		glm::mat4 model				// Model matrix of the entity.
+	);
 	void SetMVP();
 	glm::mat4& GetMVP();
 
