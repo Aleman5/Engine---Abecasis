@@ -55,7 +55,8 @@ public:
 	);
 	void DrawBuffer(
 		unsigned int attributeId,	// Location to fill in.
-		int size					// Total of vertices to draw.
+		int size,					// Total of vertices to draw.
+		GLenum mode					// Draw mode
 	);
 	void DisableAttributes(
 		unsigned int attributeId	// Location to fill in.

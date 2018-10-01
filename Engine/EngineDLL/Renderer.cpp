@@ -99,9 +99,9 @@ void Renderer::BindBuffer(unsigned int bufferId, unsigned int attributebId)
 	);
 }
 
-void Renderer::DrawBuffer(unsigned int attributeId, int size)
+void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
 {
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, size);
+	glDrawArrays(mode, 0, size);
 }
 
 void Renderer::DisableAttributes(unsigned int attributeId)

@@ -57,6 +57,8 @@ void GameBase::Loop()
 	{
 		renderer->ClearScreen();
 
+		Time();
+
 		state = OnUpdate();
 		state = OnDraw();
 

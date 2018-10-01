@@ -1,6 +1,6 @@
 #include "Rectangle.h"
 
-Rectangle::Rectangle(Renderer* renderer, Material* material) : Entity(renderer, material)
+Rectangle::Rectangle(Renderer* renderer, Material* material) : Shape(renderer, material)
 {
 	verticesData = new float[12]{
 		-1.0f, -1.0f, 0.0f,
@@ -9,10 +9,19 @@ Rectangle::Rectangle(Renderer* renderer, Material* material) : Entity(renderer, 
 		1.0f, 1.0f, 0.0f,
 	};
 
-	count = 4;
-	SetVertices(verticesData, count);
+	verticesColorData = new float[12]{
+		0.583f, 0.771f, 0.014f,
+		0.609f, 0.115f, 0.436f,
+		0.327f, 0.483f, 0.844f,
+		0.822f, 0.569f, 0.201f,
+	};
 
-	color = new ColorShape(renderer, material);
+	drawMode = GL_TRIANGLE_STRIP;
+
+	count = 4;
+	variables = 3;
+	bufferId = SetVertices(verticesData, count);
+	colorBufferId = SetVertices(verticesColorData, count);
 }
 
 Rectangle::~Rectangle()
@@ -29,32 +38,12 @@ void Rectangle::Draw()
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
+
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
-	renderer->BindBuffer(color->GetBufferId(), 1);
-	renderer->DrawBuffer(0, count);
+	renderer->BindBuffer(colorBufferId, 1);
+	renderer->DrawBuffer(0, count, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
-	
-}
-
-void Rectangle::ShouldDispose()
-{
-	if (shouldDispose)
-	{
-		renderer->DestroyBuffer(bufferId);
-		delete[] verticesData;
-		shouldDispose = false;
-	}
-}
-
-void Rectangle::SetVertices(float* vertices, int count)
-{
-	verticesData = vertices;
-	this->count = count;
-	variables = 3;
-
-	bufferId = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
-	shouldDispose = true;
 }

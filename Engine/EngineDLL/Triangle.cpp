@@ -1,6 +1,6 @@
 #include "Triangle.h"
 
-Triangle::Triangle(Renderer* renderer, Material* material) : Entity(renderer, material)
+Triangle::Triangle(Renderer* renderer, Material* material) : Shape(renderer, material)
 {
 	verticesData = new float[9]{
 		-1.0f, -1.0f, 0.0f,
@@ -8,11 +8,18 @@ Triangle::Triangle(Renderer* renderer, Material* material) : Entity(renderer, ma
 		0.0f,  1.0f, 0.0f,
 	};
 
-	count = 3;
-	
-	SetVertices(verticesData, count);
+	verticesColorData = new float[9]{
+		0.583f, 0.771f, 0.014f,
+		0.609f, 0.115f, 0.436f,
+		0.327f, 0.483f, 0.844f,
+	};
 
-	color = new ColorShape(renderer, material);
+	drawMode = GL_TRIANGLES;
+
+	count = 3;
+	variables = 3;
+	bufferId = SetVertices(verticesData, count);
+	colorBufferId = SetVertices(verticesColorData, count);
 }
 Triangle::~Triangle()
 {
@@ -28,31 +35,12 @@ void Triangle::Draw()
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
+
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
-	renderer->BindBuffer(color->GetBufferId(), 1);
-	renderer->DrawBuffer(0, count);
+	renderer->BindBuffer(colorBufferId, 1);
+	renderer->DrawBuffer(0, count, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
-}
-
-void Triangle::ShouldDispose()
-{
-	if (shouldDispose)
-	{
-		renderer->DestroyBuffer(bufferId);
-		delete[] verticesData;
-		shouldDispose = false;
-	}
-}
-
-void Triangle::SetVertices(float* vertices, int count)
-{
-	verticesData = vertices;
-	this->count = count;
-	variables = 3;
-
-	bufferId = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
-	shouldDispose = true;
 }

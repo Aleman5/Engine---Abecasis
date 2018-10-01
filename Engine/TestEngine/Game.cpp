@@ -38,7 +38,7 @@ bool Game::OnStop()
 
 bool Game::OnUpdate()
 {
-	speed = 10.0f;
+	speed = 1.0f;
 	translating += speed * time;
 
 	t->Translate(1.0f + translating, 0.0f, 0.0f);

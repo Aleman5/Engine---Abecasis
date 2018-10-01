@@ -5,9 +5,11 @@
 class ENGINEDLL_API Entity
 {
 protected:
+	GLenum drawMode;
 	Renderer* renderer;
 	Material* material;
 	unsigned int bufferId;
+	unsigned int colorBufferId;
 	unsigned int programId;
 	bool shouldDispose;
 
@@ -53,7 +55,7 @@ public:
 	void RotateZ(
 		float angle // Value in Z axis.
 	);
-	virtual void SetVertices(
+	virtual unsigned int SetVertices(
 		float* vertices,	// Vertices data.
 		int count			// Total of vertices.
 	) = 0;
