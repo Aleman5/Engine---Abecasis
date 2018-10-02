@@ -2,6 +2,7 @@
 
 Shape::Shape(Renderer* renderer, Material* material) : Entity(renderer, material)
 {
+	srand(time(0));
 }
 Shape::~Shape()
 {

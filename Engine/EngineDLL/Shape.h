@@ -1,5 +1,6 @@
 #pragma once
 
+#include <time.h> // Used for random purposes.
 #include "Entity.h"
 
 class Shape : public Entity

@@ -1,19 +1,35 @@
 #include "Circle.h"
 
-Circle::Circle(Renderer* renderer, Material* material) : Shape(renderer, material)
+Circle::Circle(Renderer* renderer, Material* material, float radius, int totalTriangles) : Shape(renderer, material)
 {
-	verticesData = new float[3]{
-		-1.0f, -1.0f, 0.0f,
-	};
-
-	verticesColorData = new float[3]{
-		0.583f, 0.771f, 0.014f,
-	};
-
 	drawMode = GL_TRIANGLE_FAN;
 
-	count = 4;
+	this->radius = radius;
+	totTriangles = totalTriangles;
+
 	variables = 3;
+	
+	count = totTriangles * 3;
+	degrees = 360.0f / totTriangles;
+	angle = 0.0f;
+
+	verticesData =		new float[count] {};
+	verticesColorData = new float[count] {};
+	glm::vec3 vec;
+
+	for (int i = 0; i < count; i += 3)
+	{
+		vec = glm::vec3(cos(angle), sin(angle), 0) * radius;
+		verticesData[i]	    = vec.x;
+		verticesData[i + 1] = vec.y;
+		verticesData[i + 2] = vec.z;
+		angle += degrees * PI / 180.0f;
+
+		verticesColorData[i]     = 1 / (rand() % 100 + 1);
+		verticesColorData[i + 1] = 1 / (rand() % 100 + 1);
+		verticesColorData[i + 2] = 1 / (rand() % 100 + 1);
+	}
+
 	bufferId = SetVertices(verticesData, count);
 	colorBufferId = SetVertices(verticesColorData, count);
 }
@@ -25,8 +41,6 @@ void Circle::Draw()
 {
 	renderer->loadIdentityMatrix();
 	renderer->SetModelMatrix(model);
-
-
 
 	if (material != NULL)
 	{

@@ -22,8 +22,10 @@ bool Game::OnStart()
 
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);
+	//c = new Circle(GetRenderer(), material, 2, 16);
 
 	r->Translate(1.5f, 1.5f, 0.0f);
+	//c->Translate(-1.0f, 6.0f, 0.0f);
 
 	return true;
 }
@@ -32,6 +34,7 @@ bool Game::OnStop()
 {
 	delete t;
 	delete r;
+	//delete c;
 
 	return true;
 }
@@ -42,6 +45,9 @@ bool Game::OnUpdate()
 	translating += speed * time;
 
 	t->Translate(1.0f + translating, 0.0f, 0.0f);
+	r->RotateX(135.0f * translating);
+	r->RotateY(90.0f * translating);
+	r->RotateZ(180.0f * translating);
 
 	return true;
 }
@@ -50,6 +56,7 @@ bool Game::OnDraw()
 {
 	t->Draw();
 	r->Draw();
+	//c->Draw();
 
 	return true;
 }

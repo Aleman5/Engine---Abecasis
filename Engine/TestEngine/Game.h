@@ -3,12 +3,14 @@
 #include "GameBase.h"
 #include "Triangle.h"
 #include "Rectangle.h"
+#include "Circle.h"
 
 class Game : public GameBase
 {
 	Material* material;
 	Triangle* t;
 	Rectangle* r;
+	//Circle* c;
 
 	float speed;		// Speed of the entity
 	float translating;	// How much the entity has to translate
