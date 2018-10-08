@@ -9,7 +9,7 @@ Circle::Circle(Renderer* renderer, Material* material, float radius, int totalTr
 
 	variables = 3;
 	
-	count = totTriangles * 3;
+	count = (totTriangles + 2) * 3;
 	degrees = 360.0f / totTriangles;
 	angle = 0.0f;
 
@@ -17,16 +17,20 @@ Circle::Circle(Renderer* renderer, Material* material, float radius, int totalTr
 	verticesColorData = new float[count] {};
 	glm::vec3 vec;
 
-	for (int i = 0; i < count; i += 3)
+	verticesData[0] = 0;
+	verticesData[1] = 0;
+	verticesData[2] = 0;
+
+	for (int i = 3; i < count; i += 3)
 	{
 		vec = glm::vec3(cos(angle), sin(angle), 0.0f) * radius;
 
-		if (degrees * i / 3 == 90.0f)
+		/*if (degrees * i / 3 == 90.0f)
 			vec.x = 0;
 		else if (degrees * i / 3 == 180.0f)
 			vec.y = 0;
 		else if (degrees * i / 3 == 270.0f)
-			vec.x = 0;
+			vec.x = 0;*/
 
 		verticesData[i]	    = vec.x;
 		verticesData[i + 1] = vec.y;
@@ -35,13 +39,13 @@ Circle::Circle(Renderer* renderer, Material* material, float radius, int totalTr
 
 		cout << "Triangle [" << i / 3 << "], angle: " << degrees * i / 3 << ", x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << endl;
 
-		verticesColorData[i]     = 1 / (rand() % 100 + 1);
-		verticesColorData[i + 1] = 1 / (rand() % 100 + 1);
-		verticesColorData[i + 2] = 1 / (rand() % 100 + 1);
+		verticesColorData[i]     = 1.0f / (rand() % 100 + 1);
+		verticesColorData[i + 1] = 1.0f / (rand() % 100 + 1);
+		verticesColorData[i + 2] = 1.0f / (rand() % 100 + 1);
 	}
 
-	bufferId = SetVertices(verticesData, count);
-	colorBufferId = SetVertices(verticesColorData, count);
+	bufferId = SetVertices(verticesData, count / 3);
+	colorBufferId = SetVertices(verticesColorData, count / 3);
 }
 Circle::~Circle()
 {

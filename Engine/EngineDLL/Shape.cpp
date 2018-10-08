@@ -21,7 +21,6 @@ void Shape::ShouldDispose()
 unsigned int Shape::SetVertices(float* vertices, int count)
 {
 	verticesData = vertices;
-	this->count = count;
 
 	unsigned int id = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
 	shouldDispose = true;
