@@ -25,7 +25,7 @@ bool Game::OnStart()
 	c = new Circle(GetRenderer(), material, 4.0f, 20);
 
 	r->Translate(1.5f, 1.5f, 0.0f);
-	c->Translate(-1.0f, 2.0f, 0.0f);
+	c->Translate(-3.0f, 4.0f, 0.0f);
 
 	return true;
 }

@@ -46,6 +46,13 @@ public:
 		int size					// Size of the data.
 	);
 
+	unsigned int GenTexture(
+		float* textureData,			// Data to fill in the buffer.
+		unsigned int width,			// Width of the image.
+		unsigned int height,		// Height of the image.
+		unsigned int* data			// Data of the file.
+		);
+
 	void EnableAttributes(
 		unsigned int attributeId	// Location to fill in.
 	);

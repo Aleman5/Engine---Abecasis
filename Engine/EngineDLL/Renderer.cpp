@@ -81,6 +81,24 @@ unsigned int Renderer::GenBuffer(float* buffer, int size)
 	return vertexbuffer;
 }
 
+unsigned int Renderer::GenTexture(float* textureData, unsigned int width, unsigned int height, unsigned int* data)
+{
+	// Identificar el vertex buffer
+	unsigned int vertexbuffer;
+	glGenTextures(1, &vertexbuffer);
+
+	// Se "Ata" la nueva textura : Todas las futuras funciones de texturas van a modificar esta textura
+	glBindTexture(GL_TEXTURE_2D, vertexbuffer);
+
+	// Se le pasa la imagen a OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	return vertexbuffer;
+}
+
 void Renderer::EnableAttributes(unsigned int attributebId)
 {
 	glEnableVertexAttribArray(attributebId);

@@ -39,9 +39,9 @@ Circle::Circle(Renderer* renderer, Material* material, float radius, int totalTr
 
 		cout << "Triangle [" << i / 3 << "], angle: " << degrees * i / 3 << ", x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << endl;
 
-		verticesColorData[i]     = 1.0f / (rand() % 100 + 1);
-		verticesColorData[i + 1] = 1.0f / (rand() % 100 + 1);
-		verticesColorData[i + 2] = 1.0f / (rand() % 100 + 1);
+		verticesColorData[i]     = 1.0f / (rand() % 10 + 1);
+		verticesColorData[i + 1] = 1.0f / (rand() % 10 + 1);
+		verticesColorData[i + 2] = 1.0f / (rand() % 10 + 1);
 	}
 
 	bufferId = SetVertices(verticesData, count / 3);
