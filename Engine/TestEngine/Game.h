@@ -10,7 +10,7 @@ class Game : public GameBase
 	Material* material;
 	Triangle* t;
 	Rectangle* r;
-	//Circle* c;
+	Circle* c;
 
 	float speed;		// Speed of the entity
 	float translating;	// How much the entity has to translate

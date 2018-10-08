@@ -22,10 +22,10 @@ bool Game::OnStart()
 
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);
-	//c = new Circle(GetRenderer(), material, 2, 16);
+	c = new Circle(GetRenderer(), material, 4.0f, 20);
 
 	r->Translate(1.5f, 1.5f, 0.0f);
-	//c->Translate(-1.0f, 6.0f, 0.0f);
+	c->Translate(-1.0f, 2.0f, 0.0f);
 
 	return true;
 }
@@ -34,7 +34,7 @@ bool Game::OnStop()
 {
 	delete t;
 	delete r;
-	//delete c;
+	delete c;
 
 	return true;
 }
@@ -56,7 +56,7 @@ bool Game::OnDraw()
 {
 	t->Draw();
 	r->Draw();
-	//c->Draw();
+	c->Draw();
 
 	return true;
 }
