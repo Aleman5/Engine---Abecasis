@@ -2,11 +2,13 @@
 
 #include <fstream>
 #include "Renderer.h"
+#include "Texture.h"
 
 class TextureImporter
 {
 public:
-	static unsigned int loadBMP_custom(const char* imagePath);
+	static Texture* loadBMP_custom(const char* imagePath);
+	//static bool CheckBMP(FILE*& file, unsigned char& header);
 
 	TextureImporter();
 	~TextureImporter();

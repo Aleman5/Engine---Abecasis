@@ -4,14 +4,13 @@
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
-#include "Texture.h"
-#include "TextureImporter.h"
+#include "Sprite.h"
 
 class Game : public GameBase
 {
 	Material* material;
 	Material* materialForTexture;
-	Texture* texture;
+	Sprite* sprite;
 	Triangle* t;
 	Rectangle* r;
 	Circle* c;

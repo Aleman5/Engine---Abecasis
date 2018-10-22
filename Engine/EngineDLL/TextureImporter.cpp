@@ -7,12 +7,10 @@ TextureImporter::~TextureImporter()
 {
 }
 
-unsigned int TextureImporter::loadBMP_custom(const char* imagePath)
+Texture* TextureImporter::loadBMP_custom(const char* imagePath)
 {
-	unsigned int textureId;
-
 	// Lectura de información del encabezado del archivo
-	unsigned char header[54]; // Each BMP file begins by a 54-bytes header
+	static unsigned char header[54]; // Each BMP file begins by a 54-bytes header
 	unsigned int dataPos;     // Position in the file where the actual data begins
 	unsigned int width, height;
 	unsigned int imageSize;   // = width * height * 3
@@ -22,17 +20,8 @@ unsigned int TextureImporter::loadBMP_custom(const char* imagePath)
 	//FILE * file = fopen(imagePath, "rb");
 	FILE * file;
 	fopen_s(&file, imagePath, "rb");
-	if (!file) { printf("Image could not be opened\n"); return 0; }
-
-	if (fread_s(header, 54, 1, 54, file)) { // If not 54 bytes read : problem
-		printf("Not a correct BMP file\n");
-		return false;
-	}
-
-	if (header[0] != 'B' || header[1] != 'M') {
-		printf("Not a correct BMP file\n");
-		return 0;
-	}
+	
+	fread_s(header, 54, 1, 54, file);
 
 	// Lectura de los enteros desde el arreglo de bytes
 	dataPos = *(int*)&(header[0x0A]);
@@ -49,16 +38,40 @@ unsigned int TextureImporter::loadBMP_custom(const char* imagePath)
 
 	// Leemos la información del archivo y la ponemos en el buffer
 	//fread(data, 1, imageSize, file);
+	fseek(file, dataPos, 0);
 	fread_s(data, imageSize, 1, imageSize, file);
 
 	//Todo está en memoria ahora, así que podemos cerrar el archivo
 	fclose(file);
 
-	Renderer* renderer = new Renderer();
+	unsigned int textureId;
+	glGenTextures(1, &textureId);
 
-	textureId = renderer->GenTexture((float*)data, width, height, data);
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureId);
 
-	delete renderer;
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
-	return textureId;
+
+	Texture* texture = new Texture(textureId, width, height);
+
+	return texture;
 }
+
+/*bool TextureImporter::CheckBMP(FILE*& file, unsigned char& header)
+{
+	if (!file) { printf("Image could not be opened\n"); return false; }
+
+	if (fread_s(header, 54, 1, 54, file)) { // If not 54 bytes read : problem
+		printf("Not a correct BMP file\n");
+		return false;
+	}
+
+	if (header[0] != 'B' || header[1] != 'M') {
+		printf("Not a correct BMP file\n");
+		return false;
+	}
+
+	return true;
+}*/
