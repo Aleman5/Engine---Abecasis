@@ -81,7 +81,7 @@ unsigned int Renderer::GenBuffer(float* buffer, int size)
 	return vertexbuffer;
 }
 
-unsigned int Renderer::GenTexture(float* textureData, unsigned int width, unsigned int height, unsigned int* data)
+unsigned int Renderer::GenTexture(float* textureData, unsigned int width, unsigned int height, unsigned char* pixels)
 {
 	// Identificar el vertex buffer
 	unsigned int vertexbuffer;
@@ -91,7 +91,7 @@ unsigned int Renderer::GenTexture(float* textureData, unsigned int width, unsign
 	glBindTexture(GL_TEXTURE_2D, vertexbuffer);
 
 	// Se le pasa la imagen a OpenGL
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, pixels);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -110,6 +110,19 @@ void Renderer::BindBuffer(unsigned int bufferId, unsigned int attributebId)
 	glVertexAttribPointer(
 		attributebId,       // debe corresponder en el shader.
 		3,                  // tamaño
+		GL_FLOAT,           // tipo
+		GL_FALSE,           // normalizado?
+		0,                  // corrimiento
+		(void*)0            // desfase del buffer
+	);
+}
+
+void Renderer::BindTextureBuffer(unsigned int bufferId, unsigned int attributebId)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+	glVertexAttribPointer(
+		attributebId,       // debe corresponder en el shader.
+		2,                  // tamaño
 		GL_FLOAT,           // tipo
 		GL_FALSE,           // normalizado?
 		0,                  // corrimiento

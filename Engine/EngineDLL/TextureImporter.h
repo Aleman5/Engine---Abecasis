@@ -1,6 +1,7 @@
 #pragma once
 
-#include<fstream>
+#include <fstream>
+#include "Renderer.h"
 
 class TextureImporter
 {

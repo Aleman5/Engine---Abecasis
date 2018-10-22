@@ -20,6 +20,13 @@ bool Game::OnStart()
 					   , "Shaders\\SimpleFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
+	materialForTexture = new Material();
+	materialForTexture->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
+								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
+	);
+
+	texture = new Texture(GetRenderer(), materialForTexture, "uvtemplate.bmp");
+	
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);
 	c = new Circle(GetRenderer(), material, 4.0f, 20);
@@ -32,6 +39,9 @@ bool Game::OnStart()
 
 bool Game::OnStop()
 {
+	delete material;
+	delete materialForTexture;
+	delete texture;
 	delete t;
 	delete r;
 	delete c;
@@ -54,6 +64,7 @@ bool Game::OnUpdate()
 
 bool Game::OnDraw()
 {
+	texture->Draw();
 	t->Draw();
 	r->Draw();
 	c->Draw();

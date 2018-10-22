@@ -19,10 +19,12 @@ unsigned int TextureImporter::loadBMP_custom(const char* imagePath)
 							  // Information RGB
 	unsigned char * data;
 
-	FILE * file = fopen(imagePath, "rb");
+	//FILE * file = fopen(imagePath, "rb");
+	FILE * file;
+	fopen_s(&file, imagePath, "rb");
 	if (!file) { printf("Image could not be opened\n"); return 0; }
 
-	if (fread(header, 1, 54, file) != 54) { // If not 54 bytes read : problem
+	if (fread_s(header, 54, 1, 54, file)) { // If not 54 bytes read : problem
 		printf("Not a correct BMP file\n");
 		return false;
 	}
@@ -33,10 +35,10 @@ unsigned int TextureImporter::loadBMP_custom(const char* imagePath)
 	}
 
 	// Lectura de los enteros desde el arreglo de bytes
-	dataPos   = *(int*)&(header[0x0A]);
+	dataPos = *(int*)&(header[0x0A]);
 	imageSize = *(int*)&(header[0x22]);
-	width	  = *(int*)&(header[0x12]);
-	height	  = *(int*)&(header[0x16]);
+	width = *(int*)&(header[0x12]);
+	height = *(int*)&(header[0x16]);
 
 	// Algunos archivos BMP tienen un mal formato, así que adivinamos la información faltante
 	if (imageSize == 0)    imageSize = width * height * 3; // 3 : un byte por cada componente Rojo (Red), Verde (Green) y Azul(Blue)
@@ -46,10 +48,17 @@ unsigned int TextureImporter::loadBMP_custom(const char* imagePath)
 	data = new unsigned char[imageSize];
 
 	// Leemos la información del archivo y la ponemos en el buffer
-	fread(data, 1, imageSize, file);
+	//fread(data, 1, imageSize, file);
+	fread_s(data, imageSize, 1, imageSize, file);
 
 	//Todo está en memoria ahora, así que podemos cerrar el archivo
 	fclose(file);
+
+	Renderer* renderer = new Renderer();
+
+	textureId = renderer->GenTexture((float*)data, width, height, data);
+
+	delete renderer;
 
 	return textureId;
 }

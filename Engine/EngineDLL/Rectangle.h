@@ -13,4 +13,3 @@ public:
 	Rectangle(Renderer* renderer, Material* material);
 	~Rectangle();
 };
-

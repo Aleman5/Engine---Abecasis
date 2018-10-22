@@ -50,13 +50,17 @@ public:
 		float* textureData,			// Data to fill in the buffer.
 		unsigned int width,			// Width of the image.
 		unsigned int height,		// Height of the image.
-		unsigned int* data			// Data of the file.
+		unsigned char* pixels		// Data of the file.
 		);
 
 	void EnableAttributes(
 		unsigned int attributeId	// Location to fill in.
 	);
 	void BindBuffer(
+		unsigned int bufferId,		// Buffer to use.
+		unsigned int attributeId	// Location to fill in.
+	);
+	void BindTextureBuffer(
 		unsigned int bufferId,		// Buffer to use.
 		unsigned int attributeId	// Location to fill in.
 	);
