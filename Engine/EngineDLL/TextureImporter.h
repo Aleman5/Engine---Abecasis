@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Texture.h"
 
-class TextureImporter
+static class TextureImporter
 {
 public:
 	static Texture* loadBMP_custom(const char* imagePath);

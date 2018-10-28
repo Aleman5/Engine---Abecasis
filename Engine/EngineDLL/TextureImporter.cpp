@@ -45,14 +45,17 @@ Texture* TextureImporter::loadBMP_custom(const char* imagePath)
 	fclose(file);
 
 	unsigned int textureId;
-	glGenTextures(1, &textureId);
 
 	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glGenTextures(1, &textureId);
+
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
 	// Give the image to OpenGL
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	Texture* texture = new Texture(textureId, width, height);
 

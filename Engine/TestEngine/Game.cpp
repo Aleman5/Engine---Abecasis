@@ -25,7 +25,8 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, "uvtemplate.bmp");
+	sprite = new Sprite(GetRenderer(), materialForTexture, "Species.bmp");
+	sprite->Scale(3.0f, 3.0f, 3.0f );
 	
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);

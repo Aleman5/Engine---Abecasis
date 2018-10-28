@@ -15,10 +15,10 @@ Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath) : 
 	};
 
 	verticesTextureData = new float[count * 2]{
-		0.0f, 1.0f - 0.0f,
-		1.0f, 1.0f - 0.0f,
-		0.0f, 1.0f - 1.0f,
 		1.0f, 1.0f - 1.0f,
+		0.0f, 1.0f - 0.0f,
+		1.0f, 1.0f - 1.0f,
+		1.0f, 1.0f - 0.0f,
 	};
 
 	drawMode = GL_TRIANGLE_STRIP;
