@@ -25,9 +25,8 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, "uvtemplate.bmp");
-	sprite->Scale(3.0f, 3.0f, 3.0f );
-	sprite->RotateX(180.0f); // Creo que es hacer tramapa esto.
+	sprite = new Sprite(GetRenderer(), materialForTexture, "Skull.bmp", 1, 1);
+	sprite->Scale(2.0f, 2.0f, 2.0f);
 	
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);

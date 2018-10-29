@@ -7,6 +7,8 @@ class ENGINEDLL_API Sprite : public Shape
 {
 	Header header;
 	unsigned int textureId;
+	unsigned int columns;
+	unsigned int rows;
 
 	float* verticesTextureData;
 
@@ -19,6 +21,6 @@ public:
 		int variables		// Total variables
 	);
 
-	Sprite(Renderer* renderer, Material* material, const char* imagePath);
+	Sprite(Renderer* renderer, Material* material, const char* imagePath, const unsigned int sColumns, const unsigned int sRows);
 	~Sprite();
 };

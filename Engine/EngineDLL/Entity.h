@@ -61,7 +61,7 @@ public:
 	) = 0;
 
 	Entity(Renderer* renderer,	// Renderer reference.
-		Material* material		// Material reference.
+		   Material* material	// Material reference.
 	);
 	~Entity();
 };
