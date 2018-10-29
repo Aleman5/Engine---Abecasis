@@ -2,7 +2,9 @@
 
 Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath) : Shape(renderer, material)
 {
-	texture = TextureImporter::loadBMP_custom(imagePath);
+	header = TextureImporter::loadBMP_custom(imagePath);
+
+	textureId = renderer->GenTexture(header.width, header.height, header.data);
 
 	count = 4;
 	variables = 3;
@@ -26,13 +28,6 @@ Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath) : 
 	bufferId = SetVertices(verticesData, count);
 }
 
-/*Texture::Texture(unsigned int id, unsigned int width, unsigned int height) :
-textureId(id),
-width(width),
-height(height)
-{
-
-}*/
 Sprite::~Sprite()
 {
 }
@@ -51,7 +46,7 @@ void Sprite::Draw()
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
-	renderer->BindTextureBuffer(texture->GetTextureId(), 1);
+	renderer->BindTextureBuffer(textureId, 1);
 	renderer->DrawBuffer(0, count, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);

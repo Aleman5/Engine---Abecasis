@@ -47,10 +47,9 @@ public:
 	);
 
 	unsigned int GenTexture(
-		float* textureData,			// Data to fill in the buffer.
 		unsigned int width,			// Width of the image.
 		unsigned int height,		// Height of the image.
-		unsigned char* pixels		// Data of the file.
+		unsigned char* data			// Data of the file.
 		);
 
 	void EnableAttributes(
