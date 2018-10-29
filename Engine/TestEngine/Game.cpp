@@ -27,6 +27,7 @@ bool Game::OnStart()
 
 	sprite = new Sprite(GetRenderer(), materialForTexture, "uvtemplate.bmp");
 	sprite->Scale(3.0f, 3.0f, 3.0f );
+	sprite->RotateX(180.0f); // Creo que es hacer tramapa esto.
 	
 	t = new Triangle(GetRenderer(), material);
 	r = new Rectangle(GetRenderer(), material);

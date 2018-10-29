@@ -13,6 +13,12 @@ class ENGINEDLL_API Sprite : public Shape
 public:
 	void Draw() override;
 
+	unsigned int SetTextureUV(
+		float* vertices,	// Data of the vertices
+		int count,			// Total Vertices
+		int variables		// Total variables
+	);
+
 	Sprite(Renderer* renderer, Material* material, const char* imagePath);
 	~Sprite();
 };

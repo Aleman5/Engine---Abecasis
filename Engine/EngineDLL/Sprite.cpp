@@ -17,15 +17,16 @@ Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath) : 
 	};
 
 	verticesTextureData = new float[count * 2]{
-		1.0f, 1.0f - 1.0f,
 		0.0f, 1.0f - 0.0f,
-		1.0f, 1.0f - 1.0f,
 		1.0f, 1.0f - 0.0f,
+		0.0f, 1.0f - 1.0f,
+		1.0f, 1.0f - 1.0f,
 	};
 
 	drawMode = GL_TRIANGLE_STRIP;
 
 	bufferId = SetVertices(verticesData, count);
+	textureId = SetTextureUV(verticesTextureData, count, 2);
 }
 
 Sprite::~Sprite()
@@ -50,4 +51,14 @@ void Sprite::Draw()
 	renderer->DrawBuffer(0, count, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+}
+
+unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
+{
+	verticesData = vertices;
+
+	unsigned int id = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
+	shouldDispose = true;
+
+	return id;
 }
