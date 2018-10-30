@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath, const unsigned int sColumns, const unsigned int sRows)
+Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath, const unsigned int sColumns, const unsigned int sRows, const float colliderWidth, const float colliderHeight)
 	: Shape(renderer, material), columns(sColumns), rows(sRows)
 {
 	header = TextureImporter::loadBMP_custom(imagePath);
@@ -28,6 +28,9 @@ Sprite::Sprite(Renderer* renderer, Material* material, const char* imagePath, co
 
 	bufferId = SetVertices(verticesData, count);
 	textureId = SetTextureUV(verticesTextureData, count, 2);
+
+	colWidth = colliderWidth;
+	colHeight = colliderHeight;
 }
 
 Sprite::~Sprite()

@@ -10,6 +10,13 @@ Game::~Game()
 
 bool Game::OnStart()
 {
+	CollisionManager::getInstance();
+	CollisionManager::SetRelation(Player, Enemy);
+	CollisionManager::SetRelation(Player, EnemyWeapon);
+	CollisionManager::SetRelation(Enemy, PlayerWeapon);
+	CollisionManager::SetRelation(Player, Wall);
+	CollisionManager::SetRelation(Enemy, Wall);
+
 	speed = 0.0f;
 	translating = 0.0f;
 	rotating = 0.0f;
@@ -25,7 +32,7 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, "Skull.bmp", 1, 1);
+	sprite = new Sprite(GetRenderer(), materialForTexture, "Skull.bmp", 1, 1, 0.6f, 1.0f);
 	sprite->Scale(2.0f, 2.0f, 2.0f);
 	
 	t = new Triangle(GetRenderer(), material);

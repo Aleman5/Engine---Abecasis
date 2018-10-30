@@ -6,6 +6,7 @@ Shape::Shape(Renderer* renderer, Material* material) : Entity(renderer, material
 }
 Shape::~Shape()
 {
+	delete[] verticesData;
 }
 
 void Shape::ShouldDispose()

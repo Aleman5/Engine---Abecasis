@@ -21,6 +21,12 @@ public:
 		int variables		// Total variables
 	);
 
-	Sprite(Renderer* renderer, Material* material, const char* imagePath, const unsigned int sColumns, const unsigned int sRows);
+	Sprite(Renderer* renderer,			// Renderer reference
+		   Material* material,			// Material reference
+		   const char* imagePath,		// Path of the image
+		   const unsigned int sColumns, // Columns of the spritesheet
+		   const unsigned int sRows,	// Rows of the spritesheet
+		   const float colliderWidth,	// Width of the collider
+		   const float colliderHeight);	// Height of the collider
 	~Sprite();
 };

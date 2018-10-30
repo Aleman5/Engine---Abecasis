@@ -5,6 +5,7 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Sprite.h"
+#include "CollisionManager.h"
 
 class Game : public GameBase
 {

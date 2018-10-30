@@ -25,6 +25,9 @@ protected:
 	glm::mat4 rotateZ;			// RotationX Matrix.
 	glm::mat4 scallingMatrix;	// Scale Matrix.
 
+	float colWidth;
+	float colHeight;
+
 public:
 	virtual void Draw() = 0;
 	virtual void ShouldDispose() = 0;
