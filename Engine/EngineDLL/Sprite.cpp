@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Renderer* renderer, Material* material, Tags tag, const char* imagePath, const unsigned int sColumns, const unsigned int sRows, const float colliderWidth, const float colliderHeight)
+Sprite::Sprite(Renderer* renderer, Material* material, Layers tag, const char* imagePath, const unsigned int sColumns, const unsigned int sRows, const float colliderWidth, const float colliderHeight)
 	: Shape(renderer, material, tag), columns(sColumns), rows(sRows)
 {
 	header = TextureImporter::loadBMP_custom(imagePath);

@@ -1,6 +1,6 @@
 #pragma once
 
-enum Tags
+enum Layers
 {
 	Default,
 	Player,

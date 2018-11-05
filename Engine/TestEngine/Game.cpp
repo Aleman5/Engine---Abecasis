@@ -10,12 +10,13 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	CollisionManager::getInstance();
-	CollisionManager::SetRelation(Player, Enemy);
-	CollisionManager::SetRelation(Player, EnemyWeapon);
-	CollisionManager::SetRelation(Enemy, PlayerWeapon);
-	CollisionManager::SetRelation(Player, Wall);
-	CollisionManager::SetRelation(Enemy, Wall);
+	CollisionManager* cmgr = CollisionManager::getInstance();
+	
+	cmgr->SetRelation(Player, Enemy);
+	cmgr->SetRelation(Player, EnemyWeapon);
+	cmgr->SetRelation(Enemy, PlayerWeapon);
+	cmgr->SetRelation(Player, Wall);
+	cmgr->SetRelation(Enemy, Wall);
 
 	speed = 0.0f;
 	translating = 0.0f;
@@ -67,7 +68,7 @@ bool Game::OnUpdate()
 	r->RotateY(90.0f * translating);
 	r->RotateZ(180.0f * translating);
 
-	CollisionManager::DetectCollisions();
+	CollisionManager::getInstance()->DetectCollisions();
 
 	return true;
 }

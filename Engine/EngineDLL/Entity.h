@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Renderer.h"
-#include "Tags.h"
+#include "Layers.h"
 
 class ENGINEDLL_API Entity
 {
@@ -30,7 +30,7 @@ protected:
 	glm::vec2 col;	// Box Collider proportions. 
 	float mass;		// "Mass".
 	bool isStatic;	// Is static? Yes/No.
-	Tags tag;		// Tag.
+	Layers tag;		// Tag.
 
 public:
 	virtual void Draw() = 0;
@@ -73,11 +73,11 @@ public:
 	glm::vec2 GetColProps() { return col;			 } // Returns the collision proportions.
 	float GetMass()			{ return mass;			 } // Returns the mass.
 	bool IsStatic()			{ return isStatic;		 } // Is static? Yes/No.
-	Tags GetTag()			{ return tag;			 } // Returns the tag.
+	Layers GetTag()			{ return tag;			 } // Returns the tag.
 
 	Entity(Renderer* renderer,	// Renderer reference.
 		   Material* material,  // Material reference.
-		   Tags tag				// Tag of the Entity.
+		   Layers tag				// Tag of the Entity.
 	);
 	~Entity();
 };

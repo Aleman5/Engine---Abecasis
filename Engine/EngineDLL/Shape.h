@@ -19,7 +19,7 @@ public:
 		int count			// Total Vertices
 	) override;
 
-	Shape(Renderer* renderer, Material* material, Tags tag);
+	Shape(Renderer* renderer, Material* material, Layers tag);
 	~Shape();
 };
 

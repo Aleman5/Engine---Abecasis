@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-Shape::Shape(Renderer* renderer, Material* material, Tags tag) : Entity(renderer, material, tag)
+Shape::Shape(Renderer* renderer, Material* material, Layers tag) : Entity(renderer, material, tag)
 {
 	srand(time(0));
 }

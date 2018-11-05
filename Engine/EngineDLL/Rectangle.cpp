@@ -1,6 +1,6 @@
 #include "Rectangle.h"
 
-Rectangle::Rectangle(Renderer* renderer, Material* material, Tags tag) : Shape(renderer, material, tag)
+Rectangle::Rectangle(Renderer* renderer, Material* material, Layers tag) : Shape(renderer, material, tag)
 {
 	verticesData = new float[12]{
 		-1.0f, -1.0f, 0.0f,

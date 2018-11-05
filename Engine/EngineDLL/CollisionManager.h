@@ -4,40 +4,42 @@
 Collision Manager Objectives:
 	+ Make this class a Singletone (search in internet how to do it).
 	+ Make a list for each layer.
-	- Check the collision btw each ENTITY of each list with the possible objectives of each of the other lists.
-	- If collision = true resolve all the math problems.
+	+ Check the collision btw each ENTITY of each list with the possible objectives of each of the other lists.
+	+ If collision = true resolve all the math problems.
 	- Tell to both of victims who was the other guy.
 */
 
 #include <list>
 #include <vector>
+#include "Exports.h"
 #include "Entity.h"
-#include "Tags.h"
+#include "Layers.h"
 
 using namespace std;
 
-class CollisionManager
+class ENGINEDLL_API CollisionManager
 {
-	static vector<list<Entity>*> listsOfEntities[Count];
+	static CollisionManager *instance;
 
-	static bool tagsRelation[Count][Count];
+	vector<list<Entity*>> listsOfEntities;
 
-	static void MakeTheRealDetection(int index1, int index2);
+	bool tagsRelation[Count][Count];
+
+	void MakeTheRealDetection(int index1, int index2);
 public:
-	static void AddEntity(Entity* entity);
-	static void SetRelation(int tag1, int tag2);
-	static void DetectCollisions();
+	void AddEntity(Entity* entity, Layers tag);
+	void SetRelation(int tag1, int tag2);
+	void DetectCollisions();
 
-	static CollisionManager& getInstance()
+	static CollisionManager* getInstance()
 	{
-		static CollisionManager instance;
+		if (instance == NULL) instance = new CollisionManager();
 		return instance;
 	}
 	CollisionManager(CollisionManager const&) = delete;
 	void operator = (CollisionManager const&) = delete;
 private:
 	CollisionManager();
-	CollisionManager(CollisionManager const&); // Don't implement
-	void operator = (CollisionManager const&); // Don't implement
+	//CollisionManager(CollisionManager const&); // Don't implement
+	//void operator = (CollisionManager const&); // Don't implement
 };
-
