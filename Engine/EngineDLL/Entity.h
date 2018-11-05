@@ -71,6 +71,7 @@ public:
 	glm::vec3 GetScale()	{ return vectorScale;	 } // Returns the actual scale.
 	glm::vec3 GetRotation() { return vectorRotation; } // Returns the actual rotation.
 	glm::vec2 GetColProps() { return col;			 } // Returns the collision proportions.
+	float GetMass()			{ return mass;			 } // Returns the mass.
 	bool IsStatic()			{ return isStatic;		 } // Is static? Yes/No.
 	Tags GetTag()			{ return tag;			 } // Returns the tag.
 

@@ -71,6 +71,22 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 							if (!(listsOfEntities + index2)[j]->IsStatic()) // Any of them are static.
 							{
 								// Acá haría los cálculos teniendo en cuenta las masas.
+								float mProps  = (listsOfEntities + index1)[i]->GetMass();
+								float mProps2 = (listsOfEntities + index2)[j]->GetMass();
+
+								if (mProps >= mProps2) // Entity 1 has more mass.
+								{
+									float mPercentage = mProps2 / mProps;
+
+									float move = diff.y / mPercentage * 100; // Razonarlo mejor.
+
+									(listsOfEntities + index1)[i]->Transtale(glm::vec3(0.0f, move, 0.0f));
+									(listsOfEntities + index2)[j]->Transtale(glm::vec3(0.0f, diff.y - move, 0.0f));
+								}
+								else // Entity 2 has more mass.
+								{
+									float mPercentage = mProps / mProps2;
+								}
 
 							}
 							else // Entity 1 is pushed back
