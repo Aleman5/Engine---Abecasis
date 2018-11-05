@@ -16,10 +16,10 @@ class Game : public GameBase
 	Rectangle* r;
 	Circle* c;
 
-	float speed;		// Speed of the entity
-	float translating;	// How much the entity has to translate
-	float rotating;		// How much the entity has to rotate
-	float scalling;		// How much the entity has to be scaled
+	float speed;		// Speed.
+	float translating;	// How much has to translate
+	float rotating;		// How much has to rotate
+	float scalling;		// How much has to be scaled
 
 protected:
 	bool OnStart() override;
