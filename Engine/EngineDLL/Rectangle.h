@@ -10,6 +10,6 @@ public:
 
 	void Draw() override;
 
-	Rectangle(Renderer* renderer, Material* material);
+	Rectangle(Renderer* renderer, Material* material, Tags tag);
 	~Rectangle();
 };

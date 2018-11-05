@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer.h"
+#include "Tags.h"
 
 class ENGINEDLL_API Entity
 {
@@ -25,8 +26,11 @@ protected:
 	glm::mat4 rotateZ;			// RotationX Matrix.
 	glm::mat4 scallingMatrix;	// Scale Matrix.
 
-	float colWidth;
-	float colHeight;
+	// Box Collider things
+	glm::vec2 col;	// Box Collider proportions. 
+	float mass;		// "Mass".
+	bool isStatic;	// Is static? Yes/No.
+	Tags tag;		// Tag.
 
 public:
 	virtual void Draw() = 0;
@@ -63,8 +67,16 @@ public:
 		int count			// Total of vertices.
 	) = 0;
 
+	glm::vec3 GetPosition() { return vectorPosition; } // Returns the actual position.
+	glm::vec3 GetScale()	{ return vectorScale;	 } // Returns the actual scale.
+	glm::vec3 GetRotation() { return vectorRotation; } // Returns the actual rotation.
+	glm::vec2 GetColProps() { return col;			 } // Returns the collision proportions.
+	bool IsStatic()			{ return isStatic;		 } // Is static? Yes/No.
+	Tags GetTag()			{ return tag;			 } // Returns the tag.
+
 	Entity(Renderer* renderer,	// Renderer reference.
-		   Material* material	// Material reference.
+		   Material* material,  // Material reference.
+		   Tags tag				// Tag of the Entity.
 	);
 	~Entity();
 };

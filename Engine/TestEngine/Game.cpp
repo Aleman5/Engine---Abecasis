@@ -32,12 +32,12 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, "Skull.bmp", 1, 1, 0.6f, 1.0f);
+	sprite = new Sprite(GetRenderer(), materialForTexture, Default, "Skull.bmp", 1, 1, 0.6f, 1.0f);
 	sprite->Scale(2.0f, 2.0f, 2.0f);
 	
-	t = new Triangle(GetRenderer(), material);
-	r = new Rectangle(GetRenderer(), material);
-	c = new Circle(GetRenderer(), material, 4.0f, 20);
+	t = new Triangle(GetRenderer(), material, Default);
+	r = new Rectangle(GetRenderer(), material, Default);
+	c = new Circle(GetRenderer(), material, Default, 4.0f, 20);
 
 	r->Translate(1.5f, 1.5f, 0.0f);
 	c->Translate(-3.0f, 4.0f, 0.0f);
@@ -66,6 +66,8 @@ bool Game::OnUpdate()
 	r->RotateX(135.0f * translating);
 	r->RotateY(90.0f * translating);
 	r->RotateZ(180.0f * translating);
+
+	CollisionManager::DetectCollisions();
 
 	return true;
 }

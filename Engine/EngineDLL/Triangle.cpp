@@ -1,6 +1,6 @@
 #include "Triangle.h"
 
-Triangle::Triangle(Renderer* renderer, Material* material) : Shape(renderer, material)
+Triangle::Triangle(Renderer* renderer, Material* material, Tags tag) : Shape(renderer, material, tag)
 {
 	verticesData = new float[9]{
 		-1.0f, -1.0f, 0.0f,

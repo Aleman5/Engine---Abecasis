@@ -14,7 +14,7 @@ class ENGINEDLL_API Circle : public Shape
 public:
 	void Draw() override;
 
-	Circle(Renderer* renderer, Material* material, float radius, int totalTriangles);
+	Circle(Renderer* renderer, Material* material, Tags tag, float radius, int totalTriangles);
 	~Circle();
 };
 

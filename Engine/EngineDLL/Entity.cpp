@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(Renderer* renderer, Material* material)
+Entity::Entity(Renderer* renderer, Material* material, Tags tag)
 {
 	this->renderer = renderer;
 	this->material = material;
@@ -13,6 +13,10 @@ Entity::Entity(Renderer* renderer, Material* material)
 	rotateY = glm::mat4(1.0f);
 	rotateZ = glm::mat4(1.0f);
 	scallingMatrix = glm::mat4(1.0f);
+
+	mass = 1.0f;
+	isStatic = false;
+	this->tag = tag;
 
 	UpdateModel();
 }
@@ -30,6 +34,8 @@ void Entity::Translate(glm::vec3 vector3)
 	// Changes the actual position multiplying Matrix4x4 * position
 	translationMatrix = glm::translate(glm::mat4(1.0f), vector3);
 
+	vectorPosition += vector3;
+
 	UpdateModel();
 }
 
@@ -40,12 +46,16 @@ void Entity::Translate(float newX, float newY, float newZ)
 
 	translationMatrix = glm::translate(glm::mat4(1.0f), vector3);
 
+	vectorPosition += vector3;
+
 	UpdateModel();
 }
 
 void Entity::Scale(glm::vec3 vector3)
 {
 	scallingMatrix = glm::scale(vector3);
+
+	vectorScale += vector3;
 
 	UpdateModel();
 }
@@ -55,6 +65,8 @@ void Entity::Scale(float newX, float newY, float newZ)
 	glm::vec3 vector3(newX, newY, newZ);
 
 	scallingMatrix = glm::scale(vector3);
+
+	vectorScale += vector3;
 
 	UpdateModel();
 }
@@ -68,6 +80,8 @@ void Entity::RotateX(float angle)
 
 	rotateX = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
+	vectorRotation += vecAxis;
+
 	UpdateModel();
 }
 
@@ -80,6 +94,8 @@ void Entity::RotateY(float angle)
 
 	rotateY = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
+	vectorRotation += vecAxis;
+
 	UpdateModel();
 }
 
@@ -91,6 +107,8 @@ void Entity::RotateZ(float angle)
 	vecAxis[2] = 1.0f;
 
 	rotateZ = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
+
+	vectorRotation += vecAxis;
 
 	UpdateModel();
 }

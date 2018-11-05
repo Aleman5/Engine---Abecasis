@@ -23,6 +23,7 @@ public:
 
 	Sprite(Renderer* renderer,			// Renderer reference
 		   Material* material,			// Material reference
+		   Tags tag,					// Tag of the Entity
 		   const char* imagePath,		// Path of the image
 		   const unsigned int sColumns, // Columns of the spritesheet
 		   const unsigned int sRows,	// Rows of the spritesheet

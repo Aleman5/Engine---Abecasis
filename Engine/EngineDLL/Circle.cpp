@@ -1,6 +1,6 @@
 #include "Circle.h"
 
-Circle::Circle(Renderer* renderer, Material* material, float radius, int totalTriangles) : Shape(renderer, material)
+Circle::Circle(Renderer* renderer, Material* material, Tags tag, float radius, int totalTriangles) : Shape(renderer, material, tag)
 {
 	drawMode = GL_TRIANGLE_FAN;
 
