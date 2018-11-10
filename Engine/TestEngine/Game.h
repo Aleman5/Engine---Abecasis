@@ -12,9 +12,7 @@ class Game : public GameBase
 	Material* material;
 	Material* materialForTexture;
 	Sprite* sprite;
-	Triangle* t;
-	Rectangle* r;
-	Circle* c;
+	Sprite* sprite2;
 
 	float speed;		// Speed.
 	float translating;	// How much has to translate

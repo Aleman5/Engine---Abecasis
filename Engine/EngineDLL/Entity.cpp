@@ -31,10 +31,13 @@ void Entity::UpdateModel()
 
 void Entity::Translate(glm::vec3 vector3)
 {
-	// Changes the actual position multiplying Matrix4x4 * position
-	translationMatrix = glm::translate(glm::mat4(1.0f), vector3);
-
 	vectorPosition += vector3;
+	col.x += vector3.x;
+	col.y += vector3.y;
+	
+	// Changes the actual position multiplying Matrix4x4 * position
+	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
+
 
 	UpdateModel();
 }
@@ -42,11 +45,12 @@ void Entity::Translate(glm::vec3 vector3)
 void Entity::Translate(float newX, float newY, float newZ)
 {
 	// Changes the actual position multiplying Matrix4x4 * position
-	glm::vec3 vector3(newX, newY, newZ);
+	vectorPosition += glm::vec3(newX, newY, newZ);
+	col.x += newX;
+	col.y += newY;
 
-	translationMatrix = glm::translate(glm::mat4(1.0f), vector3);
+	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
 
-	vectorPosition += vector3;
 
 	UpdateModel();
 }

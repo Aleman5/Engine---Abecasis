@@ -67,6 +67,7 @@ public:
 		int count			// Total of vertices.
 	) = 0;
 
+	Entity* GetEntity()     { return this;			 } // Returns a pointer to this Entity.
 	glm::vec3 GetPosition() { return vectorPosition; } // Returns the actual position.
 	glm::vec3 GetScale()	{ return vectorScale;	 } // Returns the actual scale.
 	glm::vec3 GetRotation() { return vectorRotation; } // Returns the actual rotation.

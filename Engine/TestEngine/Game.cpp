@@ -33,15 +33,14 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, Default, "Skull.bmp", 1, 1, 0.6f, 1.0f);
-	sprite->Scale(2.0f, 2.0f, 2.0f);
-	
-	t = new Triangle(GetRenderer(), material, Default);
-	r = new Rectangle(GetRenderer(), material, Default);
-	c = new Circle(GetRenderer(), material, Default, 4.0f, 20);
+	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Skull.bmp", 1, 1, 2.0f, 2.0f);
+	cmgr->AddEntity(sprite->GetEntity());
 
-	r->Translate(1.5f, 1.5f, 0.0f);
-	c->Translate(-3.0f, 4.0f, 0.0f);
+	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Skull.bmp", 1, 1, 1.5f, 2.0f);
+	cmgr->AddEntity(sprite2->GetEntity());
+	
+	sprite->Translate(-5.0f, 4.0f, 0.0f);
+	sprite2->Translate(5.0f, 4.0f, 0.0f);
 
 	return true;
 }
@@ -51,9 +50,6 @@ bool Game::OnStop()
 	delete material;
 	delete materialForTexture;
 	delete sprite;
-	delete t;
-	delete r;
-	delete c;
 
 	return true;
 }
@@ -63,10 +59,8 @@ bool Game::OnUpdate()
 	speed = 1.0f;
 	translating += speed * time;
 
-	t->Translate(1.0f + translating, 0.0f, 0.0f);
-	r->RotateX(135.0f * translating);
-	r->RotateY(90.0f * translating);
-	r->RotateZ(180.0f * translating);
+	sprite->Translate(speed * time, 0.0f, 0.0f);
+	sprite2->Translate(-speed * time, 0.0f, 0.0f);
 
 	CollisionManager::getInstance()->DetectCollisions();
 
@@ -76,9 +70,7 @@ bool Game::OnUpdate()
 bool Game::OnDraw()
 {
 	sprite->Draw();
-	t->Draw();
-	r->Draw();
-	c->Draw();
+	sprite2->Draw();
 
 	return true;
 }

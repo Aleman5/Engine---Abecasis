@@ -27,8 +27,8 @@ class ENGINEDLL_API CollisionManager
 
 	void MakeTheRealDetection(int index1, int index2);
 public:
-	void AddEntity(Entity* entity, Layers tag);
-	void SetRelation(int tag1, int tag2);
+	void AddEntity(Entity* entity);
+	void SetRelation(int layer1, int layer2);
 	void DetectCollisions();
 
 	static CollisionManager* getInstance()
