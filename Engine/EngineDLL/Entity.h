@@ -67,6 +67,9 @@ public:
 		int count			// Total of vertices.
 	) = 0;
 
+	void SetMass(float newMass)		{ mass = newMass;			 } // Set the new value mass.
+	void SetIsStatic(bool isStatic) { this->isStatic = isStatic; } // Set the new value mass.
+
 	Entity* GetEntity()     { return this;			 } // Returns a pointer to this Entity.
 	glm::vec3 GetPosition() { return vectorPosition; } // Returns the actual position.
 	glm::vec3 GetScale()	{ return vectorScale;	 } // Returns the actual scale.

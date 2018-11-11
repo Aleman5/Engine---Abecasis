@@ -65,7 +65,7 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 
 		for (list<Entity*>::iterator it2 = listsOfEntities[index2].begin(); it2 != listsOfEntities[index2].end(); it2++)
 		{
-			if (!(*it1)->IsStatic() && !(*it2)->IsStatic()) // If both are static don't check collision.
+			if (!(*it1)->IsStatic() || !(*it2)->IsStatic()) // If both are static don't check collision.
 			{
 				glm::vec3 diff = (*it2)->GetPosition() - (*it1)->GetPosition();
 
@@ -77,12 +77,12 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 				if (dX < col1.x / 2 + col2.x / 2
 				&&  dY < col1.y / 2 + col2.y / 2)
 				{
-					int pX = (int)(col1.x / 2 + col2.x / 2 - diff.x);
-					int pY = (int)(col1.y / 2 + col2.y / 2 - diff.y);
+					float pX = col1.x / 2 + col2.x / 2 - diff.x;
+					float pY = col1.y / 2 + col2.y / 2 - diff.y;
 
 					if (pX > pY)
 					{
-						cout << "Vertical collision detected." << endl;
+						cout << pY << endl;
 						// Vertical Collision
 						if (!(*it1)->IsStatic())
 						{
@@ -93,24 +93,38 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 								float m2 = (*it2)->GetMass();
 
 								float mPercentage = (m1 + m2) / m1;
-								float move = diff.y / mPercentage;
+								float move = pY / mPercentage;
 
-								(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
-								(*it1)->Translate(glm::vec3(0.0f, diff.y - move, 0.0f));
+								if ((*it1)->GetPosition().y > (*it2)->GetPosition().y)
+								{
+									(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
+									(*it1)->Translate(glm::vec3(0.0f, -pY - move, 0.0f));
+								}
+								else
+								{
+									(*it1)->Translate(glm::vec3(0.0f, move, 0.0f));
+									(*it2)->Translate(glm::vec3(0.0f, -pY - move, 0.0f));
+								}
 							}
 							else // Entity 1 is pushed back
 							{
-								(*it1)->Translate(glm::vec3(0.0f, diff.y, 0.0f));
+								if ((*it1)->GetPosition().y > (*it2)->GetPosition().y)
+									(*it1)->Translate(glm::vec3(0.0f, -pY, 0.0f));
+								else
+									(*it1)->Translate(glm::vec3(0.0f, pY, 0.0f));
 							}
 						}
 						else // Entity 2 is pushed back
 						{
-							(*it2)->Translate(glm::vec3(0.0f, diff.y, 0.0f));
+							if ((*it2)->GetPosition().y > (*it1)->GetPosition().y)
+								(*it2)->Translate(glm::vec3(0.0f, -pY, 0.0f));
+							else
+								(*it2)->Translate(glm::vec3(0.0f, pY, 0.0f));
 						}
 					}
 					else
 					{
-						cout << "Horizontal collision detected." << endl;
+						cout << pX << endl;
 						// Horizontal Collision
 						if (!(*it1)->IsStatic())
 						{
@@ -121,19 +135,33 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 								float m2 = (*it2)->GetMass();
 
 								float mPercentage = (m1 + m2) / m1;
-								float move = diff.x / mPercentage;
+								float move = pX / mPercentage;
 
-								(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
-								(*it1)->Translate(glm::vec3(diff.x - move, 0.0f, 0.0f));
+								if ((*it1)->GetPosition().x > (*it2)->GetPosition().x)
+								{
+									(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
+									(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
+								}
+								else
+								{
+									(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
+									(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
+								}
 							}
 							else // Entity 1 is pushed back
 							{
-								(*it1)->Translate(glm::vec3(diff.x, 0.0f, 0.0f));
+								if ((*it1)->GetPosition().x > (*it2)->GetPosition().x)
+									(*it1)->Translate(glm::vec3(-pX, 0.0f, 0.0f));
+								else
+									(*it1)->Translate(glm::vec3(pX, 0.0f, 0.0f));
 							}
 						}
 						else // Entity 2 is pushed back
 						{
-							(*it2)->Translate(glm::vec3(diff.x, 0.0f, 0.0f));
+							if ((*it2)->GetPosition().x > (*it1)->GetPosition().x)
+								(*it2)->Translate(glm::vec3(-pX, 0.0f, 0.0f));
+							else
+								(*it2)->Translate(glm::vec3(pX, 0.0f, 0.0f));
 						}
 					}
 				}

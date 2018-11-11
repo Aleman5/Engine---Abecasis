@@ -36,11 +36,13 @@ bool Game::OnStart()
 	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Skull.bmp", 1, 1, 2.0f, 2.0f);
 	cmgr->AddEntity(sprite->GetEntity());
 
-	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Skull.bmp", 1, 1, 1.5f, 2.0f);
+	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Skull.bmp", 1, 1, 2.0f, 2.0f);
+	sprite2->SetIsStatic(true);
 	cmgr->AddEntity(sprite2->GetEntity());
+	//sprite2->SetMass(2.0f);
 	
 	sprite->Translate(-5.0f, 4.0f, 0.0f);
-	sprite2->Translate(5.0f, 4.0f, 0.0f);
+	sprite2->Translate(5.0f, 3.5f, 0.0f);
 
 	return true;
 }
@@ -56,11 +58,11 @@ bool Game::OnStop()
 
 bool Game::OnUpdate()
 {
-	speed = 1.0f;
+	speed = 2.0f;
 	translating += speed * time;
 
 	sprite->Translate(speed * time, 0.0f, 0.0f);
-	sprite2->Translate(-speed * time, 0.0f, 0.0f);
+	//sprite2->Translate(-speed * time, 0.0f, 0.0f);
 
 	CollisionManager::getInstance()->DetectCollisions();
 
