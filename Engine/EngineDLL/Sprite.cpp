@@ -1,7 +1,17 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Renderer* renderer, Material* material, Layers tag, const char* imagePath, const unsigned int sColumns, const unsigned int sRows, const float colliderWidth, const float colliderHeight)
-	: Shape(renderer, material, tag), columns(sColumns), rows(sRows)
+Sprite::Sprite(
+	Renderer* renderer // Renderer reference
+	,			 
+	Material* material,			 // Material reference
+	Layers layer,				 // Layer of the Entity
+	const char* imagePath,		 // Path of the image
+	const unsigned int sColumns, // Columns of the spritesheet
+	const unsigned int sRows, 	 // Rows of the spritesheet
+	const float colliderWidth, 	 // Width of the collider
+	const float colliderHeight	 // Height of the collider
+)
+	: Shape(renderer, material, layer), columns(sColumns), rows(sRows)
 {
 	header = TextureImporter::loadBMP_custom(imagePath);
 
@@ -16,6 +26,13 @@ Sprite::Sprite(Renderer* renderer, Material* material, Layers tag, const char* i
 		-1.0f, 1.0f, 0.0f,
 		1.0f, 1.0f, 0.0f,
 	};
+
+	/*verticesTextureData = new float[count * 2]{
+		2/4, 1.0f - 2/4,
+		3/4, 1.0f - 2/4,
+		2/4, 1.0f - 1/4,
+		3/4, 1.0f - 1/4,
+	};*/
 
 	verticesTextureData = new float[count * 2]{
 		0.0f, 1.0f - 1.0f,

@@ -4,6 +4,8 @@ Entity::Entity(Renderer* renderer, Material* material, Layers tag)
 {
 	this->renderer = renderer;
 	this->material = material;
+	this->tag = tag;
+	isStatic = false;
 
 	vectorPosition = vectorRotation = vectorScale = glm::vec3(0.0f);
 
@@ -15,8 +17,6 @@ Entity::Entity(Renderer* renderer, Material* material, Layers tag)
 	scallingMatrix = glm::mat4(1.0f);
 
 	mass = 1.0f;
-	isStatic = false;
-	this->tag = tag;
 
 	UpdateModel();
 }
@@ -32,8 +32,8 @@ void Entity::UpdateModel()
 void Entity::Translate(glm::vec3 vector3)
 {
 	vectorPosition += vector3;
-	col.x += vector3.x;
-	col.y += vector3.y;
+	//col.x += vector3.x;
+	//col.y += vector3.y;
 	
 	// Changes the actual position multiplying Matrix4x4 * position
 	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
@@ -46,8 +46,8 @@ void Entity::Translate(float newX, float newY, float newZ)
 {
 	// Changes the actual position multiplying Matrix4x4 * position
 	vectorPosition += glm::vec3(newX, newY, newZ);
-	col.x += newX;
-	col.y += newY;
+	//col.x += newX;
+	//col.y += newY;
 
 	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
 

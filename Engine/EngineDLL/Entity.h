@@ -81,7 +81,7 @@ public:
 
 	Entity(Renderer* renderer,	// Renderer reference.
 		   Material* material,  // Material reference.
-		   Layers tag				// Tag of the Entity.
+		   Layers tag			// Tag of the Entity.
 	);
 	~Entity();
 };
