@@ -18,6 +18,8 @@ Entity::Entity(Renderer* renderer, Material* material, Layers tag)
 
 	mass = 1.0f;
 
+	
+
 	UpdateModel();
 }
 Entity::~Entity()
@@ -32,8 +34,6 @@ void Entity::UpdateModel()
 void Entity::Translate(glm::vec3 vector3)
 {
 	vectorPosition += vector3;
-	//col.x += vector3.x;
-	//col.y += vector3.y;
 	
 	// Changes the actual position multiplying Matrix4x4 * position
 	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
@@ -46,8 +46,6 @@ void Entity::Translate(float newX, float newY, float newZ)
 {
 	// Changes the actual position multiplying Matrix4x4 * position
 	vectorPosition += glm::vec3(newX, newY, newZ);
-	//col.x += newX;
-	//col.y += newY;
 
 	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
 

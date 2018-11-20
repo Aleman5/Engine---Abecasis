@@ -13,6 +13,7 @@ class Game : public GameBase
 	Material* materialForTexture;
 	Sprite* sprite;
 	Sprite* sprite2;
+	//Sprite* sprite3;
 
 	float speed;		// Speed.
 	float translating;	// How much has to translate

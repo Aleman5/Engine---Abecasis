@@ -1,17 +1,20 @@
 #include "Sprite.h"
 
 Sprite::Sprite(
-	Renderer* renderer // Renderer reference
-	,			 
+	Renderer* renderer,			 // Renderer reference
 	Material* material,			 // Material reference
 	Layers layer,				 // Layer of the Entity
 	const char* imagePath,		 // Path of the image
+	bool isAnimated,			 // IsAnimated? Yes/No
 	const unsigned int sColumns, // Columns of the spritesheet
 	const unsigned int sRows, 	 // Rows of the spritesheet
 	const float colliderWidth, 	 // Width of the collider
 	const float colliderHeight	 // Height of the collider
 )
-	: Shape(renderer, material, layer), columns(sColumns), rows(sRows)
+	: Shape(renderer, material, layer), actualFrame(0), columns(sColumns), rows(sRows),
+	  isAnimated(isAnimated),
+	  widthOfFrame ((int)(header.width  / sColumns)),
+	  heightOfFrame((int)(header.height / sRows))
 {
 	header = TextureImporter::loadBMP_custom(imagePath);
 
@@ -46,12 +49,18 @@ Sprite::Sprite(
 	bufferId = SetVertices(verticesData, count);
 	textureId = SetTextureUV(verticesTextureData, count, 2);
 
+	unsigned int frames[5] = { 0, 1, 2, 3, 4 };
+	if (isAnimated) anim = new Animation(this, frames, false, 24.0f);
+
 	col.x = colliderWidth;
 	col.y = colliderHeight;
 }
 
 Sprite::~Sprite()
 {
+	delete verticesData;
+	delete verticesTextureData;
+	if (isAnimated) delete anim;
 }
 
 void Sprite::Draw()
@@ -76,10 +85,22 @@ void Sprite::Draw()
 
 unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
 {
-	verticesData = vertices;
+	//verticesData = vertices;
 
-	unsigned int id = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
+	unsigned int id = renderer->GenBuffer(vertices, sizeof(float) * count * variables);
 	shouldDispose = true;
 
 	return id;
+}
+
+void Sprite::SetNextFrame(unsigned int newFrame)
+{
+	actualFrame = newFrame;
+
+	int uvBufferSize = sizeof(float) * count * 2;
+	unsigned int u = (actualFrame % columns) * widthOfFrame;
+	unsigned int v = (int)(actualFrame / rows) * heightOfFrame;
+
+	//uvBufferData = setVerticesUV(u, v);
+	//uvBufferID = renderer->generateVertexBuffer(_uvBufferData, uvBufferSize);
 }

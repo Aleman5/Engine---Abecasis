@@ -29,22 +29,13 @@ void CollisionManager::SetRelation(int layer1, int layer2)
 	}
 	else
 	{
-		cout << "holi" << endl;
 		tagsRelation[layer2][layer1] = true;
 		cout << "Colision: " << layer2 << " - " << layer1 << " = " << tagsRelation[layer2][layer1] << endl;
 	}
-
-	
 }
 
 void CollisionManager::DetectCollisions()
 {
-	/*for (int i = 0; i < Count; i++)
-	{
-		for (int j = i; j < Count; j++)
-			cout << tagsRelation[i][j] << " ";
-		cout << endl;
-	}*/
 	for (int i = 0; i < Count; i++)
 		for (int j = i; j < Count; j++)
 			if (tagsRelation[i][j] == 1)
@@ -53,7 +44,6 @@ void CollisionManager::DetectCollisions()
 
 void CollisionManager::MakeTheRealDetection(int index1, int index2)
 {
-	
 	// If any of this lists has no Entity just return.
 	if (listsOfEntities[index1].size() == 0
 	 || listsOfEntities[index2].size() == 0)
@@ -96,7 +86,7 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 						{
 							if (!(*it2)->IsStatic()) // Any of them are static.
 							{
-								// Acá haría los cálculos teniendo en cuenta las masas.
+								// Calculations with mass.
 								float m1 = (*it1)->GetMass();
 								float m2 = (*it2)->GetMass();
 
@@ -105,17 +95,6 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 
 								(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
 								(*it1)->Translate(glm::vec3(0.0f, -pY + move, 0.0f));
-
-								/*if ((*it1)->GetPosition().y > (*it2)->GetPosition().y)
-								{
-									(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
-									(*it1)->Translate(glm::vec3(0.0f, -pY + move, 0.0f));
-								}
-								else
-								{
-									(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
-									(*it1)->Translate(glm::vec3(0.0f, -pY + move, 0.0f));
-								}*/
 							}
 							else // Entity 1 is pushed back
 							{
@@ -149,17 +128,6 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 
 								(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
 								(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
-
-								/*if ((*it1)->GetPosition().x > (*it2)->GetPosition().x)
-								{
-									(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
-									(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
-								}
-								else
-								{
-									(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
-									(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
-								}*/
 							}
 							else // Entity 1 is pushed back
 							{
