@@ -101,6 +101,24 @@ void Sprite::SetNextFrame(unsigned int newFrame)
 	unsigned int u = (actualFrame % columns) * widthOfFrame;
 	unsigned int v = (int)(actualFrame / rows) * heightOfFrame;
 
-	//uvBufferData = setVerticesUV(u, v);
-	//uvBufferID = renderer->generateVertexBuffer(_uvBufferData, uvBufferSize);
+	uvBufferData = SetUV(u, v);
+	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
+}
+
+float* Sprite::SetUV(unsigned int x, unsigned int y)
+{
+	float minU =		(float)  x				    / (float) header.width;
+	float maxU =		(float) (x + widthOfFrame)  / (float) header.width;
+	float minV = 1.0f - (float) (y + heightOfFrame) / (float) header.height;
+	float maxV = 1.0f - (float)  y				    / (float) header.height;
+
+	float* bufferData = new float[count * 2]
+	{
+		minU, maxV,
+		maxU, maxV,
+		minU, minV,
+		maxU, minV
+	};
+
+	return bufferData;
 }

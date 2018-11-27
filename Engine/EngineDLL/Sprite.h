@@ -9,6 +9,8 @@ class ENGINEDLL_API Sprite : public Shape
 	Header header;
 	Animation* anim;
 	unsigned int textureId;
+	unsigned int uvBufferId;
+	unsigned int frameId;
 	unsigned int actualFrame;
 	unsigned int columns;
 	unsigned int rows;
@@ -16,6 +18,7 @@ class ENGINEDLL_API Sprite : public Shape
 	unsigned int heightOfFrame;
 
 	float* verticesTextureData;
+	float* uvBufferData;
 
 	bool isAnimated;
 
@@ -29,6 +32,8 @@ public:
 	);
 
 	void SetNextFrame(unsigned int newFrame);
+
+	float* SetUV(unsigned int x, unsigned int y);
 
 	Sprite(Renderer* renderer,			// Renderer reference
 		   Material* material,			// Material reference
