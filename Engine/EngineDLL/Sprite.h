@@ -24,6 +24,7 @@ class ENGINEDLL_API Sprite : public Shape
 
 public:
 	void Draw() override;
+	void Update(float deltaTime);
 
 	unsigned int SetTextureUV(
 		float* vertices,	// Data of the vertices

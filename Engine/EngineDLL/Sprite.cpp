@@ -13,8 +13,8 @@ Sprite::Sprite(
 )
 	: Shape(renderer, material, layer), actualFrame(0), columns(sColumns), rows(sRows),
 	  isAnimated(isAnimated),
-	  widthOfFrame ((int)(header.width  / sColumns)),
-	  heightOfFrame((int)(header.height / sRows))
+	  widthOfFrame ((int)(1.0f  / sColumns)),
+	  heightOfFrame((int)(1.0f / sRows))
 {
 	header = TextureImporter::loadBMP_custom(imagePath);
 
@@ -77,10 +77,15 @@ void Sprite::Draw()
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
-	renderer->BindTextureBuffer(textureId, 1);
+	renderer->BindTextureBuffer(uvBufferId, 1);
 	renderer->DrawBuffer(0, count, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+}
+
+void Sprite::Update(float deltaTime)
+{
+	if (isAnimated) anim->Update(deltaTime);
 }
 
 unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
@@ -107,10 +112,10 @@ void Sprite::SetNextFrame(unsigned int newFrame)
 
 float* Sprite::SetUV(unsigned int x, unsigned int y)
 {
-	float minU =		(float)  x				    / (float) header.width;
-	float maxU =		(float) (x + widthOfFrame)  / (float) header.width;
-	float minV = 1.0f - (float) (y + heightOfFrame) / (float) header.height;
-	float maxV = 1.0f - (float)  y				    / (float) header.height;
+	float minU =		(float)  x				    ;
+	float maxU =		(float) (x + widthOfFrame)  ;
+	float minV = 1.0f - (float) (y + heightOfFrame) ;
+	float maxV = 1.0f - (float)  y				    ;
 
 	float* bufferData = new float[count * 2]
 	{

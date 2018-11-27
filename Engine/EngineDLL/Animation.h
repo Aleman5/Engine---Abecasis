@@ -19,14 +19,12 @@ class ENGINEDLL_API Animation
 	float frameTime;
 
 	bool isLooping;
-	bool isStopped;
 	bool isFinished;
 
 	queue<unsigned int>* frames;
 
 public:
 	void Play(); // Starts playing.
-	void Stop(); // Stops playing.
 	void Update(float deltaTime); // Updates the actual frame.
 
 	Animation(Sprite* sprite, unsigned int frames[], bool isLooping, float frameRate);

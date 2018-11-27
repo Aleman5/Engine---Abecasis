@@ -33,9 +33,9 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Player-Spritesheet.bmp", false, 8, 5, 2.0f, 2.0f);
+	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Player-Spritesheet.bmp", true, 5, 7, 2.0f, 2.0f);
 
-	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", false, 8, 5, 2.0f, 2.0f);
+	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 7, 2.0f, 2.0f);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
 
@@ -71,6 +71,9 @@ bool Game::OnUpdate()
 	sprite->Translate(speed * time, 0.0f,  0.0f);
 	//sprite2->Translate(-speed * time, 0.0f,  0.0f);
 	//sprite3->Translate( 0.0f, speed * time, 0.0f);
+
+	sprite->Update(time);
+	sprite2->Update(time);
 
 	CollisionManager::getInstance()->DetectCollisions();
 
