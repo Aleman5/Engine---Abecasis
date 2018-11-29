@@ -33,9 +33,9 @@ bool Game::OnStart()
 								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Player-Spritesheet.bmp", true, 5, 7, 2.0f, 2.0f);
+	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Player-Spritesheet.bmp", true, 5, 8, 2.0f, 2.0f);
 
-	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 7, 2.0f, 2.0f);
+	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 2.0f, 2.0f);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
 

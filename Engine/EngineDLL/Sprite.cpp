@@ -12,11 +12,12 @@ Sprite::Sprite(
 	const float colliderHeight	 // Height of the collider
 )
 	: Shape(renderer, material, layer), actualFrame(0), columns(sColumns), rows(sRows),
-	  isAnimated(isAnimated),
-	  widthOfFrame ((int)(1.0f  / sColumns)),
-	  heightOfFrame((int)(1.0f / sRows))
+	  isAnimated(isAnimated)
 {
 	header = TextureImporter::loadBMP_custom(imagePath);
+
+	widthOfFrame  = (int) (header.width  / sColumns);
+	heightOfFrame = (int) (header.height / sRows);
 
 	textureId = renderer->GenTexture(header.width, header.height, header.data);
 
@@ -50,7 +51,7 @@ Sprite::Sprite(
 	textureId = SetTextureUV(verticesTextureData, count, 2);
 
 	unsigned int frames[5] = { 0, 1, 2, 3, 4 };
-	if (isAnimated) anim = new Animation(this, frames, false, 24.0f);
+	if (isAnimated) anim = new Animation(this, frames, true, 16.0f);
 
 	col.x = colliderWidth;
 	col.y = colliderHeight;
@@ -101,21 +102,22 @@ unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
 void Sprite::SetNextFrame(unsigned int newFrame)
 {
 	actualFrame = newFrame;
-
+	
 	int uvBufferSize = sizeof(float) * count * 2;
 	unsigned int u = (actualFrame % columns) * widthOfFrame;
 	unsigned int v = (int)(actualFrame / rows) * heightOfFrame;
 
 	uvBufferData = SetUV(u, v);
+
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
 }
 
-float* Sprite::SetUV(unsigned int x, unsigned int y)
+float* Sprite::SetUV(unsigned int u, unsigned int v)
 {
-	float minU =		(float)  x				    ;
-	float maxU =		(float) (x + widthOfFrame)  ;
-	float minV = 1.0f - (float) (y + heightOfFrame) ;
-	float maxV = 1.0f - (float)  y				    ;
+	float minU =		(float)  u					/ header.width;
+	float maxU =		(float) (u + widthOfFrame)	/ header.width;
+	float minV = 1.0f - (float)  v					/ header.height;
+	float maxV = 1.0f - (float) (v + heightOfFrame) / header.height;
 
 	float* bufferData = new float[count * 2]
 	{
