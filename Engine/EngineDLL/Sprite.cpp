@@ -50,7 +50,7 @@ Sprite::Sprite(
 	bufferId = SetVertices(verticesData, count);
 	textureId = SetTextureUV(verticesTextureData, count, 2);
 
-	unsigned int frames[5] = { 0, 1, 2, 3, 4 };
+	unsigned int frames[5] = { 5, 6, 7, 8, 9};
 	if (isAnimated) anim = new Animation(this, frames, true, 16.0f);
 
 	col.x = colliderWidth;
@@ -103,10 +103,11 @@ void Sprite::SetNextFrame(unsigned int newFrame)
 {
 	actualFrame = newFrame;
 	
-	int uvBufferSize = sizeof(float) * count * 2;
-	unsigned int u = (actualFrame % columns) * widthOfFrame;
-	unsigned int v = (int)(actualFrame / rows) * heightOfFrame;
+	unsigned int uvBufferSize = sizeof(float) * count * 2;
 
+	unsigned int u =	  (actualFrame % rows	) * widthOfFrame;
+	unsigned int v = (int)(actualFrame / columns) * heightOfFrame;
+	
 	uvBufferData = SetUV(u, v);
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
