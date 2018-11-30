@@ -59,8 +59,8 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 			{
 				glm::vec3 diff = (*it2)->GetPosition() - (*it1)->GetPosition();
 
-				int dX = abs(diff.x);
-				int dY = abs(diff.y);
+				float dX = abs(diff.x);
+				float dY = abs(diff.y);
 
 				glm::vec2 col2 = (*it2)->GetColProps();
 				
