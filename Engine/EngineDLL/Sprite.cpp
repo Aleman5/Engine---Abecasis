@@ -32,23 +32,16 @@ Sprite::Sprite(
 	};
 
 	/*verticesTextureData = new float[count * 2]{
-		2/4, 1.0f - 2/4,
-		3/4, 1.0f - 2/4,
-		2/4, 1.0f - 1/4,
-		3/4, 1.0f - 1/4,
-	};*/
-
-	verticesTextureData = new float[count * 2]{
 		0.0f, 1.0f - 1.0f,
 		1.0f, 1.0f - 1.0f,
 		0.0f, 1.0f - 0.0f,
 		1.0f, 1.0f - 0.0f,
-	};
+	};*/
 
 	drawMode = GL_TRIANGLE_STRIP;
 
 	bufferId = SetVertices(verticesData, count);
-	textureId = SetTextureUV(verticesTextureData, count, 2);
+	//textureId = SetTextureUV(verticesTextureData, count, 2);
 
 	unsigned int frames[5] = { 5, 6, 7, 8, 9};
 	if (isAnimated) anim = new Animation(this, frames, true, 16.0f);
@@ -60,7 +53,6 @@ Sprite::Sprite(
 Sprite::~Sprite()
 {
 	delete verticesData;
-	delete verticesTextureData;
 	if (isAnimated) delete anim;
 }
 
