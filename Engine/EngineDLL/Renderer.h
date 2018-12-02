@@ -80,8 +80,10 @@ public:
 		glm::mat4 model				// Model matrix of the entity.
 	);
 	void SetMVP();
-	glm::mat4& GetMVP();
 
+	glm::mat4& GetMVP();
+	unsigned int GetWindowWidht()  { return window->GetWidth();  };
+	unsigned int GetWindowHeight() { return window->GetHeight(); };
 	Renderer();
 	~Renderer();
 };

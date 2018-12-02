@@ -18,8 +18,6 @@ Entity::Entity(Renderer* renderer, Material* material, Layers tag)
 
 	mass = 1.0f;
 
-	
-
 	UpdateModel();
 }
 Entity::~Entity()

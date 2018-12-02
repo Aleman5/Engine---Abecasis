@@ -44,7 +44,7 @@ Sprite::Sprite(
 	//textureId = SetTextureUV(verticesTextureData, count, 2);
 
 	unsigned int frames[5] = { 5, 6, 7, 8, 9};
-	if (isAnimated) anim = new Animation(this, frames, true, 16.0f);
+	if (isAnimated) anim = new Animation(this, frames, true, 10.0f);
 
 	col.x = colliderWidth;
 	col.y = colliderHeight;

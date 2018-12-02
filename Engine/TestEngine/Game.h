@@ -10,7 +10,8 @@
 class Game : public GameBase
 {
 	Material* material;
-	Material* materialForTexture;
+	Material* matPlayer;
+	Material* matEnemy;
 	Sprite* sprite;
 	Sprite* sprite2;
 	//Sprite* sprite3;

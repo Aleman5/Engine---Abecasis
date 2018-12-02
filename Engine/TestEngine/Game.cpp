@@ -28,18 +28,23 @@ bool Game::OnStart()
 					   , "Shaders\\SimpleFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	materialForTexture = new Material();
-	materialForTexture->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
-								 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
+	matPlayer = new Material();
+	matPlayer->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
+						, "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), materialForTexture, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
+	matEnemy = new Material();
+	matEnemy->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
+					   , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
+	);
 
-	sprite2 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
+	sprite = new Sprite(GetRenderer(), matPlayer, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
+
+	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
 
-	//sprite3 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Skull.bmp", false, 1, 1, 2.0f, 2.0f);
+	//sprite3 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
 	
 	cmgr->AddEntity(sprite->GetEntity());
 	cmgr->AddEntity(sprite2->GetEntity());
@@ -47,7 +52,7 @@ bool Game::OnStart()
 	
 	sprite->Translate(-5.0f, 4.0f, 0.0f);
 	sprite2->Translate(5.0f, 3.5f, 0.0f);
-	//sprite3->Translate(0.0f, -3.5f, 0.0f);
+	//sprite3->Translate(-0.5f, -2.5f, 0.0f);
 
 	return true;
 }
@@ -55,7 +60,8 @@ bool Game::OnStart()
 bool Game::OnStop()
 {
 	delete material;
-	delete materialForTexture;
+	delete matPlayer;
+	delete matEnemy;
 	delete sprite;
 	delete sprite2;
 	//delete sprite3;
@@ -74,6 +80,7 @@ bool Game::OnUpdate()
 
 	sprite->Update(time);
 	sprite2->Update(time);
+	//sprite3->Update(time);
 
 	CollisionManager::getInstance()->DetectCollisions();
 
