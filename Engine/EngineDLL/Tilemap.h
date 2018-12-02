@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "TextureImporter.h"
 
-#define BUFFER_SIZE 64
+#define BUFFER_SIZE 300
 
 enum TileType
 {
@@ -21,46 +21,62 @@ struct Tile
 
 class ENGINEDLL_API Tilemap : public Entity
 {
-	Header header;
+	Header header;						// Information of the Texture
 
-	unsigned int uvBufferId;
-	unsigned int vertexBufferId;
-	float* uvBufferData;
-	float* vertexBufferData;
+	float* verticesData;				// Data of the Vertices
 
-	vector<vector<int>> level;
-	vector<vector<Tile>> tiles;
-	vector<vector<Tile>> activeTiles;
+	unsigned int uvBufferId;			// Id of the UvBuffer
+	unsigned int vertexBufferId;		// Id of the VertexBuffer
+	float* uvBufferData;				// Data of the UvBuffer
+	float* vertexBufferData;			// Data of the VertexBuffer
+
+	vector<vector<int>> level;			// Info of each Tile of the Level
+	vector<vector<Tile>> tiles;			// Info of each Tile of the Tileset
+	vector<vector<Tile>> activeTiles;	// All Tiles that will be showed on screen
 
 	const unsigned int countOfVertices = 4;
 	const unsigned int variables = 3;
 
-	unsigned int levelColumns;
-	unsigned int levelRows;
-	unsigned int levelWidth;
-	unsigned int levelHeight;
+	unsigned int levelColumns;			// Amount of columns on the Level
+	unsigned int levelRows;				// Amount of rows on the Level
+	unsigned int levelWidth;			// Width of the Level
+	unsigned int levelHeight;			// Height of the Level
 
-	unsigned int tilesetColumns;
-	unsigned int tilesetRows;
-	unsigned int tileWidth;
-	unsigned int tileHeight;
+	unsigned int tilesetColumns;		// Amount of columns on the Tileset
+	unsigned int tilesetRows;			// Amount of rows on the Tileset
+	unsigned int tileWidth;				// Width of each Tileset
+	unsigned int tileHeight;			// Height of each Tileset
 
-	unsigned int activeTilesColumns;
-	unsigned int activeTilesRows;
+	unsigned int activeTilesColumns;	// Amount of columns that will be showed
+	unsigned int activeTilesRows;		// Amount of Rows that will be showed
 
-	
-
-	vector<vector<int>> LoadLevel(const char* levelPath);
+	vector<vector<int>> LoadLevel(
+		const char* levelPath			// Path of the Level
+	);
 	vector<vector<Tile>> CreateOnScreenTiles();
-	void GenerateUvForBuffer();
+	float* GenerateUvForBuffer();
+	float* SetOnScreenTilesVertices();
 
 	vector<vector<Tile>> LoadTiles();
 
 public:
 	void Draw() override;
 	void UpdateUV();
+	void SetTileProperty(
+		unsigned int index,	// Index of the Tile
+		TileType type		// TileType of the specific Tileset
+	);
 
-	Tile GetTile(unsigned int pos);
+	void ShouldDispose() override;
+
+	unsigned int SetVertices(
+		float* vertices,	// Data of the vertices
+		int count			// Total Vertices
+	) override;
+
+	Tile GetTile(
+		unsigned int pos	// Position of the Tile
+	);
 
 	Tilemap(
 		Renderer* renderer,				// Renderer reference

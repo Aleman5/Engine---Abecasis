@@ -5,6 +5,7 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Sprite.h"
+#include "Tilemap.h"
 #include "CollisionManager.h"
 
 class Game : public GameBase
@@ -15,6 +16,7 @@ class Game : public GameBase
 	Sprite* sprite;
 	Sprite* sprite2;
 	//Sprite* sprite3;
+	Tilemap* tilemap;
 
 	float speed;		// Speed.
 	float translating;	// How much has to translate

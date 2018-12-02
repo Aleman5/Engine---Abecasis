@@ -54,6 +54,16 @@ bool Game::OnStart()
 	sprite2->Translate(5.0f, 3.5f, 0.0f);
 	//sprite3->Translate(-0.5f, -2.5f, 0.0f);
 
+	tilemap = new Tilemap(GetRenderer(), matPlayer, Default, "Tileset.bmp", 2, 3, 32, 32, "Level.csv", 2400, 800);
+
+	for (int i = 0; i < 3; i++)
+		tilemap->SetTileProperty(i, Obstacle);
+	tilemap->SetTileProperty(3, Background);
+	for (int i = 4; i < 6; i++)
+		tilemap->SetTileProperty(i, Obstacle);
+
+	tilemap->UpdateUV();
+
 	return true;
 }
 
@@ -65,6 +75,7 @@ bool Game::OnStop()
 	delete sprite;
 	delete sprite2;
 	//delete sprite3;
+	delete tilemap;
 
 	return true;
 }
@@ -89,6 +100,8 @@ bool Game::OnUpdate()
 
 bool Game::OnDraw()
 {
+	tilemap->Draw();
+
 	sprite->Draw();
 	sprite2->Draw();
 	//sprite3->Draw();

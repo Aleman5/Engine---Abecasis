@@ -13,9 +13,12 @@ Tilemap::Tilemap(
 	const unsigned int levelWidth,	// Width of the Level
 	const unsigned int levelHeight	// Height of the Level
 ) : Entity(renderer, material, layer),
-	levelWidth(levelWidth), levelHeight(levelHeight), levelColumns(levelWidth / tileWidth), levelRows(levelHeight / tileHeight),
-	tileWidth(), tileHeight(), tilesetColumns(tColumns), tilesetRows(tRows)
+	tileWidth(tWidth), tileHeight(tHeight), tilesetColumns(tColumns), tilesetRows(tRows),
+	levelWidth(levelWidth), levelHeight(levelHeight)
 {
+	levelColumns = (int) (levelWidth / tileWidth);
+	levelRows	 = (int) (levelHeight / tileHeight);
+
 	header = TextureImporter::loadBMP_custom(tilesetPath);
 
 	unsigned int windowWidht  = renderer->GetWindowWidht();
@@ -24,15 +27,30 @@ Tilemap::Tilemap(
 	activeTilesColumns = (windowWidht % tileWidth == 0)   ? windowWidht / tileWidth   : windowWidht / tileWidth + 1;
 	activeTilesRows	   = (windowHeight % tileHeight == 0) ? windowHeight / tileHeight : windowHeight / tileHeight + 1;
 
+	int totalActiveTiles = activeTilesRows * activeTilesColumns;
+
+	vector<vector<Tile>> newVec (activeTilesRows, vector<Tile>(activeTilesColumns));
+	activeTiles = newVec;
+
 	level = LoadLevel(levelPath);
 	tiles = LoadTiles();
-	GenerateUvForBuffer();
+	uvBufferData = GenerateUvForBuffer();
+
+	verticesData = new float[countOfVertices * 3]{
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+	};
+
+	//bufferId = SetVertices(verticesData, countOfVertices);
 
 	drawMode = GL_QUADS;
 }
 
 Tilemap::~Tilemap()
 {
+	delete[] verticesData;
 	delete[] uvBufferData;
 }
 
@@ -41,57 +59,33 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 	vector<vector<int>> level (levelRows, vector<int> (levelColumns, 0));
 	
 	ifstream levelFile;
-	char buffer[BUFFER_SIZE];
+
+	int total = levelColumns * 2 - 1;
 
 	levelFile.open(levelPath, ios::in);
 
 	if (!levelFile.good()) printf("Impossible to open Level file: %s\n", levelPath);
 
-	levelFile.getline(buffer, BUFFER_SIZE);
-	levelFile.get(buffer, BUFFER_SIZE, '>');
-	levelFile.get();
-	memset(buffer, 0, sizeof(buffer));
-
+	char ch[BUFFER_SIZE];
 	int row = 0;
-	int column = 0;
-	int nextChar = levelFile.peek();
+	int value = 0;
 
-	while (isdigit(nextChar) && !levelFile.eof())
+	levelFile.getline(ch, total+1);
+
+	while (row < levelRows)
 	{
-		if (column < tilesetColumns - 1)
-		{
-			levelFile.get(buffer, BUFFER_SIZE, ',');
-		}
-		else
-		{
-			if (row < tilesetRows - 1)
-				levelFile.get(buffer, BUFFER_SIZE, '\n');
-			else
-				levelFile.get(buffer, BUFFER_SIZE, '<');
-		}
+		value = (int)ch[0] - (int)'0';
+		level[row][0] = value;
 
-		int digits = 0;
-		int value = 0;
-
-		for (int i = 0; buffer[i] != '\0'; i++)
-			digits++;
-		for (int i = 0; i < digits; i++)
-			value += ((int)buffer[i] - (int)'0') * pow(10, digits - 1 - i);
-
-		level[row][column] = value;
-
-		if (column < tilesetColumns - 1)
+		for (int i = 2; i < total - 2; i += 2)
 		{
-			column++;
+			value = (int)ch[i] - (int)'0';
+			level[row][i/2] = value;
 		}
-		else
-		{
-			column = 0;
-			row++;
-		}
-		levelFile.get();
-		nextChar = levelFile.peek();
+		row++;
+		levelFile.getline(ch, total+1);
 	}
+
 	return level;
 }
 
@@ -133,17 +127,17 @@ vector<vector<Tile>> Tilemap::CreateOnScreenTiles()
 
 	float vertexBufferSize = sizeof(float) * totalTiles * countOfVertices * variables;
 
-	//vertexBufferData = SetOnScreenTilesVertices(totalTiles); // ------ WIP ------
+	vertexBufferData = SetOnScreenTilesVertices();
 	vertexBufferId = renderer->GenBuffer(vertexBufferData, vertexBufferSize);
 
 	return onScreenTiles;
 }
 
-void Tilemap::GenerateUvForBuffer()
+float* Tilemap::GenerateUvForBuffer()
 {
-	int totalActiveTiles = activeTilesRows * activeTilesColumns;
+	int totActiveTiles = activeTilesRows * activeTilesColumns;
 
-	uvBufferData = new float[countOfVertices * 2 * totalActiveTiles];
+	float* temp = new float[countOfVertices * 2 * totActiveTiles];
 
 	float defaultUvVertices[8] =
 	{
@@ -158,31 +152,83 @@ void Tilemap::GenerateUvForBuffer()
 	for (int y = 0; y < activeTilesRows; y++)
 		for (int x = 0; x < activeTilesColumns; x++)
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
-				uvBufferData[counter] = defaultUvVertices[i];
+				temp[counter] = defaultUvVertices[i];
 
-	UpdateUV();
+	return temp;
+}
+
+float* Tilemap::SetOnScreenTilesVertices()
+{
+	unsigned int totalTiles = activeTilesRows * activeTilesColumns;
+
+	float* vertexBufferData = new float[countOfVertices * variables * totalTiles];
+
+	int counter = 0;
+
+	for (int y = 0; y < activeTilesRows; y++)
+		for (int x = 0; x < activeTilesColumns; x++)
+		{
+			float minX = x * tileWidth;
+			float maxX = x * tileWidth + tileWidth;
+			float minY = (float)renderer->GetWindowHeight() - (float)(y * tileHeight + tileHeight);
+			float maxY = (float)renderer->GetWindowHeight() - (float)(y * tileHeight);
+
+			float vertices[12] =
+			{
+				minX, minY, 0.0f,
+				minX, maxY, 0.0f,
+				maxX, maxY, 0.0f,
+				maxX, minY, 0.0f
+			};
+
+			for (int i = 0; i < countOfVertices * variables; i++, counter++)
+				vertexBufferData[counter] = vertices[i];
+		}
+
+	return vertexBufferData;
 }
 
 void Tilemap::UpdateUV()
 {
+	vector<vector<Tile>> newVec(activeTilesRows, vector<Tile>(activeTilesColumns));
+
 	int totalTiles = activeTilesRows * activeTilesColumns;
 	int uvBufferSize = sizeof(float) * countOfVertices * 2 * totalTiles;
 
 	int counter = 0;
 
-	for (int row = 0; row < activeTilesRows; row++)
+	for (int hellow = 0; hellow < activeTilesRows; hellow++)
+	{
 		for (int column = 0; column < activeTilesColumns; column++)
 		{
+			cout << hellow << " " << column << endl;
 			//glm::vec2 offset(cameraPosition.x / tileWidth, cameraPosition.y / tileHeight);
-			glm::vec2 offset(0.0f, 0.0f);														// ------ WIP ------
-			Tile tile = GetTile(level[row + (int)offset.y][column + (int)offset.x]);
-
-			activeTiles[row][column].type = tile.type;
+			glm::vec2 offset(0.0f, 0.0f);
+			Tile tempTile = GetTile(level[hellow + (int)offset.y][column + (int)offset.x]);
+			
+			newVec[hellow][column].type = tempTile.type;
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
-				uvBufferData[counter] = tile.uvData[i];
+				uvBufferData[counter] = tempTile.uvData[i];
 		}
+	}
+
+	activeTiles = newVec;
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
+}
+
+void Tilemap::SetTileProperty(unsigned int index, TileType type)
+{
+	if (index >= tilesetColumns * tilesetRows)
+	{
+		printf("Index is out of range. The Tile tried to found doesn't exist");
+		return;
+	}
+
+	unsigned int row = (int)(index / tilesetColumns);
+	unsigned int column = (index % tilesetColumns);
+
+	tiles[row][column].type = type;
 }
 
 void Tilemap::Draw()
@@ -203,6 +249,26 @@ void Tilemap::Draw()
 	renderer->DrawBuffer(0, countOfVertices * tilesetColumns * tilesetRows, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+}
+
+void Tilemap::ShouldDispose()
+{
+	if (shouldDispose)
+	{
+		renderer->DestroyBuffer(bufferId);
+		delete[] vertexBufferData;
+		shouldDispose = false;
+	}
+}
+
+unsigned int Tilemap::SetVertices(float* vertices, int count)
+{
+	//vertexBufferData = vertices;
+
+	unsigned int id = renderer->GenBuffer(vertexBufferData, sizeof(float) * count * variables);
+	shouldDispose = true;
+
+	return id;
 }
 
 Tile Tilemap::GetTile(unsigned int pos)
