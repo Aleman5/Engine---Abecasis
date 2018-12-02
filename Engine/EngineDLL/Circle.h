@@ -5,11 +5,11 @@
 
 class ENGINEDLL_API Circle : public Shape
 {
-	float* verticesColorData;
-	float radius;
-	float degrees;
-	float angle;
-	int totTriangles;
+	float* verticesColorData;// Data of the Color Vertices
+	float radius;			 // Radius of the Circle
+	float degrees;			 // Degrees
+	float angle;			 // Angle
+	int totTriangles;		 // Total of Triangles
 
 public:
 	void Draw() override;

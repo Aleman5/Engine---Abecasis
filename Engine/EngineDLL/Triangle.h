@@ -4,8 +4,8 @@
 
 class ENGINEDLL_API Triangle : public Shape
 {
-	float* verticesColorData;
-	unsigned int colorBufferId;
+	float* verticesColorData;	// Data of the Color Vertices
+	unsigned int colorBufferId;	// Id of the Color Buffer
 
 public:
 	void Draw() override;

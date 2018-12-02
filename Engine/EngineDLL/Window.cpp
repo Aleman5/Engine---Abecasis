@@ -66,16 +66,3 @@ void Window::PollEvents()
 {
 	glfwPollEvents();
 }
-
-void* Window::GetContext()
-{
-	return window;
-}
-int Window::GetWidth()
-{
-	return windowWidth;
-}
-int Window::GetHeight()
-{
-	return windowHeight;
-}

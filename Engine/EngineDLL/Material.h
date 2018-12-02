@@ -14,18 +14,18 @@ using namespace glm;
 
 class ENGINEDLL_API Material
 {
-	GLuint matrixId;
-	unsigned int programId;
+	GLuint matrixId;		// Id of the Matrix
+	unsigned int programId;	// Id of the Program
 public:
 	unsigned int LoadShader(
-		const char * vertex_file_path,	// Path of the vexter file.
-		const char * fragment_file_path	// Path of the fragment file.
+		const char * vertex_file_path,	// Path of the vexter file
+		const char * fragment_file_path	// Path of the fragment file
 	);
 	
 	void Bind();
 	void SetMatrixProperty(
-		const char* name,	// Name of the matrix to fill a material.
-		glm::mat4& mat		// Value of the matrix.
+		const char* name,	// Name of the matrix to fill a material
+		glm::mat4& mat		// Value of the matrix
 	);
 
 	Material();

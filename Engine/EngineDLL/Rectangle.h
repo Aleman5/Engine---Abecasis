@@ -4,7 +4,7 @@
 
 class ENGINEDLL_API Rectangle : public Shape
 {
-	float* verticesColorData;
+	float* verticesColorData; // Data of the Color Vertices
 
 public:
 

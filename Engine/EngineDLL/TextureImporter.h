@@ -10,16 +10,22 @@
 #define PNG_FORMAT 1
 
 struct Header {
-	unsigned int dataPos;
-	unsigned int width, height;
-	unsigned int imageSize;
-	unsigned char * data;
+	unsigned int dataPos;		// Position of the Data
+	unsigned int width, height;	// Width and Height of the image
+	unsigned int imageSize;		// Size of the image
+	unsigned char * data;		// Data of the image
 };
 static class TextureImporter
 {
+	static int CheckFormat(
+		FILE*& file,			// File of the image
+		unsigned char header[]	// Temp Header
+	);
+
 public:
-	static Header loadBMP_custom(const char* imagePath);
-	static int CheckFormat(FILE*& file, unsigned char header[]);
+	static Header loadBMP_custom(
+		const char* imagePath	// Path of the image
+	);
 
 	TextureImporter();
 	~TextureImporter();

@@ -9,14 +9,14 @@
 
 class ENGINEDLL_API GameBase
 {
-	Window * window;
-	Renderer* renderer;
+	Window * window;	// Window reference
+	Renderer* renderer; // Renderer reference
 	
-	double currentFrame;
-	double lastFrame;
+	double currentFrame;// Actual Time
+	double lastFrame;	// Previous frame
 
 protected:
-	double time;
+	double time;		// Delta Time
 
 	virtual bool OnStart() = 0;
 	virtual bool OnStop() = 0;

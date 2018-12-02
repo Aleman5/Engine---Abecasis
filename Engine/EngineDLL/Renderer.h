@@ -14,70 +14,70 @@
 
 class ENGINEDLL_API Renderer
 {
-	Window* window;				// Reference to the actual window.
+	Window* window;				// Reference to the actual window
 
-	GLuint VertexArrayID;
+	GLuint VertexArrayID;		// Id of the Vertex Array
 
-	glm::mat4 modelMatrix;		// Position of the entity based on the origin.
-	glm::mat4 viewMatrix;		// Position of the entity based on the camera.
-	glm::mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera.
-	glm::mat4 MVP;				// The final position of the entity in world space.
+	glm::mat4 modelMatrix;		// Position of the entity based on the origin
+	glm::mat4 viewMatrix;		// Position of the entity based on the camera
+	glm::mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera
+	glm::mat4 MVP;				// The final position of the entity in world space
 
 public:
 	bool Start(
-		Window* window	// Actual window.
+		Window* window	// Actual window
 	);
 	bool Stop();
 
 	void SetClearColor(
-		float r,	// Red.
-		float g,	// Green.
-		float b,	// Blue.
-		float a		// Transparency.
+		float r,	// Red
+		float g,	// Green
+		float b,	// Blue
+		float a		// Transparency
 	);
 	void ClearScreen();
 	void SwapBuffers();
 	void DestroyBuffer(
-		unsigned int bufferId		// Buffer to destroy.
+		unsigned int bufferId		// Buffer to destroy
 	);
 
 	unsigned int GenBuffer(
-		float* buffer,				// Data to fill in the buffer.
-		int size					// Size of the data.
+		float* buffer,				// Data to fill in the buffer
+		int size					// Size of the data
 	);
 
 	unsigned int GenTexture(
-		unsigned int width,			// Width of the image.
-		unsigned int height,		// Height of the image.
-		unsigned char* data			// Data of the file.
+		unsigned int width,			// Width of the image
+		unsigned int height,		// Height of the image
+		unsigned char* data			// Data of the file
 		);
 
 	void EnableAttributes(
-		unsigned int attributeId	// Location to fill in.
+		unsigned int attributeId	// Location to fill in
 	);
 	void BindBuffer(
 		unsigned int bufferId,		// Buffer to use.
-		unsigned int attributeId	// Location to fill in.
+		unsigned int attributeId	// Location to fill in
 	);
 	void BindTextureBuffer(
 		unsigned int bufferId,		// Buffer to use.
-		unsigned int attributeId	// Location to fill in.
+		unsigned int attributeId	// Location to fill in
 	);
 	void DrawBuffer(
-		unsigned int attributeId,	// Location to fill in.
-		int size,					// Total of vertices to draw.
+		unsigned int attributeId,	// Location to fill in
+		int size,					// Total of vertices to draw
 		GLenum mode					// Draw mode
 	);
 	void DisableAttributes(
-		unsigned int attributeId	// Location to fill in.
+		unsigned int attributeId	// Location to fill in
 	);
 
 	void loadIdentityMatrix();
 	void SetModelMatrix(
-		glm::mat4 model				// Model matrix of the entity.
+		glm::mat4 model				// Model matrix of the entity
 	);
 	void MultiplyModelMatrix(
-		glm::mat4 model				// Model matrix of the entity.
+		glm::mat4 model				// Model matrix of the entity
 	);
 	void SetMVP();
 

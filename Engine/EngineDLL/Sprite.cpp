@@ -5,7 +5,7 @@ Sprite::Sprite(
 	Material* material,			 // Material reference
 	Layers layer,				 // Layer of the Entity
 	const char* imagePath,		 // Path of the image
-	bool isAnimated,			 // IsAnimated? Yes/No
+	bool isAnimated,			 // Is animated? Yes/No
 	const unsigned int sColumns, // Columns of the spritesheet
 	const unsigned int sRows, 	 // Rows of the spritesheet
 	const float colliderWidth, 	 // Width of the collider
@@ -14,12 +14,6 @@ Sprite::Sprite(
 	: Shape(renderer, material, layer), actualFrame(0), columns(sColumns), rows(sRows),
 	  isAnimated(isAnimated)
 {
-	header = TextureImporter::loadBMP_custom(imagePath);
-
-	widthOfFrame  = (int) (header.width  / sColumns);
-	heightOfFrame = (int) (header.height / sRows);
-
-	textureId = renderer->GenTexture(header.width, header.height, header.data);
 
 	count = 4;
 	variables = 3;
@@ -41,10 +35,19 @@ Sprite::Sprite(
 	drawMode = GL_TRIANGLE_STRIP;
 
 	bufferId = SetVertices(verticesData, count);
+
+	header = TextureImporter::loadBMP_custom(imagePath);
+
+	widthOfFrame  = (int) (header.width  / sColumns);
+	heightOfFrame = (int) (header.height / sRows);
+
+	textureId = renderer->GenTexture(header.width, header.height, header.data);
+
 	//textureId = SetTextureUV(verticesTextureData, count, 2);
 
 	unsigned int frames[5] = { 5, 6, 7, 8, 9};
 	if (isAnimated) anim = new Animation(this, frames, true, 10.0f);
+	else SetNextFrame(0);
 
 	col.x = colliderWidth;
 	col.y = colliderHeight;
