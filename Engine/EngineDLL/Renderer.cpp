@@ -33,9 +33,12 @@ bool Renderer::Start(Window* win)
 
 	projectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 
+	eyePosition = glm::vec3(0, 0, 3);
+	cameraPosition = glm::vec3(0, 0, 0);
+
 	viewMatrix = glm::lookAt(
-		glm::vec3(0, 0, 3), // Camera is at (0, 0, 3), is World Space
-		glm::vec3(0, 0, 0), // Looks at the origin
+		eyePosition,		// Camera is at (0, 0, 3), is World Space
+		cameraPosition,		// Looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
 	);
 
@@ -138,6 +141,18 @@ void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
 void Renderer::DisableAttributes(unsigned int attributeId)
 {
 	glDisableVertexAttribArray(attributeId);
+}
+
+void Renderer::MoveCamera(glm::vec3 newPos)
+{
+	cameraPosition += newPos;
+	eyePosition += glm::vec3(newPos.x, newPos.y, 0);
+
+	viewMatrix = glm::lookAt(
+		eyePosition,		// Camera is at (0, 0, 3), is World Space
+		cameraPosition,		// Looks at the origin
+		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
+	);
 }
 
 void Renderer::loadIdentityMatrix()

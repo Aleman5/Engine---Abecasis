@@ -18,6 +18,9 @@ class ENGINEDLL_API Renderer
 
 	GLuint VertexArrayID;		// Id of the Vertex Array
 
+	glm::vec3 cameraPosition;	// Actual position of the Camera
+	glm::vec3 eyePosition;		// View of the Camera
+
 	glm::mat4 modelMatrix;		// Position of the entity based on the origin
 	glm::mat4 viewMatrix;		// Position of the entity based on the camera
 	glm::mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera
@@ -70,6 +73,10 @@ public:
 	);
 	void DisableAttributes(
 		unsigned int attributeId	// Location to fill in
+	);
+
+	void MoveCamera(
+		glm::vec3 newPos			// Position added to the actual View Matrix position
 	);
 
 	void loadIdentityMatrix();
