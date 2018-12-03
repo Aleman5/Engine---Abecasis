@@ -19,6 +19,12 @@ struct Tile
 	float* uvData;
 };
 
+struct TilesAround
+{
+	glm::vec3 pos[4];
+	TileType type[4];
+};
+
 class ENGINEDLL_API Tilemap : public Entity
 {
 	Header header;						// Information of the Texture
@@ -27,6 +33,7 @@ class ENGINEDLL_API Tilemap : public Entity
 
 	unsigned int uvBufferId;			// Id of the UvBuffer
 	unsigned int vertexBufferId;		// Id of the VertexBuffer
+	unsigned int textureId;				// Id of the Texture
 	float* uvBufferData;				// Data of the UvBuffer
 	float* vertexBufferData;			// Data of the VertexBuffer
 
@@ -49,6 +56,8 @@ class ENGINEDLL_API Tilemap : public Entity
 
 	unsigned int activeTilesColumns;	// Amount of columns that will be showed
 	unsigned int activeTilesRows;		// Amount of Rows that will be showed
+
+	const char* texturePath;
 
 	vector<vector<int>> LoadLevel(
 		const char* levelPath			// Path of the Level
@@ -78,9 +87,8 @@ public:
 		unsigned int pos	// Position of the Tile
 	);
 
-	bool IsColliding(
-		glm::vec3 spritePos,// Position of the Sprite to consider
-		glm::vec3& tilePos	// Position of the Tile who is colliding with
+	TilesAround GetAroundTiles(// Returns the four tiles around the Sprite
+		glm::vec3 spritePos	   // Position of the Sprite to consider
 	);
 
 	Tilemap(

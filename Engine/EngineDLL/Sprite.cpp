@@ -15,7 +15,8 @@ Sprite::Sprite(
 	Tilemap* tilemap			 // Tilemap reference
 )
 	: Shape(renderer, material, layer), actualFrame(0), columns(sColumns), rows(sRows),
-	  isAnimated(isAnimated), isInteractable(isInteractable), tilemap(tilemap)
+	  isAnimated(isAnimated), isInteractable(isInteractable), tilemap(tilemap),
+	  texturePath(imagePath)
 {
 	count = 4;
 	variables = 3;
@@ -47,7 +48,7 @@ Sprite::Sprite(
 
 	//textureId = SetTextureUV(verticesTextureData, count, 2);
 
-	unsigned int frames[5] = { 5, 6, 7, 8, 9};
+	unsigned int frames[1] = { 0 };
 	if (isAnimated) anim = new Animation(this, frames, true, 10.0f);
 	else SetNewFrame(0);
 
@@ -68,7 +69,7 @@ void Sprite::Draw()
 
 	if (material != NULL)
 	{
-		material->Bind();
+		material->Bind(texturePath, textureId);
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
@@ -137,11 +138,18 @@ void Sprite::CheckCollisionWithTilemap()
 	// con los que pueda colisionar. (o... que solo me devuelva los que están a la
 	// derecha e izquierda ¬¬).
 
-	glm::vec3 posOfTile;
+	TilesAround posOfTile = tilemap->GetAroundTiles(GetPosition());
 
-	if (tilemap->IsColliding(GetPosition(), posOfTile))
+	/*for (int i = 0; i < posOfTile.pos->length; i++)
 	{
+		switch (posOfTile.type[i])
+		{
+		case Obstacle:
 
-	}
+			break;
+		case Trigger:
 
+			break;
+		}
+	}*/
 }

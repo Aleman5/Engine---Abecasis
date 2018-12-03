@@ -49,12 +49,13 @@ bool Game::OnStart()
 	tilemap->UpdateUV();
 
 	sprite = new Sprite(GetRenderer(), matPlayer, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
+	unsigned int frames[5] = { 5, 6, 7, 8, 9 };
+	sprite->GetAnimation()->SetNewAnimation(frames);
 
-	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
+	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f, true, tilemap);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
-	unsigned int frames[5] = { 0, 1, 2, 3, 4 };
-	sprite2->GetAnimation()->SetNewAnimation(frames);
+	
 
 	//sprite3 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
 	

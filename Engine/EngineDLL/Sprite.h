@@ -22,6 +22,8 @@ class ENGINEDLL_API Sprite : public Shape
 	float* verticesTextureData;	// Data of each vertice of the Texture (vec2)
 	float* uvBufferData;		// Data of each UV of the Buffer (vec2)
 
+	const char* texturePath;
+
 	bool isAnimated;			// Is animated? Yes/No
 	bool isInteractable;		// Does the Sprite collide with the Tilemap? Yes/No
 

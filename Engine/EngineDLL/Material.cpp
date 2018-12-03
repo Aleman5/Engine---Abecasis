@@ -109,6 +109,21 @@ void Material::Bind()
 	glUseProgram(programId);
 }
 
+void Material::Bind(const char* texName, unsigned int texture)
+{
+	glUseProgram(programId);
+
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	unsigned int textureId = glGetUniformLocation(programId, texName);
+
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	glUniform1i(textureId, 0);
+
+}
+
 void Material::SetMatrixProperty(const char* name, glm::mat4& mat)
 {
 	matrixId = glGetUniformLocation(programId, name);

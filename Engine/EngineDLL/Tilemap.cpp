@@ -14,12 +14,14 @@ Tilemap::Tilemap(
 	const unsigned int levelHeight	// Height of the Level
 ) : Entity(renderer, material, layer),
 	tileWidth(tWidth), tileHeight(tHeight), tilesetColumns(tColumns), tilesetRows(tRows),
-	levelWidth(levelWidth), levelHeight(levelHeight)
+	levelWidth(levelWidth), levelHeight(levelHeight),
+	texturePath(tilesetPath)
 {
 	levelColumns = (int) (levelWidth / tileWidth);
 	levelRows	 = (int) (levelHeight / tileHeight);
 
-	header = TextureImporter::loadBMP_custom(tilesetPath);
+	header = TextureImporter::loadBMP_custom(texturePath);
+	textureId = renderer->GenTexture(header.width, header.height, header.data);
 
 	unsigned int windowWidht  = renderer->GetWindowWidht();
 	unsigned int windowHeight = renderer->GetWindowHeight();
@@ -239,7 +241,7 @@ void Tilemap::Draw()
 	
 	if (material != NULL)
 	{
-		material->Bind();
+		material->Bind(texturePath, textureId);
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
@@ -286,7 +288,7 @@ Tile Tilemap::GetTile(unsigned int pos)
 	return tiles[row][column];
 }
 
-bool Tilemap::IsColliding(glm::vec3 spritePos, glm::vec3& tilePos)
+TilesAround Tilemap::GetAroundTiles(glm::vec3 spritePos)
 {
 	/*
 		Hacer los cálculos teniendo en base la posición del sprite y
@@ -302,9 +304,15 @@ bool Tilemap::IsColliding(glm::vec3 spritePos, glm::vec3& tilePos)
 		row = 
 		column = 
 
+		Preguntar a partir de la posicion del sprite, en qué tile está, de ahí devolver los cuatro tiles
+		de las 4 direcciones (up, down, left, right). Después dentro del sprite calcular la colisión con
+		esos 4 tiles sólo si son obstáculos.
+
 		actualTiles[row][column]; // Mmmm... creo que así no es :/
 
 	*/
 
-	return false;
+	TilesAround tileCol = TilesAround();
+
+	return tileCol;
 }
