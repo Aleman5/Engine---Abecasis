@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Tilemap.h"
 
 Sprite::Sprite(
 	Renderer* renderer,			 // Renderer reference
@@ -9,12 +10,13 @@ Sprite::Sprite(
 	const unsigned int sColumns, // Columns of the spritesheet
 	const unsigned int sRows, 	 // Rows of the spritesheet
 	const float colliderWidth, 	 // Width of the collider
-	const float colliderHeight	 // Height of the collider
+	const float colliderHeight,	 // Height of the collider
+	bool isInteractable,		 // Does the Sprite collide with the Tilemap? Yes/No
+	Tilemap* tilemap			 // Tilemap reference
 )
 	: Shape(renderer, material, layer), actualFrame(0), columns(sColumns), rows(sRows),
-	  isAnimated(isAnimated)
+	  isAnimated(isAnimated), isInteractable(isInteractable), tilemap(tilemap)
 {
-
 	count = 4;
 	variables = 3;
 
@@ -47,7 +49,7 @@ Sprite::Sprite(
 
 	unsigned int frames[5] = { 5, 6, 7, 8, 9};
 	if (isAnimated) anim = new Animation(this, frames, true, 10.0f);
-	else SetNextFrame(0);
+	else SetNewFrame(0);
 
 	col.x = colliderWidth;
 	col.y = colliderHeight;
@@ -82,6 +84,8 @@ void Sprite::Draw()
 void Sprite::Update(float deltaTime)
 {
 	if (isAnimated) anim->Update(deltaTime);
+
+	if (isInteractable) CheckCollisionWithTilemap();
 }
 
 unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
@@ -94,7 +98,7 @@ unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
 	return id;
 }
 
-void Sprite::SetNextFrame(unsigned int newFrame)
+void Sprite::SetNewFrame(unsigned int newFrame)
 {
 	actualFrame = newFrame;
 	
@@ -124,4 +128,20 @@ float* Sprite::SetUV(unsigned int u, unsigned int v)
 	};
 
 	return bufferData;
+}
+
+void Sprite::CheckCollisionWithTilemap()
+{
+	// Acá llamar a una función del Tilemap que reciba la posición actual del Sprite.
+	// Y que esa función del Tilemap devuelva un array de vec3 con todos los tiles 
+	// con los que pueda colisionar. (o... que solo me devuelva los que están a la
+	// derecha e izquierda ¬¬).
+
+	glm::vec3 posOfTile;
+
+	if (tilemap->IsColliding(GetPosition(), posOfTile))
+	{
+
+	}
+
 }

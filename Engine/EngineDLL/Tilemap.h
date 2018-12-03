@@ -78,6 +78,11 @@ public:
 		unsigned int pos	// Position of the Tile
 	);
 
+	bool IsColliding(
+		glm::vec3 spritePos,// Position of the Sprite to consider
+		glm::vec3& tilePos	// Position of the Tile who is colliding with
+	);
+
 	Tilemap(
 		Renderer* renderer,				// Renderer reference
 		Material* material,				// Material reference

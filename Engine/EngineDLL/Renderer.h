@@ -92,6 +92,7 @@ public:
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
 	glm::vec3 GetCameraPosition()  { return eyePosition;		 };
+
 	Renderer();
 	~Renderer();
 };

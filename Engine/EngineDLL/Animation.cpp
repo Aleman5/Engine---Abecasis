@@ -14,7 +14,7 @@ Animation::Animation(Sprite* sprite, unsigned int frames[], bool isLooping, floa
 	actualFrame = this->frames->front();
 	lastFrame = this->frames->back();
 
-	sprite->SetNextFrame(actualFrame);
+	sprite->SetNewFrame(actualFrame);
 
 	Play();
 }
@@ -40,7 +40,7 @@ void Animation::Update(float deltaTime)
 			actualFrame = frames->front();
 			frames->pop();
 			frames->push(actualFrame);
-			sprite->SetNextFrame(actualFrame);
+			sprite->SetNewFrame(actualFrame);
 
 			if (actualFrame == lastFrame && !isLooping)
 				isFinished = true;

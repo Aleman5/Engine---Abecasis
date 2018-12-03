@@ -4,10 +4,13 @@
 #include "Animation.h"
 #include "TextureImporter.h"
 
+class Tilemap;
+
 class ENGINEDLL_API Sprite : public Shape
 {
 	Header header;				// Information of the Texture
 	Animation* anim;			// Animation reference
+	Tilemap* tilemap;			// Reference to the Tilemap
 	unsigned int textureId;		// Id of the Texture
 	unsigned int uvBufferId;	// Id of the UvBuffer
 	unsigned int actualFrame;	// Actual Frame
@@ -20,6 +23,9 @@ class ENGINEDLL_API Sprite : public Shape
 	float* uvBufferData;		// Data of each UV of the Buffer (vec2)
 
 	bool isAnimated;			// Is animated? Yes/No
+	bool isInteractable;		// Does the Sprite collide with the Tilemap? Yes/No
+
+	void CheckCollisionWithTilemap();
 
 public:
 	void Draw() override;
@@ -31,7 +37,7 @@ public:
 		int variables		// Total variables
 	);
 
-	void SetNextFrame(
+	void SetNewFrame(
 		unsigned int newFrame // The next frame to render
 	);
 
@@ -48,6 +54,9 @@ public:
 		   const unsigned int sColumns, // Columns of the spritesheet
 		   const unsigned int sRows,	// Rows of the spritesheet
 		   const float colliderWidth,	// Width of the collider
-		   const float colliderHeight);	// Height of the collider
+		   const float colliderHeight,	// Height of the collider
+		   bool isInteractable,			// Does the Sprite collide with the Tilemap? Yes/No
+		   Tilemap* tilemap				// Tilemap reference
+	);	
 	~Sprite();
 };

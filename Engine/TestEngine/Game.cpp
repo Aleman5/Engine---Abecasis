@@ -38,22 +38,6 @@ bool Game::OnStart()
 					   , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	sprite = new Sprite(GetRenderer(), matPlayer, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
-
-	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f);
-	//sprite2->SetIsStatic(true);
-	sprite2->SetMass(5.0f);
-
-	//sprite3 = new Sprite(GetRenderer(), materialForTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
-	
-	cmgr->AddEntity(sprite->GetEntity());
-	cmgr->AddEntity(sprite2->GetEntity());
-	//cmgr->AddEntity(sprite3->GetEntity());
-	
-	sprite->Translate(-5.0f, 4.0f, 0.0f);
-	sprite2->Translate(5.0f, 3.5f, 0.0f);
-	//sprite3->Translate(-0.5f, -2.5f, 0.0f);
-
 	tilemap = new Tilemap(GetRenderer(), matPlayer, Default, "Tileset.bmp", 2, 3, 32, 32, "Level.csv", 2400, 800);
 
 	for (int i = 0; i < 3; i++)
@@ -64,9 +48,26 @@ bool Game::OnStart()
 
 	tilemap->UpdateUV();
 
+	sprite = new Sprite(GetRenderer(), matPlayer, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
+
+	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f, true, tilemap);
+	//sprite2->SetIsStatic(true);
+	sprite2->SetMass(5.0f);
+
+	//sprite3 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
+	
+	cmgr->AddEntity(sprite->GetEntity());
+	cmgr->AddEntity(sprite2->GetEntity());
+	//cmgr->AddEntity(sprite3->GetEntity());
+	
+	sprite->Translate(-5.0f, 4.0f, 0.0f);
+	sprite2->Translate(5.0f, 3.5f, 0.0f);
+	//sprite3->Translate(-0.5f, -2.5f, 0.0f);
+
+
 	/*cout << sprite->GetPosition().x << " " << sprite->GetPosition().y << endl;
 	cout << sprite2->GetPosition().x << " " << sprite2->GetPosition().y << endl;
-	cout << tilemap->GetPosition().x << " " << tilemap->GetPosition().y << endl;*/
+	cout << tilemap->GetPosition().x << " " << tilemap->GetPosition().y << " " << tilemap->GetPosition().z << endl;*/
 
 	return true;
 }

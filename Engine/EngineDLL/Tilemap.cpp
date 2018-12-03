@@ -268,3 +268,14 @@ Tile Tilemap::GetTile(unsigned int pos)
 
 	return tiles[row][column];
 }
+
+bool Tilemap::IsColliding(glm::vec3 spritePos, glm::vec3& tilePos)
+{
+	/*
+	
+		row = 
+
+	*/
+
+	return false;
+}
