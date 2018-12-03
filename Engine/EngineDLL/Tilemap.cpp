@@ -272,8 +272,20 @@ Tile Tilemap::GetTile(unsigned int pos)
 bool Tilemap::IsColliding(glm::vec3 spritePos, glm::vec3& tilePos)
 {
 	/*
-	
+		Hacer los cálculos teniendo en base la posición del sprite y
+		la distancia desde el "origen" (a definir) del Tilemap multiplicada por el tamaño de cada Tile.
+		(Estoy cansado, es probable que no entienda lo que escribí)
+		Tmb es probable que necesite usar la posición de los activeTiles como referencia.
+		Para sacar la columna se puede hacer lo mismo pero al revés.
+		Solo puede colisionar con un Tile a la vez, por eso devuelve solo un glm::vec3.
+
+		Explicarle al profe que los inputs serían solo en vertical u horizontal,
+		nunca ambos (al mismo tiempo).
+
 		row = 
+		column = 
+
+		actualTiles[row][column]; // Mmmm... creo que así no es :/
 
 	*/
 
