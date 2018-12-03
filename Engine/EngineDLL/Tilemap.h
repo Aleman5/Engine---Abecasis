@@ -53,7 +53,7 @@ class ENGINEDLL_API Tilemap : public Entity
 	vector<vector<int>> LoadLevel(
 		const char* levelPath			// Path of the Level
 	);
-	vector<vector<Tile>> CreateOnScreenTiles();
+
 	float* GenerateUvForBuffer();
 	float* SetOnScreenTilesVertices();
 
@@ -93,4 +93,3 @@ public:
 	);
 	~Tilemap();
 };
-

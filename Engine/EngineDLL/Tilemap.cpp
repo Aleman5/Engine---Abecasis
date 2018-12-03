@@ -36,6 +36,12 @@ Tilemap::Tilemap(
 	tiles = LoadTiles();
 	uvBufferData = GenerateUvForBuffer();
 
+	int totalTiles = activeTilesRows * activeTilesColumns;
+
+	float vertexBufferSize = sizeof(float) * totalTiles * countOfVertices * variables;
+	vertexBufferData = SetOnScreenTilesVertices();
+	vertexBufferId = renderer->GenBuffer(vertexBufferData, vertexBufferSize);
+
 	verticesData = new float[countOfVertices * 3]{
 		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
@@ -77,7 +83,7 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 		value = (int)ch[0] - (int)'0';
 		level[row][0] = value;
 
-		for (int i = 2; i < total - 2; i += 2)
+		for (int i = 2; i < total; i += 2)
 		{
 			value = (int)ch[i] - (int)'0';
 			level[row][i/2] = value;
@@ -117,22 +123,6 @@ vector<vector<Tile>> Tilemap::LoadTiles()
 	return tiles;
 }
 
-vector<vector<Tile>> Tilemap::CreateOnScreenTiles()
-{
-	Tile tileDefault;
-
-	vector<vector<Tile>> onScreenTiles(activeTilesRows, vector<Tile>(activeTilesColumns, tileDefault));
-
-	int totalTiles = activeTilesRows * activeTilesColumns;
-
-	float vertexBufferSize = sizeof(float) * totalTiles * countOfVertices * variables;
-
-	vertexBufferData = SetOnScreenTilesVertices();
-	vertexBufferId = renderer->GenBuffer(vertexBufferData, vertexBufferSize);
-
-	return onScreenTiles;
-}
-
 float* Tilemap::GenerateUvForBuffer()
 {
 	int totActiveTiles = activeTilesRows * activeTilesColumns;
@@ -159,7 +149,7 @@ float* Tilemap::GenerateUvForBuffer()
 
 float* Tilemap::SetOnScreenTilesVertices()
 {
-	unsigned int totalTiles = activeTilesRows * activeTilesColumns;
+	int totalTiles = activeTilesRows * activeTilesColumns;
 
 	float* vertexBufferData = new float[countOfVertices * variables * totalTiles];
 
@@ -190,29 +180,23 @@ float* Tilemap::SetOnScreenTilesVertices()
 
 void Tilemap::UpdateUV()
 {
-	vector<vector<Tile>> newVec(activeTilesRows, vector<Tile>(activeTilesColumns));
-
 	int totalTiles = activeTilesRows * activeTilesColumns;
 	int uvBufferSize = sizeof(float) * countOfVertices * 2 * totalTiles;
-
 	int counter = 0;
 
-	for (int hellow = 0; hellow < activeTilesRows; hellow++)
+	glm::vec2 offset(GetRenderer()->GetCameraPosition().x / tileWidth, GetRenderer()->GetCameraPosition().y / tileHeight);
+
+	for (int row = 0; row < activeTilesRows; row++)
 	{
 		for (int column = 0; column < activeTilesColumns; column++)
 		{
-			cout << hellow << " " << column << endl;
-			//glm::vec2 offset(cameraPosition.x / tileWidth, cameraPosition.y / tileHeight);
-			glm::vec2 offset(0.0f, 0.0f);
-			Tile tempTile = GetTile(level[hellow + (int)offset.y][column + (int)offset.x]);
+			Tile tempTile = GetTile(level[row + (int)offset.y][column + (int)offset.x]);
 			
-			newVec[hellow][column].type = tempTile.type;
+			activeTiles[row][column].type = tempTile.type;
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
 				uvBufferData[counter] = tempTile.uvData[i];
 		}
 	}
-
-	activeTiles = newVec;
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
 }
@@ -235,7 +219,7 @@ void Tilemap::Draw()
 {
 	renderer->loadIdentityMatrix();
 	renderer->SetModelMatrix(model);
-
+	
 	if (material != NULL)
 	{
 		material->Bind();
@@ -244,7 +228,7 @@ void Tilemap::Draw()
 
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
-	renderer->BindBuffer(bufferId, 0);
+	renderer->BindBuffer(vertexBufferId, 0);
 	renderer->BindTextureBuffer(uvBufferId, 1);
 	renderer->DrawBuffer(0, countOfVertices * tilesetColumns * tilesetRows, drawMode);
 	renderer->DisableAttributes(0);

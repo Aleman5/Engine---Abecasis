@@ -40,7 +40,7 @@ bool Game::OnStart()
 
 	sprite = new Sprite(GetRenderer(), matPlayer, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
 
-	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f);
+	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
 
@@ -64,6 +64,10 @@ bool Game::OnStart()
 
 	tilemap->UpdateUV();
 
+	/*cout << sprite->GetPosition().x << " " << sprite->GetPosition().y << endl;
+	cout << sprite2->GetPosition().x << " " << sprite2->GetPosition().y << endl;
+	cout << tilemap->GetPosition().x << " " << tilemap->GetPosition().y << endl;*/
+
 	return true;
 }
 
@@ -86,6 +90,8 @@ bool Game::OnUpdate()
 	translating += speed * time;
 
 	GetRenderer()->MoveCamera(glm::vec3(speed * time, 0.0f, 0.0f));
+
+	tilemap->UpdateUV();
 
 	sprite->Translate(speed * time, 0.0f,  0.0f);
 	//sprite2->Translate(-speed * time, 0.0f,  0.0f);

@@ -30,15 +30,15 @@ bool Renderer::Start(Window* win)
 
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	projectionMatrix = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.0f, 100.0f);
 
-	projectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
-
-	eyePosition = glm::vec3(0, 0, 3);
-	cameraPosition = glm::vec3(0, 0, 0);
+	cameraPosition = glm::vec3(0, 0, 3);
+	eyePosition = glm::vec3(0, 0, 0);
 
 	viewMatrix = glm::lookAt(
-		eyePosition,		// Camera is at (0, 0, 3), is World Space
-		cameraPosition,		// Looks at the origin
+		cameraPosition,		// Camera is at (0, 0, 3), is World Space
+		eyePosition,		// Looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
 	);
 
@@ -145,12 +145,12 @@ void Renderer::DisableAttributes(unsigned int attributeId)
 
 void Renderer::MoveCamera(glm::vec3 newPos)
 {
-	cameraPosition += newPos;
-	eyePosition += glm::vec3(newPos.x, newPos.y, 0);
+	cameraPosition += glm::vec3(newPos.x, newPos.y, 0);
+	eyePosition += newPos;
 
 	viewMatrix = glm::lookAt(
-		eyePosition,		// Camera is at (0, 0, 3), is World Space
-		cameraPosition,		// Looks at the origin
+		cameraPosition,		// Camera is at (0, 0, 3), is World Space
+		eyePosition,		// Looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
 	);
 }

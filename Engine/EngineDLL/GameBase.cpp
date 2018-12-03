@@ -50,7 +50,7 @@ bool GameBase::Stop()
 
 void GameBase::Loop()
 {
-	renderer->SetClearColor(0.0, 0.0, 1, 0.0);
+	renderer->SetClearColor(0.3f, 0.3f, 0.3f, 0.0); // Dark Gray
 
 	bool state = true;
 	while (!window->ShouldClose() && state)

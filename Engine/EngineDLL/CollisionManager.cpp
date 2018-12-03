@@ -23,15 +23,9 @@ void CollisionManager::AddEntity(Entity* entity)
 void CollisionManager::SetRelation(int layer1, int layer2)
 {
 	if (layer1 <= layer2)
-	{
 		tagsRelation[layer1][layer2] = true;
-		cout << "Colision: " << layer1 << " - " << layer2 << " = " << tagsRelation[layer1][layer2] << endl;
-	}
 	else
-	{
 		tagsRelation[layer2][layer1] = true;
-		cout << "Colision: " << layer2 << " - " << layer1 << " = " << tagsRelation[layer2][layer1] << endl;
-	}
 }
 
 void CollisionManager::DetectCollisions()

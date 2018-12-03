@@ -18,8 +18,8 @@ class ENGINEDLL_API Renderer
 
 	GLuint VertexArrayID;		// Id of the Vertex Array
 
-	glm::vec3 cameraPosition;	// Actual position of the Camera
-	glm::vec3 eyePosition;		// View of the Camera
+	glm::vec3 eyePosition;		// Actual position of the Camera
+	glm::vec3 cameraPosition;	// View of the Camera
 
 	glm::mat4 modelMatrix;		// Position of the entity based on the origin
 	glm::mat4 viewMatrix;		// Position of the entity based on the camera
@@ -91,6 +91,7 @@ public:
 	glm::mat4& GetMVP();
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
+	glm::vec3 GetCameraPosition()  { return eyePosition;		 };
 	Renderer();
 	~Renderer();
 };
