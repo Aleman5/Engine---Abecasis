@@ -128,20 +128,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exports.h" />
     <ClInclude Include="GameBase.h" />
-    <ClInclude Include="ICollisionCallback.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Layers.h" />
-    <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="Triangle.h" />
@@ -150,18 +147,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameBase.cpp" />
-    <ClCompile Include="ICollisionCallback.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Triangle.cpp" />

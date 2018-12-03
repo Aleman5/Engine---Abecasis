@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include "Renderer.h"
-#include "Texture.h"
 
 #define COULDNT_OPEN -2
 #define INCORRECT_FORMAT -1

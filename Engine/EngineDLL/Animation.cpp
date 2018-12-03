@@ -4,17 +4,9 @@
 Animation::Animation(Sprite* sprite, unsigned int frames[], bool isLooping, float frameRate)
 	: sprite(sprite), isLooping(isLooping), isFinished(true), frameRate(1.0f / frameRate)
 {
-	unsigned int size = sizeof(frames);
-
 	this->frames = new queue<unsigned int>;
 
-	for (int i = 0; i <= size; i++)
-		this->frames->push(frames[i]);
-
-	actualFrame = this->frames->front();
-	lastFrame = this->frames->back();
-
-	sprite->SetNewFrame(actualFrame);
+	SetNewAnimation(frames);
 
 	Play();
 }
@@ -46,4 +38,20 @@ void Animation::Update(float deltaTime)
 				isFinished = true;
 		}
 	}
+}
+
+void Animation::SetNewAnimation(unsigned int frames[])
+{
+	unsigned int size = sizeof(frames);
+
+	while (!this->frames->empty())
+		this->frames->pop();
+
+	for (int i = 0; i <= size; i++)
+		this->frames->push(frames[i]);
+
+	actualFrame = this->frames->front();
+	lastFrame = this->frames->back();
+
+	sprite->SetNewFrame(actualFrame);
 }

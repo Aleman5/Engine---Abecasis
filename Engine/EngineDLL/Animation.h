@@ -23,8 +23,12 @@ class ENGINEDLL_API Animation
 	queue<unsigned int>* frames;// Frames of the animation
 
 public:
-	void Play(); // Starts playing
+	void Play();				// Starts playing
 	void Update(float deltaTime); // Updates the actual frame
+
+	void SetNewAnimation(		// Sets the Animation that will be renderered
+		unsigned int frames[]	// Frames of the new Animation
+	);
 
 	Animation(
 		Sprite* sprite,			// Sprite reference

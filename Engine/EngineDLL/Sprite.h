@@ -46,6 +46,8 @@ public:
 		unsigned int y  // Equivalent to V
 	);
 
+	Animation* GetAnimation() { if (isAnimated) return anim; };
+
 	Sprite(Renderer* renderer,			// Renderer reference
 		   Material* material,			// Material reference
 		   Layers layer,				// Layer of the Entity
