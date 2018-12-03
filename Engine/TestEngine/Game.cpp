@@ -28,17 +28,12 @@ bool Game::OnStart()
 					   , "Shaders\\SimpleFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	matPlayer = new Material();
-	matPlayer->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
+	matTexture = new Material();
+	matTexture->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
 						, "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	matEnemy = new Material();
-	matEnemy->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
-					   , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
-	);
-
-	tilemap = new Tilemap(GetRenderer(), matPlayer, Default, "Tileset.bmp", 2, 3, 32, 32, "Level.csv", 2400, 800);
+	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "Tileset.bmp", 2, 3, 32, 32, "Level.csv", 2400, 800);
 
 	for (int i = 0; i < 3; i++)
 		tilemap->SetTileProperty(i, Obstacle);
@@ -48,16 +43,16 @@ bool Game::OnStart()
 
 	tilemap->UpdateUV();
 
-	sprite = new Sprite(GetRenderer(), matPlayer, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
+	sprite = new Sprite(GetRenderer(), matTexture, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
 	unsigned int frames[5] = { 5, 6, 7, 8, 9 };
 	sprite->GetAnimation()->SetNewAnimation(frames);
 
-	sprite2 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f, true, tilemap);
+	sprite2 = new Sprite(GetRenderer(), matTexture, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f, true, tilemap);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
 	
 
-	//sprite3 = new Sprite(GetRenderer(), matEnemy, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
+	//sprite3 = new Sprite(GetRenderer(), matTexture, Enemy, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
 	
 	cmgr->AddEntity(sprite->GetEntity());
 	cmgr->AddEntity(sprite2->GetEntity());
@@ -78,8 +73,7 @@ bool Game::OnStart()
 bool Game::OnStop()
 {
 	delete material;
-	delete matPlayer;
-	delete matEnemy;
+	delete matTexture;
 	delete sprite;
 	delete sprite2;
 	//delete sprite3;

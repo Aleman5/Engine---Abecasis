@@ -25,12 +25,18 @@ bool Renderer::Start(Window* win)
 
 	// Habilidad el test de profundidad
 	glEnable(GL_DEPTH_TEST);
+
+	/*glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glFrontFace(GL_CW);*/
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	// Aceptar el fragmento si está más cerca de la cámara que el fragmento anterior
 	glDepthFunc(GL_LESS);
 
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	projectionMatrix = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.0f, 100.0f);
 
 	cameraPosition = glm::vec3(0, 0, 3);
@@ -141,6 +147,17 @@ void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
 void Renderer::DisableAttributes(unsigned int attributeId)
 {
 	glDisableVertexAttribArray(attributeId);
+}
+
+void Renderer::EnableBlend()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void Renderer::DisableBlend()
+{
+	glDisable(GL_BLEND);
 }
 
 void Renderer::MoveCamera(glm::vec3 newPos)

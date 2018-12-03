@@ -186,15 +186,15 @@ void Tilemap::UpdateUV()
 	int uvBufferSize = sizeof(float) * countOfVertices * 2 * totalTiles;
 	int counter = 0;
 
-	glm::vec2 tilingOffset((int)GetPosition().x / tileWidth, (int)GetPosition().y / tileHeight);
+	glm::vec2 tilingOffset((int)renderer->GetCameraPosition().x / tileWidth, (int)renderer->GetCameraPosition().y / tileHeight);
 	int lastRow = (int)levelHeight / (int)tileHeight - 1;
 	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
 
 	for (int y = 0; y < activeTilesRows; y++)
 		for (int x = 0; x < activeTilesColumns; x++)
 		{
-			int levelRow = min(y + (int)tilingOffset.y, lastRow);
-			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
+			int levelRow	= y + (int) tilingOffset.y;
+			int levelColumn = x + (int) tilingOffset.x;
 
 			Tile tile = GetTile(level[levelRow][levelColumn]);
 
@@ -258,9 +258,9 @@ void Tilemap::ShouldDispose()
 {
 	if (shouldDispose)
 	{
-		renderer->DestroyBuffer(bufferId);
+		/*renderer->DestroyBuffer(bufferId);
 		delete[] vertexBufferData;
-		shouldDispose = false;
+		shouldDispose = false;*/
 	}
 }
 
@@ -313,6 +313,8 @@ TilesAround Tilemap::GetAroundTiles(glm::vec3 spritePos)
 	*/
 
 	TilesAround tileCol = TilesAround();
+
+
 
 	return tileCol;
 }

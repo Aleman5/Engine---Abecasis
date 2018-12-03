@@ -75,6 +75,9 @@ public:
 		unsigned int attributeId	// Location to fill in
 	);
 
+	void EnableBlend();
+	void DisableBlend();
+
 	void MoveCamera(
 		glm::vec3 newPos			// Position added to the actual View Matrix position
 	);
