@@ -66,7 +66,7 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 	
 	ifstream levelFile;
 
-	int total = levelColumns * 2 - 1;
+	int total = levelColumns * 2;
 
 	levelFile.open(levelPath, ios::in);
 
@@ -76,7 +76,7 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 	int row = 0;
 	int value = 0;
 
-	levelFile.getline(ch, total+1);
+	levelFile.getline(ch, total);
 
 	while (row < levelRows)
 	{
@@ -89,7 +89,7 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 			level[row][i/2] = value;
 		}
 		row++;
-		levelFile.getline(ch, total+1);
+		levelFile.getline(ch, total);
 	}
 
 	return level;
@@ -184,19 +184,22 @@ void Tilemap::UpdateUV()
 	int uvBufferSize = sizeof(float) * countOfVertices * 2 * totalTiles;
 	int counter = 0;
 
-	glm::vec2 offset(GetRenderer()->GetCameraPosition().x / tileWidth, GetRenderer()->GetCameraPosition().y / tileHeight);
+	glm::vec2 tilingOffset((int)GetPosition().x / tileWidth, (int)GetPosition().y / tileHeight);
+	int lastRow = (int)levelHeight / (int)tileHeight - 1;
+	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
 
-	for (int row = 0; row < activeTilesRows; row++)
-	{
-		for (int column = 0; column < activeTilesColumns; column++)
+	for (int y = 0; y < activeTilesRows; y++)
+		for (int x = 0; x < activeTilesColumns; x++)
 		{
-			Tile tempTile = GetTile(level[row + (int)offset.y][column + (int)offset.x]);
-			
-			activeTiles[row][column].type = tempTile.type;
+			int levelRow = min(y + (int)tilingOffset.y, lastRow);
+			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
+
+			Tile tile = GetTile(level[levelRow][levelColumn]);
+
+			activeTiles[y][x].type = tile.type;
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
-				uvBufferData[counter] = tempTile.uvData[i];
+				uvBufferData[counter] = tile.uvData[i];
 		}
-	}
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
 }
@@ -213,6 +216,20 @@ void Tilemap::SetTileProperty(unsigned int index, TileType type)
 	unsigned int column = (index % tilesetColumns);
 
 	tiles[row][column].type = type;
+
+	glm::vec2 tilingOffset((int)GetPosition().x / tileWidth, (int)GetPosition().y / tileHeight);
+	int lastRow = (int)levelHeight / (int)tileHeight - 1;
+	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
+
+	for (int y = 0; y < activeTilesRows; y++)
+		for (int x = 0; x < activeTilesColumns; x++)
+		{
+			int levelRow = min(y + (int)tilingOffset.y, lastRow);
+			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
+
+			if (level[levelRow][levelColumn] == index)
+				activeTiles[y][x].type = type;
+		}
 }
 
 void Tilemap::Draw()
