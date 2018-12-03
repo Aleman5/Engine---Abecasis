@@ -92,11 +92,11 @@ bool Game::OnUpdate()
 
 	GetRenderer()->MoveCamera(glm::vec3(speed * time, 0.0f, 0.0f));
 
-	tilemap->UpdateUV();
-
 	sprite->Translate(speed * time, 0.0f,  0.0f);
 	//sprite2->Translate(-speed * time, 0.0f,  0.0f);
 	//sprite3->Translate( 0.0f, speed * time, 0.0f);
+	
+	tilemap->UpdateUV();
 
 	sprite->Update(time);
 	sprite2->Update(time);
