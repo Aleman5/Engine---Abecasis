@@ -98,8 +98,6 @@ public:
 		const char* tilesetPath,		// Path of the Tileset
 		const unsigned int tColumns,	// Columns on the Tileset
 		const unsigned int tRows,		// Rows on the Tileset
-		const unsigned int tWidth,		// Width of each Tileset
-		const unsigned int tHeight,		// Height of each Tileset
 		const char* levelPath,			// Path of the Level
 		const unsigned int levelWidth,	// Width of the Level
 		const unsigned int levelHeight	// Height of the Level

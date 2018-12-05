@@ -55,6 +55,12 @@ public:
 		unsigned char* data			// Data of the file
 		);
 
+	unsigned int GenTilemapTexture(
+		unsigned int width,			// Width of the image
+		unsigned int height,		// Height of the image
+		unsigned char* data			// Data of the file
+	);
+
 	void EnableAttributes(
 		unsigned int attributeId	// Location to fill in
 	);

@@ -37,7 +37,7 @@ bool Renderer::Start(Window* win)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	projectionMatrix = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.0f, 100.0f);
+	projectionMatrix = glm::ortho(-30.0f, 30.0f, -30.0f, 30.0f, 0.0f, 100.0f);
 
 	cameraPosition = glm::vec3(0, 0, 3);
 	eyePosition = glm::vec3(0, 0, 0);
@@ -103,6 +103,23 @@ unsigned int Renderer::GenTexture(unsigned int width, unsigned int height, unsig
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	return vertexbuffer;
+}
+
+unsigned int Renderer::GenTilemapTexture(unsigned int width, unsigned int height, unsigned char* data)
+{
+	unsigned int vertexbuffer;
+
+	glGenTextures(1, &vertexbuffer);
+
+	glBindTexture(GL_TEXTURE_2D, vertexbuffer);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	return vertexbuffer;

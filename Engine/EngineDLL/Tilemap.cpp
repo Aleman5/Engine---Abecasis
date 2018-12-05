@@ -7,31 +7,32 @@ Tilemap::Tilemap(
 	const char* tilesetPath,		// Path of the Tileset
 	const unsigned int tColumns,	// Columns on the Tileset
 	const unsigned int tRows,		// Rows on the Tileset
-	const unsigned int tWidth,		// Width of each Tileset
-	const unsigned int tHeight,		// Height of each Tileset
 	const char* levelPath,			// Path of the Level
 	const unsigned int levelWidth,	// Width of the Level
 	const unsigned int levelHeight	// Height of the Level
 ) : Entity(renderer, material, layer),
-	tileWidth(tWidth), tileHeight(tHeight), tilesetColumns(tColumns), tilesetRows(tRows),
-	levelWidth(levelWidth), levelHeight(levelHeight),
-	texturePath(tilesetPath)
+tilesetColumns(tColumns), tilesetRows(tRows),
+levelWidth(levelWidth), levelHeight(levelHeight),
+texturePath(tilesetPath)
 {
-	levelColumns = (int) (levelWidth / tileWidth);
-	levelRows	 = (int) (levelHeight / tileHeight);
-
 	header = TextureImporter::loadBMP_custom(texturePath);
-	textureId = renderer->GenTexture(header.width, header.height, header.data);
+	textureId = renderer->GenTilemapTexture(header.width, header.height, header.data);
 
-	unsigned int windowWidht  = renderer->GetWindowWidht();
+	tileWidth = header.width / tilesetColumns;
+	tileHeight = header.height / tilesetRows;
+
+	levelColumns = (int)(levelWidth / tileWidth);
+	levelRows = (int)(levelHeight / tileHeight);
+
+	unsigned int windowWidht = renderer->GetWindowWidht();
 	unsigned int windowHeight = renderer->GetWindowHeight();
 
-	activeTilesColumns = (windowWidht % tileWidth == 0)   ? windowWidht / tileWidth   : windowWidht / tileWidth + 1;
-	activeTilesRows	   = (windowHeight % tileHeight == 0) ? windowHeight / tileHeight : windowHeight / tileHeight + 1;
+	activeTilesColumns = (windowWidht % tileWidth == 0) ? windowWidht / tileWidth : windowWidht / tileWidth + 1;
+	activeTilesRows = (windowHeight % tileHeight == 0) ? windowHeight / tileHeight : windowHeight / tileHeight + 1;
 
 	int totalActiveTiles = activeTilesRows * activeTilesColumns;
 
-	vector<vector<Tile>> newVec (activeTilesRows, vector<Tile>(activeTilesColumns));
+	vector<vector<Tile>> newVec(activeTilesRows, vector<Tile>(activeTilesColumns));
 	activeTiles = newVec;
 
 	level = LoadLevel(levelPath);
@@ -51,7 +52,7 @@ Tilemap::Tilemap(
 		1.0f, 1.0f, 0.0f,
 	};
 
-	//bufferId = SetVertices(verticesData, countOfVertices);
+	bufferId = SetVertices(verticesData, countOfVertices);
 
 	drawMode = GL_QUADS;
 }
@@ -172,10 +173,21 @@ float* Tilemap::SetOnScreenTilesVertices()
 				maxX, maxY, 0.0f,
 				maxX, minY, 0.0f
 			};
-
+			//cout << counter << ": ";
 			for (int i = 0; i < countOfVertices * variables; i++, counter++)
+			{
 				vertexBufferData[counter] = vertices[i];
+				//cout << vertexBufferData[counter] << " ";
+			}
+			//cout << endl;
 		}
+
+	/*int size = sizeof(vertexBufferData);
+
+	for (int i = 0; i < size; i++)
+	{
+		cout << i << " " << vertexBufferData[i] << endl;
+	}*/
 
 	return vertexBufferData;
 }
@@ -200,7 +212,7 @@ void Tilemap::UpdateUV()
 
 			activeTiles[y][x].type = tile.type;
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
-				uvBufferData[counter] = tile.uvData[i];
+				uvBufferData[counter] = tile.uvData[i] * 8;
 		}
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
@@ -245,13 +257,17 @@ void Tilemap::Draw()
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
+	renderer->EnableBlend();
+
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(vertexBufferId, 0);
 	renderer->BindTextureBuffer(uvBufferId, 1);
-	renderer->DrawBuffer(0, countOfVertices * tilesetColumns * tilesetRows, drawMode);
+	renderer->DrawBuffer(0, countOfVertices * activeTilesColumns * activeTilesRows /** tilesetRows * tilesetColumns*/, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+
+	renderer->DisableBlend();
 }
 
 void Tilemap::ShouldDispose()

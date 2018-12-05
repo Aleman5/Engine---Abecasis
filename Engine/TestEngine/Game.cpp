@@ -33,15 +33,15 @@ bool Game::OnStart()
 						, "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
 
-	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "Tileset.bmp", 2, 3, 32, 32, "Level.csv", 2400, 800);
-
+	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "Tileset.bmp", 2, 3, "Level.csv", 2400, 800);
+	GetRenderer()->MoveCamera(glm::vec3(0.0f,/* speed * time * 3*/ 10.0f, 0.0f)); // This is temp
 	for (int i = 0; i < 3; i++)
 		tilemap->SetTileProperty(i, Obstacle);
 	tilemap->SetTileProperty(3, Background);
 	for (int i = 4; i < 6; i++)
 		tilemap->SetTileProperty(i, Obstacle);
 
-	tilemap->UpdateUV();
+	//tilemap->UpdateUV();
 
 	sprite = new Sprite(GetRenderer(), matTexture, Player, "Player-Spritesheet.bmp", true, 5, 8, 1.3f, 2.0f, true, tilemap);
 	unsigned int frames[5] = { 5, 6, 7, 8, 9 };
@@ -87,7 +87,7 @@ bool Game::OnUpdate()
 	speed = 2.0f;
 	translating += speed * time;
 
-	GetRenderer()->MoveCamera(glm::vec3(speed * time, 0.0f, 0.0f));
+	GetRenderer()->MoveCamera(glm::vec3(speed * time , speed * time * 3, 0.0f));
 
 	sprite->Translate(speed * time, 0.0f,  0.0f);
 	//sprite2->Translate(-speed * time, 0.0f,  0.0f);
@@ -106,11 +106,11 @@ bool Game::OnUpdate()
 
 bool Game::OnDraw()
 {
-	tilemap->Draw();
-
 	sprite->Draw();
 	sprite2->Draw();
 	//sprite3->Draw();
+
+	tilemap->Draw();
 
 	return true;
 }
