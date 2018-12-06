@@ -39,6 +39,7 @@ public:
 		int variables		// Total variables
 	);
 
+	// Used if the sprite is not animated
 	void SetNewFrame(
 		unsigned int newFrame // The next frame to render
 	);

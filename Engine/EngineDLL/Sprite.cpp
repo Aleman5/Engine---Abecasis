@@ -28,13 +28,6 @@ Sprite::Sprite(
 		1.0f, 1.0f, 0.0f,
 	};
 
-	/*verticesTextureData = new float[count * 2]{
-		0.0f, 1.0f - 1.0f,
-		1.0f, 1.0f - 1.0f,
-		0.0f, 1.0f - 0.0f,
-		1.0f, 1.0f - 0.0f,
-	};*/
-
 	drawMode = GL_TRIANGLE_STRIP;
 
 	bufferId = SetVertices(verticesData, count);
@@ -45,8 +38,6 @@ Sprite::Sprite(
 	heightOfFrame = (int) (header.height / sRows);
 
 	textureId = renderer->GenTexture(header.width, header.height, header.data);
-
-	//textureId = SetTextureUV(verticesTextureData, count, 2);
 
 	unsigned int frames[1] = { 0 };
 	if (isAnimated) anim = new Animation(this, frames, true, 10.0f);
@@ -91,8 +82,6 @@ void Sprite::Update(float deltaTime)
 
 unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
 {
-	//verticesData = vertices;
-
 	unsigned int id = renderer->GenBuffer(vertices, sizeof(float) * count * variables);
 	shouldDispose = true;
 
@@ -140,16 +129,4 @@ void Sprite::CheckCollisionWithTilemap()
 
 	TilesAround posOfTile = tilemap->GetAroundTiles(GetPosition());
 
-	/*for (int i = 0; i < posOfTile.pos->length; i++)
-	{
-		switch (posOfTile.type[i])
-		{
-		case Obstacle:
-
-			break;
-		case Trigger:
-
-			break;
-		}
-	}*/
 }

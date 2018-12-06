@@ -100,9 +100,7 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 
 vector<vector<Tile>> Tilemap::LoadTiles()
 {
-	Tile tileDefault;
-
-	vector<vector<Tile>> tiles(tilesetRows, vector<Tile>(tilesetColumns, tileDefault));
+	vector<vector<Tile>> tiles(tilesetRows, vector<Tile>(tilesetColumns));
 
 	for (int y = 0; y < tilesetRows; y++)
 		for (int x = 0; x < tilesetColumns; x++)
@@ -111,13 +109,13 @@ vector<vector<Tile>> Tilemap::LoadTiles()
 			float maxU =		(float) (x * tileWidth + tileWidth	) / (float) header.width;
 			float minV = 1.0f - (float) (y * tileHeight				) / (float) header.height;
 			float maxV = 1.0f - (float) (y * tileHeight	+ tileHeight) / (float) header.height;
-
+			
 			float* uvData = new float[8]
 			{
-				minU, minV,
-				minU, maxV,
-				maxU, maxV,
-				maxU, minV
+				minU * 16, minV * 16,
+				minU * 16, maxV * 16,
+				maxU * 16, maxV * 16,
+				maxU * 16, minV * 16
 			};
 
 			tiles[y][x].uvData = uvData;
@@ -173,29 +171,17 @@ float* Tilemap::SetOnScreenTilesVertices()
 				maxX, maxY, 0.0f,
 				maxX, minY, 0.0f
 			};
-			//cout << counter << ": ";
+			
 			for (int i = 0; i < countOfVertices * variables; i++, counter++)
-			{
 				vertexBufferData[counter] = vertices[i];
-				//cout << vertexBufferData[counter] << " ";
-			}
-			//cout << endl;
 		}
-
-	/*int size = sizeof(vertexBufferData);
-
-	for (int i = 0; i < size; i++)
-	{
-		cout << i << " " << vertexBufferData[i] << endl;
-	}*/
 
 	return vertexBufferData;
 }
 
 void Tilemap::UpdateUV()
 {
-	int totalTiles = activeTilesRows * activeTilesColumns;
-	int uvBufferSize = sizeof(float) * countOfVertices * 2 * totalTiles;
+	int uvBufferSize = sizeof(float) * countOfVertices * 2 * activeTilesRows * activeTilesColumns;
 	int counter = 0;
 
 	glm::vec2 tilingOffset((int)renderer->GetCameraPosition().x / tileWidth, (int)renderer->GetCameraPosition().y / tileHeight);
@@ -205,14 +191,14 @@ void Tilemap::UpdateUV()
 	for (int y = 0; y < activeTilesRows; y++)
 		for (int x = 0; x < activeTilesColumns; x++)
 		{
-			int levelRow	= y + (int) tilingOffset.y;
-			int levelColumn = x + (int) tilingOffset.x;
+			int levelRow = min(y + (int)tilingOffset.y, lastRow);
+			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
 
 			Tile tile = GetTile(level[levelRow][levelColumn]);
 
 			activeTiles[y][x].type = tile.type;
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
-				uvBufferData[counter] = tile.uvData[i] * 8;
+				uvBufferData[counter] = tile.uvData[i];
 		}
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
@@ -226,8 +212,8 @@ void Tilemap::SetTileProperty(unsigned int index, TileType type)
 		return;
 	}
 
-	unsigned int row = (int)(index / tilesetColumns);
-	unsigned int column = (index % tilesetColumns);
+	unsigned int row	= index / tilesetRows;
+	unsigned int column = index % tilesetColumns;
 
 	tiles[row][column].type = type;
 
@@ -263,7 +249,7 @@ void Tilemap::Draw()
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(vertexBufferId, 0);
 	renderer->BindTextureBuffer(uvBufferId, 1);
-	renderer->DrawBuffer(0, countOfVertices * activeTilesColumns * activeTilesRows /** tilesetRows * tilesetColumns*/, drawMode);
+	renderer->DrawBuffer(0, countOfVertices * activeTilesColumns * activeTilesRows, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
 
@@ -274,16 +260,14 @@ void Tilemap::ShouldDispose()
 {
 	if (shouldDispose)
 	{
-		/*renderer->DestroyBuffer(bufferId);
+		renderer->DestroyBuffer(bufferId);
 		delete[] vertexBufferData;
-		shouldDispose = false;*/
+		shouldDispose = false;
 	}
 }
 
 unsigned int Tilemap::SetVertices(float* vertices, int count)
 {
-	//vertexBufferData = vertices;
-
 	unsigned int id = renderer->GenBuffer(vertexBufferData, sizeof(float) * count * variables);
 	shouldDispose = true;
 
@@ -307,30 +291,12 @@ Tile Tilemap::GetTile(unsigned int pos)
 TilesAround Tilemap::GetAroundTiles(glm::vec3 spritePos)
 {
 	/*
-		Hacer los cálculos teniendo en base la posición del sprite y
-		la distancia desde el "origen" (a definir) del Tilemap multiplicada por el tamaño de cada Tile.
-		(Estoy cansado, es probable que no entienda lo que escribí)
-		Tmb es probable que necesite usar la posición de los activeTiles como referencia.
-		Para sacar la columna se puede hacer lo mismo pero al revés.
-		Solo puede colisionar con un Tile a la vez, por eso devuelve solo un glm::vec3.
-
-		Explicarle al profe que los inputs serían solo en vertical u horizontal,
-		nunca ambos (al mismo tiempo).
-
-		row = 
-		column = 
-
 		Preguntar a partir de la posicion del sprite, en qué tile está, de ahí devolver los cuatro tiles
 		de las 4 direcciones (up, down, left, right). Después dentro del sprite calcular la colisión con
 		esos 4 tiles sólo si son obstáculos.
-
-		actualTiles[row][column]; // Mmmm... creo que así no es :/
-
 	*/
 
 	TilesAround tileCol = TilesAround();
-
-
 
 	return tileCol;
 }

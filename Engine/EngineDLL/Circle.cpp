@@ -37,7 +37,7 @@ Circle::Circle(Renderer* renderer, Material* material, Layers tag, float radius,
 		verticesData[i + 2] = vec.z;
 		angle += degrees * PI / 180.0f;
 
-		cout << "Triangle [" << i / 3 << "], angle: " << degrees * i / 3 << ", x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << endl;
+		cout << "Circle [" << i / 3 << "], angle: " << degrees * i / 3 << ", x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << endl;
 
 		verticesColorData[i]     = 1.0f / (rand() % 10 + 1);
 		verticesColorData[i + 1] = 1.0f / (rand() % 10 + 1);

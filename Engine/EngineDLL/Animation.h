@@ -26,6 +26,7 @@ public:
 	void Play();				// Starts playing
 	void Update(float deltaTime); // Updates the actual frame
 
+	// Used if the sprite is animated
 	void SetNewAnimation(		// Sets the Animation that will be renderered
 		unsigned int frames[]	// Frames of the new Animation
 	);
