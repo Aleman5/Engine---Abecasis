@@ -73,10 +73,10 @@ void Sprite::Draw()
 	renderer->DisableAttributes(1);
 }
 
-void Sprite::Update(float deltaTime)
+void Sprite::Update()
 {
-	if (isAnimated) anim->Update(deltaTime);
-
+	if (isAnimated) anim->Update();
+	
 	if (isInteractable) CheckCollisionWithTilemap();
 }
 

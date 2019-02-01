@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Definitions.h"
 #include "Shape.h"
 #include "Animation.h"
 #include "TextureImporter.h"
@@ -31,7 +32,7 @@ class ENGINEDLL_API Sprite : public Shape
 
 public:
 	void Draw() override;
-	void Update(float deltaTime);
+	void Update();
 
 	unsigned int SetTextureUV(
 		float* vertices,	// Data of the vertices

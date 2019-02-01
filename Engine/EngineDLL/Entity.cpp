@@ -44,9 +44,8 @@ void Entity::Translate(float newX, float newY, float newZ)
 {
 	// Changes the actual position multiplying Matrix4x4 * position
 	vectorPosition += glm::vec3(newX, newY, newZ);
-
+	
 	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
-
 
 	UpdateModel();
 }

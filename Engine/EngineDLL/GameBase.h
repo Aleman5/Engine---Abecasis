@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Exports.h"
+#include "Definitions.h"
 #include "Renderer.h"
 #include "Window.h"
 #include "Typedef.h"
@@ -16,8 +17,6 @@ class ENGINEDLL_API GameBase
 	double lastFrame;	// Previous frame
 
 protected:
-	double time;		// Delta Time
-
 	virtual bool OnStart() = 0;
 	virtual bool OnStop() = 0;
 	virtual bool OnUpdate() = 0;
@@ -31,7 +30,7 @@ public:
 	);
 	bool Stop();
 	void Loop();
-	void Time();
+	//void Time();
 	Renderer* GetRenderer();
 
 	GameBase();

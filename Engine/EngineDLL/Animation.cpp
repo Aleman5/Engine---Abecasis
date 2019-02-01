@@ -6,6 +6,8 @@ Animation::Animation(Sprite* sprite, unsigned int frames[], bool isLooping, floa
 {
 	this->frames = new queue<unsigned int>;
 
+	//defs = Defs::getInstance();
+
 	SetNewAnimation(frames);
 
 	Play();
@@ -16,17 +18,17 @@ Animation::~Animation()
 
 void Animation::Play()
 {
-	time = 0.0f;
+	animationTime = 0.0f;
 	isFinished = false;
 }
 
-void Animation::Update(float deltaTime)
+void Animation::Update()
 {
-	time += deltaTime;
+	animationTime += Defs::getInstance()->deltaTime;
 
-	if (time > frameRate)
+	if (animationTime > frameRate)
 	{
-		time = 0.0f;
+		animationTime = 0.0f;
 		if (!isFinished)
 		{
 			actualFrame = frames->front();

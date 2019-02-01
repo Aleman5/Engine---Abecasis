@@ -50,21 +50,12 @@ bool Game::OnStart()
 	sprite2 = new Sprite(GetRenderer(), matTexture, Enemy, "Player-Spritesheet.bmp", false, 5, 8, 1.3f, 2.0f, true, tilemap);
 	//sprite2->SetIsStatic(true);
 	sprite2->SetMass(5.0f);
-	
-	t = new Triangle (GetRenderer(), material, Default);
-	r = new Rectangle(GetRenderer(), material, Default);
-	c = new Circle	 (GetRenderer(), material, Default, 3, 12);
 
 	cmgr->AddEntity(sprite->GetEntity());
 	cmgr->AddEntity(sprite2->GetEntity());
 	
 	sprite->Translate(-5.0f, 4.0f, 0.0f);
 	sprite2->Translate(5.0f, 3.5f, 0.0f);
-
-	t->Translate(0.0f, -3.0f, 0.0f);
-	r->Translate(-2.0f, -5.0f, 1.0f);
-	c->Translate(-5.0f, -6.0f, 0.0f);
-	c->Scale(0.7f, 0.7f, 0.0f);
 
 	return true;
 }
@@ -77,31 +68,23 @@ bool Game::OnStop()
 	delete sprite2;
 	delete tilemap;
 
-	delete t;
-	delete r;
-	delete c;
-
 	return true;
 }
 
 bool Game::OnUpdate()
 {
 	speed = 2.0f;
-	translating += speed * time;
-
-	GetRenderer()->MoveCamera(glm::vec3(speed * time * 2/3, 0.0f, 0.0f));	// This is to move the camera every frame
-
-	sprite->Translate(speed * time, 0.0f,  0.0f);
-	//sprite2->Translate(-speed * time, 0.0f,  0.0f);
+	translating += speed * Defs::getInstance()->deltaTime;
+	
+	//GetRenderer()->MoveCamera(glm::vec3(speed * Defs::getInstance()->deltaTime * 2/3, 0.0f, 0.0f));	// This is to move the camera every frame
+	
+	sprite->Translate(speed * Defs::getInstance()->deltaTime, 0.0f,  0.0f);
+	//sprite2->Translate(-speed * Definitions::getInstance()->deltaTime, 0.0f,  0.0f);
 	
 	tilemap->UpdateUV();
 
-	sprite->Update(time);
-	sprite2->Update(time);
-
-	t->Translate(speed * time, 0.0f, 0.0f);
-	r->RotateY(translating * 20);
-	c->RotateZ(translating * 40);
+	sprite->Update();
+	sprite2->Update();
 
 	CollisionManager::getInstance()->DetectCollisions();
 
@@ -112,10 +95,6 @@ bool Game::OnDraw()
 {
 	sprite->Draw();
 	sprite2->Draw();
-
-	t->Draw();
-	r->Draw();
-	c->Draw();
 
 	tilemap->Draw();
 

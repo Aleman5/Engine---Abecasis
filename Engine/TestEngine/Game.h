@@ -16,10 +16,6 @@ class Game : public GameBase
 	Sprite* sprite2;
 	Tilemap* tilemap;
 
-	Triangle* t;
-	Rectangle* r;
-	Circle* c;
-
 	float speed;		// Speed.
 	float translating;	// How much has to translate
 	float rotating;		// How much has to rotate

@@ -10,7 +10,10 @@ GameBase::~GameBase()
 
 bool GameBase::Start(int width, int height, const char* windowMe)
 {
-	time = 0.0f;
+	Defs* defs = Defs::getInstance();
+
+	Defs::getInstance()->UpdateDeltaTime();
+
 	currentFrame = 0.0f;
 	lastFrame = 0.0f;
 
@@ -57,7 +60,7 @@ void GameBase::Loop()
 	{
 		renderer->ClearScreen();
 
-		Time();
+		Defs::getInstance()->UpdateDeltaTime();
 
 		state = OnUpdate();
 		state = OnDraw();
@@ -68,12 +71,14 @@ void GameBase::Loop()
 	}
 }
 
-void GameBase::Time()
+/*void GameBase::Time()
 {
 	currentFrame = glfwGetTime();		// Save the actual time
-	time = currentFrame - lastFrame;	// Make a difference btw the actualFrame and the lastFrame
+	deltaTime = currentFrame - lastFrame;	// Make a difference btw the actualFrame and the lastFrame
 	lastFrame = currentFrame;			// Save the lastFrame with the actual time
-}
+
+	//cout << deltaTime << endl;
+}*/
 
 Renderer* GameBase::GetRenderer()
 {
