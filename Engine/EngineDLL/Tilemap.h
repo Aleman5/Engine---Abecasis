@@ -39,7 +39,7 @@ class ENGINEDLL_API Tilemap : public Entity
 
 	vector<vector<int>> level;			// Info of each Tile of the Level
 	vector<vector<Tile>> tiles;			// Info of each Tile of the Tileset
-	vector<vector<Tile>> activeTiles;	// All Tiles that will be showed on screen
+	//vector<vector<Tile>> activeTiles;	// All Tiles that will be showed on screen
 
 	const unsigned int countOfVertices = 4;
 	const unsigned int variables = 3;
@@ -56,6 +56,9 @@ class ENGINEDLL_API Tilemap : public Entity
 
 	unsigned int activeTilesColumns;	// Amount of columns that will be showed
 	unsigned int activeTilesRows;		// Amount of Rows that will be showed
+
+	float lastRowOffset;
+	float lastColumnOffset;
 
 	const char* texturePath;
 
@@ -86,6 +89,9 @@ public:
 	Tile GetTile(
 		unsigned int pos	// Position of the Tile
 	);
+
+	glm::vec2 WorldToGrid(float posX, float posY);
+	glm::vec2 GridToWorld(unsigned int row, unsigned int col);
 
 	TilesAround GetAroundTiles(// Returns the four tiles around the Sprite
 		glm::vec3 spritePos	   // Position of the Sprite to consider

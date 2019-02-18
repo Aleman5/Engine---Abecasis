@@ -32,7 +32,7 @@ bool Game::OnStart()
 	matTexture->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
 						, "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
-
+	//																							2400  800
 	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "Tileset.bmp", 2, 3, "Level.csv", 2400, 800);
 	
 	tilemap->Translate(-10.0f, -10.0f, 0.0f);
@@ -73,10 +73,10 @@ bool Game::OnStop()
 
 bool Game::OnUpdate()
 {
-	speed = 2.0f;
+	speed = 50.0f;
 	translating += speed * Defs::getInstance()->deltaTime;
 	
-	//GetRenderer()->MoveCamera(glm::vec3(speed * Defs::getInstance()->deltaTime * 2/3, 0.0f, 0.0f));	// This is to move the camera every frame
+	GetRenderer()->MoveCamera(glm::vec3(0.0f, speed * Defs::getInstance()->deltaTime * 2/3, 0.0f));	// This is to move the camera every frame
 	
 	sprite->Translate(speed * Defs::getInstance()->deltaTime, 0.0f,  0.0f);
 	//sprite2->Translate(-speed * Definitions::getInstance()->deltaTime, 0.0f,  0.0f);
