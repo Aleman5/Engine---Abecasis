@@ -187,10 +187,10 @@ vector<vector<Tile>> Tilemap::LoadTiles()
 
 			float* uvData = new float[8]
 			{
-				minU * 24, minV * 24,
-				minU * 24, maxV * 24,
-				maxU * 24, maxV * 24,
-				maxU * 24, minV * 24
+				minU, minV,
+				minU, maxV,
+				maxU, maxV,
+				maxU, minV
 			};
 
 			tiles[y][x].uvData = uvData;
@@ -271,9 +271,9 @@ void Tilemap::UpdateUV()
 			int levelRow = min(y + (int)tilingOffset.y, lastRow);
 			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
 
-			//Tile tile = GetTile(level[levelRow][levelColumn]);
+			Tile tile = GetTile(level[levelRow][levelColumn]);
 
-			Tile tile = tiles[2][1];
+			//Tile tile = tiles[2][1];
 
 			//activeTiles[y][x].type = tile.type;
 			//activeTiles[y][x].uvData = tile.uvData;

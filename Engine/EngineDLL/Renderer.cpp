@@ -37,7 +37,7 @@ bool Renderer::Start(Window* win)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	projectionMatrix = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, 0.0f, 100.0f);
+	projectionMatrix = glm::ortho(0.0f, 1024.0f, 0.0f, 768.0f, 0.0f, 100.0f);
 
 	cameraPosition = glm::vec3(0, 0, 3);
 	eyePosition = glm::vec3(0, 0, 0);

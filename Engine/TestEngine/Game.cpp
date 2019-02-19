@@ -35,7 +35,7 @@ bool Game::OnStart()
 	//																							2400  800
 	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "Tileset.bmp", 2, 3, "Level.csv", 2400, 800);
 	
-	tilemap->Translate(-10.0f, -10.0f, 0.0f);
+	//tilemap->Translate(0.0f, 0.0f, 0.0f);
 
 	for (int i = 0; i < 3; i++)
 		tilemap->SetTileProperty(i, Obstacle);
@@ -73,10 +73,10 @@ bool Game::OnStop()
 
 bool Game::OnUpdate()
 {
-	speed = 50.0f;
+	speed = 10.0f;
 	translating += speed * Defs::getInstance()->deltaTime;
 	
-	GetRenderer()->MoveCamera(glm::vec3(0.0f, speed * Defs::getInstance()->deltaTime * 2/3, 0.0f));	// This is to move the camera every frame
+	//GetRenderer()->MoveCamera(glm::vec3(0.0f, speed * Defs::getInstance()->deltaTime * 2/3, 0.0f));	// This is to move the camera every frame
 	
 	sprite->Translate(speed * Defs::getInstance()->deltaTime, 0.0f,  0.0f);
 	//sprite2->Translate(-speed * Definitions::getInstance()->deltaTime, 0.0f,  0.0f);
