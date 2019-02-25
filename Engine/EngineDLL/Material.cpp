@@ -41,7 +41,6 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 	GLint Result = GL_FALSE;
 	int InfoLogLength;
 
-
 	// Compilar Vertex Shader
 	printf("Compiling shader : %s\n", vertex_file_path);
 	char const * VertexSourcePointer = VertexShaderCode.c_str();
@@ -56,8 +55,6 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
 		printf("%s\n", &VertexShaderErrorMessage[0]);
 	}
-
-
 
 	// Compilar Fragment Shader
 	printf("Compiling shader : %s\n", fragment_file_path);
@@ -74,8 +71,6 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
-
-
 	// Vincular el programa por medio del ID
 	printf("Linking program\n");
 	GLuint ProgramID = glCreateProgram();
@@ -91,7 +86,6 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 		glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
 		printf("%s\n", &ProgramErrorMessage[0]);
 	}
-
 
 	glDetachShader(ProgramID, VertexShaderID);
 	glDetachShader(ProgramID, FragmentShaderID);

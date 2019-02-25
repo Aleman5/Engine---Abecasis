@@ -35,20 +35,7 @@ texturePath(tilesetPath)
 
 	int totalActiveTiles = activeTilesRows * activeTilesColumns;
 
-	//vector<vector<Tile>> newVec(activeTilesRows, vector<Tile>(activeTilesColumns));
-	//activeTiles = newVec;
-	/*Tile hi;
-	hi.type = TileType::Background;
-	activeTiles[1][1] = hi;*/
 	level = LoadLevel(levelPath);
-	/*for (int i = 0; i < levelRows; i++)
-	{
-		for (int j = 0; j < levelColumns; j++)
-		{
-			cout << level[i][j] << " ";
-		}
-		cout << endl;
-	}*/
 	tiles = LoadTiles();
 	uvBufferData = GenerateUvForBuffer();
 
@@ -78,38 +65,6 @@ Tilemap::~Tilemap()
 
 vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 {
-	/*vector<vector<int>> level (levelRows, vector<int> (levelColumns, 0));
-	
-	ifstream levelFile;
-
-	int total = levelColumns * 2;
-
-	levelFile.open(levelPath, ios::in);
-
-	if (!levelFile.good()) printf("Impossible to open Level file: %s\n", levelPath);
-
-	char ch[BUFFER_SIZE];
-	int row = 0;
-	int value = 0;
-
-	levelFile.getline(ch, total);
-
-	while (row < levelRows)
-	{
-		value = (int)ch[0] - (int)'0';
-		level[row][0] = value;
-
-		for (int i = 2; i < total; i += 2)
-		{
-			value = (int)ch[i] - (int)'0';
-			level[row][i/2] = value;
-			cout << level[row][i / 2] << " ";
-		}
-		cout << endl;
-		row++;
-		levelFile.getline(ch, total);
-	}*/
-
 	std::ifstream levelFile;
 	
 	vector<vector<int>> level(levelRows, vector<int>(levelColumns, 0));
@@ -118,9 +73,6 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 
 	float rows = levelRows;
 	float columns = levelColumns;
-
-	//levelRows = (levelHeight % Tile::height == 0) ? rows : rows + 1;
-	//levelColumns = (levelWidth % Tile::width == 0) ? columns : columns + 1;
 
 	levelFile.open(levelPath, std::ios::in);
 
@@ -157,14 +109,13 @@ vector<vector<int>> Tilemap::LoadLevel(const char* levelPath)
 			value += ((int)buffer[i] - (int)'0') * pow(10, digits - 1 - i);
 
 		level[y][x] = value;
-		cout << value << " ";
+		
 		if (x < levelColumns - 1)
 			x++;
 		else
 		{
 			x = 0;
 			y++;
-			cout << endl;
 		}
 		levelFile.get();
 		nextChar = levelFile.peek();
@@ -266,30 +217,7 @@ void Tilemap::UpdateUV()
 	int lastRow = (int)levelHeight / (int)tileHeight - 1;
 	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
 
-	/*cout << "Tile [0][0]" << tiles[0][0].type << endl;
-	cout << "Tile [0][1]" << tiles[0][1].type << endl;
-	cout << "Tile [1][0]" << tiles[1][0].type << endl;
-	cout << "Tile [1][1]" << tiles[1][1].type << endl;
-	cout << "Tile [2][0]" << tiles[2][0].type << endl;
-	cout << "Tile [2][1]" << tiles[2][1].type << endl;*/
-
-	/*for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			cout << "Tile [" << i << "][" << j << "]: ";
-			for (int k = 0; k < 8; k++)
-			{
-				if (k % 2 == 0) cout << "           ";
-				cout << tiles[i][j].uvData[k] << " ";
-			}
-			cout << endl;
-		}
-	}*/
-
 	for (int y = 0; y < activeTilesRows; y++)
-	{
-		//cout << "[" << y << "]: ";
 		for (int x = 0; x < activeTilesColumns; x++)
 		{
 			int levelRow = min(y + (int)tilingOffset.y, lastRow);
@@ -297,19 +225,9 @@ void Tilemap::UpdateUV()
 			
 			Tile tile = GetTile(level[levelRow][levelColumn]);
 
-			//cout /*<< "[" << y << "][" << x << "]: "*/ << tile.index << " ";
-
-			//activeTiles[y][x].type = tile.type;
-			//activeTiles[y][x].uvData = tile.uvData;
 			for (int i = 0; i < countOfVertices * 2; i++, counter++)
-			{
 				uvBufferData[counter] = tile.uvData[i];
-				//cout << uvBufferData[counter] << " ";
-			}
-			//cout << endl;
 		}
-		//cout << endl;
-	}
 
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
 }
@@ -326,25 +244,6 @@ void Tilemap::SetTileProperty(unsigned int index, TileType type)
 	unsigned int column = index % tilesetColumns;
 
 	tiles[row][column].type = type;
-	
-	cout << "Real Index: " << index << "; Tile Index: " << tiles[row][column].index << "; Type: " <<  tiles[row][column].type << endl;
-
-	/*glm::vec2 tilingOffset((int)GetPosition().x / tileWidth, (int)GetPosition().y / tileHeight);
-	int lastRow = (int)levelHeight / (int)tileHeight - 1;
-	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
-
-	for (int y = 0; y < activeTilesRows; y++)
-		for (int x = 0; x < activeTilesColumns; x++)
-		{
-			int levelRow = min(y + (int)tilingOffset.y, lastRow);
-			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
-
-			if (level[levelRow][levelColumn] == index)
-			{
-				activeTiles[y][x].type = tiles[row][column].type;
-				activeTiles[y][x].uvData = tiles[row][column].uvData;
-			}
-		}*/
 }
 
 void Tilemap::Draw()
@@ -400,15 +299,6 @@ Tile Tilemap::GetTile(unsigned int pos)
 	unsigned int column = pos % tilesetColumns;
 	unsigned int row	= pos / tilesetColumns;
 
-	/*for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 2; j++)
-		{
-			cout << "[" << i << "][" << j << "] " << tiles[i][j].type << endl;
-
-		}
-	}*/
-
 	return tiles[row][column];
 }
 
@@ -431,17 +321,4 @@ glm::vec2 Tilemap::GridToWorld(unsigned int row, unsigned int col)
 	float posX = col * tileWidth;
 
 	return glm::vec2(posX, posY);
-}
-
-TilesAround Tilemap::GetAroundTiles(glm::vec3 spritePos)
-{
-	/*
-		Preguntar a partir de la posicion del sprite, en qué tile está, de ahí devolver los cuatro tiles
-		de las 4 direcciones (up, down, left, right). Después dentro del sprite calcular la colisión con
-		esos 4 tiles sólo si son obstáculos.
-	*/
-
-	TilesAround tileCol = TilesAround();
-
-	return tileCol;
 }

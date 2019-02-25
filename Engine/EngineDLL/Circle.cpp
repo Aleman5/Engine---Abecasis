@@ -25,13 +25,6 @@ Circle::Circle(Renderer* renderer, Material* material, Layers tag, float radius,
 	{
 		vec = glm::vec3(cos(angle), sin(angle), 0.0f) * radius;
 
-		/*if (degrees * i / 3 == 90.0f)
-			vec.x = 0;
-		else if (degrees * i / 3 == 180.0f)
-			vec.y = 0;
-		else if (degrees * i / 3 == 270.0f)
-			vec.x = 0;*/
-
 		verticesData[i]	    = vec.x;
 		verticesData[i + 1] = vec.y;
 		verticesData[i + 2] = vec.z;

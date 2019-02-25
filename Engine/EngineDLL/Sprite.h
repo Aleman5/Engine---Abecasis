@@ -6,8 +6,6 @@
 #include "TextureImporter.h"
 #include "Tilemap.h"
 
-//class Tilemap;
-
 class ENGINEDLL_API Sprite : public Shape
 {
 	Header header;				// Information of the Texture

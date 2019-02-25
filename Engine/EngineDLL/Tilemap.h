@@ -41,7 +41,6 @@ class ENGINEDLL_API Tilemap : public Entity
 
 	vector<vector<int>> level;			// Info of each Tile of the Level
 	vector<vector<Tile>> tiles;			// Info of each Tile of the Tileset
-	//vector<vector<Tile>> activeTiles;	// All Tiles that will be showed on screen
 
 	const unsigned int countOfVertices = 4;
 	const unsigned int variables = 3;
@@ -99,10 +98,6 @@ public:
 
 	float GetLastRowOffset() const { return lastRowOffset; }
 	float GetLastColumnOffset() const { return lastColumnOffset; }
-
-	TilesAround GetAroundTiles(// Returns the four tiles around the Sprite
-		glm::vec3 spritePos	   // Position of the Sprite to consider
-	);
 
 	Tilemap(
 		Renderer* renderer,				// Renderer reference

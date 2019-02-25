@@ -1,5 +1,4 @@
 #include "Sprite.h"
-//#include "Tilemap.h"
 
 Sprite::Sprite(
 	Renderer* renderer,			 // Renderer reference
@@ -230,7 +229,7 @@ TileType Sprite::CheckTileTypeCollisionWith(float x, float y, float z)
 				tileType = tilemap->GetTileType(
 					lowerTileCoord.x,
 					lowerTileCoord.y);
-				//cout << "[" << lowerTileCoord.x << "][" << lowerTileCoord.y << "]: " << tileType << endl;
+				
 				if (tileType == Obstacle)
 				{
 					newPosY = (tilemap->GridToWorld(
@@ -244,11 +243,7 @@ TileType Sprite::CheckTileTypeCollisionWith(float x, float y, float z)
 	}
 
 	if (newPosX != GetPosition().x || newPosY != GetPosition().y)
-	{
-		//cout << "My pos:     " << GetPosition().x << " " << GetPosition().y << endl;
-		//cout << "My new pos: " << newPosX << " " << newPosY << endl;
 		Teleport(newPosX, newPosY, GetPosition().z);
-	}
 
 	return tileType;
 }

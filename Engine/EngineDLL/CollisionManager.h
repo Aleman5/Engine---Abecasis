@@ -31,6 +31,4 @@ public:
 	void operator = (CollisionManager const&) = delete;
 private:
 	CollisionManager();
-	//CollisionManager(CollisionManager const&); // Don't implement
-	//void operator = (CollisionManager const&); // Don't implement
 };

@@ -11,7 +11,6 @@ class Sprite;
 class ENGINEDLL_API Animation
 {
 	Sprite* sprite;				// Sprite reference
-	//Defs* defs;
 
 	unsigned int actualFrame;	// Frame rendered
 	unsigned int lastFrame;		// Las frame of the Animation
@@ -26,7 +25,7 @@ class ENGINEDLL_API Animation
 
 public:
 	void Play();				// Starts playing
-	void Update(); // Updates the actual frame
+	void Update();				// Updates the actual frame
 
 	// Used if the sprite is animated
 	void SetNewAnimation(		// Sets the Animation that will be renderered

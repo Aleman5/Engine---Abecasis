@@ -6,17 +6,13 @@
 #include "GL\glew.h"
 #include "GLFW/glfw3.h"
 
-
 using namespace glm;
 
 Window::Window()
 {
-	
 }
-
 Window::~Window()
 {
-
 }
 
 bool Window::Start(int width, int height, const char* windowMe)

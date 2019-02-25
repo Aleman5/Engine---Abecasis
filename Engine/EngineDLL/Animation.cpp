@@ -6,8 +6,6 @@ Animation::Animation(Sprite* sprite, unsigned int frames[], bool isLooping, floa
 {
 	this->frames = new queue<unsigned int>;
 
-	//defs = Defs::getInstance();
-
 	SetNewAnimation(frames);
 
 	Play();

@@ -63,15 +63,6 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 				{
 					float pX = col1.x / 2 + col2.x / 2 - diff.x;
 					float pY = col1.y / 2 + col2.y / 2 - diff.y;
-					
-					// No lo borro por si en algun momento lo necesito.
-
-					/*cout << "Sprite2.y: " << (*it2)->GetPosition().y << endl;
-					cout << "Sprite1.y: " << (*it1)->GetPosition().y << endl;
-					cout << "Sprite2.colY: " << col2.y << endl;
-					cout << "Sprite1.colY: " << col1.y << endl;
-					cout << "Difference: " << diff.y << endl;
-					cout << "pY: " << pY << endl;*/
 
 					if (pX > pY)
 					{

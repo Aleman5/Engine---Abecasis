@@ -16,7 +16,6 @@ class ENGINEDLL_API Defs
 	Defs();
 public:
 	double deltaTime;	// Delta time
-	//double GetDeltaTime() { return deltaTime; }
 
 	void UpdateDeltaTime()
 	{

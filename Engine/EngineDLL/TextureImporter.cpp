@@ -9,11 +9,9 @@ TextureImporter::~TextureImporter()
 
 Header TextureImporter::loadBMP_custom(const char* imagePath)
 {
-	// Lectura de información del encabezado del archivo
 	static unsigned char header[54]; // Each BMP file begins by a 54-bytes header
 	Header h;
 
-	//FILE * file = fopen(imagePath, "rb");
 	FILE * file;
 	fopen_s(&file, imagePath, "rb");
 	
@@ -57,11 +55,6 @@ Header TextureImporter::loadBMP_custom(const char* imagePath)
 int TextureImporter::CheckFormat(FILE*& file, unsigned char header[])
 {
 	if (!file) { printf("Image could not be opened\n"); return COULDNT_OPEN; }
-
-	/*if (fread_s(header, 54, 1, 54, file) != 54) { // If not 54 bytes read : problem
-		printf("Not a correct BMP file\n");
-		return INCORRECT_FORMAT;
-	}*/
 
 	if (header[0] == 'B' || header[1] == 'M') {
 		printf("A correct BMP file\n");
