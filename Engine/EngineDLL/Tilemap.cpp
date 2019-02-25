@@ -180,6 +180,9 @@ vector<vector<Tile>> Tilemap::LoadTiles()
 	for (int y = 0; y < tilesetRows; y++)
 		for (int x = 0; x < tilesetColumns; x++)
 		{
+			tiles[y][x].index = x + y * tilesetColumns;
+			tiles[y][x].type = Background;
+
 			float minU =		(float) (x * tileWidth				) / (float) header.width;
 			float maxU =		(float) (x * tileWidth + tileWidth	) / (float) header.width;
 			float minV = 1.0f - (float) (y * tileHeight	+ tileHeight) / (float) header.height;
@@ -263,17 +266,38 @@ void Tilemap::UpdateUV()
 	int lastRow = (int)levelHeight / (int)tileHeight - 1;
 	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
 
+	/*cout << "Tile [0][0]" << tiles[0][0].type << endl;
+	cout << "Tile [0][1]" << tiles[0][1].type << endl;
+	cout << "Tile [1][0]" << tiles[1][0].type << endl;
+	cout << "Tile [1][1]" << tiles[1][1].type << endl;
+	cout << "Tile [2][0]" << tiles[2][0].type << endl;
+	cout << "Tile [2][1]" << tiles[2][1].type << endl;*/
+
+	/*for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			cout << "Tile [" << i << "][" << j << "]: ";
+			for (int k = 0; k < 8; k++)
+			{
+				if (k % 2 == 0) cout << "           ";
+				cout << tiles[i][j].uvData[k] << " ";
+			}
+			cout << endl;
+		}
+	}*/
+
 	for (int y = 0; y < activeTilesRows; y++)
 	{
-		//cout << "Row [" << y << "]: ";
+		//cout << "[" << y << "]: ";
 		for (int x = 0; x < activeTilesColumns; x++)
 		{
 			int levelRow = min(y + (int)tilingOffset.y, lastRow);
 			int levelColumn = min(x + (int)tilingOffset.x, lastColumn);
-
+			
 			Tile tile = GetTile(level[levelRow][levelColumn]);
 
-			//Tile tile = tiles[2][1];
+			//cout /*<< "[" << y << "][" << x << "]: "*/ << tile.index << " ";
 
 			//activeTiles[y][x].type = tile.type;
 			//activeTiles[y][x].uvData = tile.uvData;
@@ -298,12 +322,12 @@ void Tilemap::SetTileProperty(unsigned int index, TileType type)
 		return;
 	}
 
-	unsigned int row	= index / tilesetRows;
+	unsigned int row	= index / tilesetColumns;
 	unsigned int column = index % tilesetColumns;
 
 	tiles[row][column].type = type;
 	
-	cout << type << tiles[row][column].type << endl;
+	cout << "Real Index: " << index << "; Tile Index: " << tiles[row][column].index << "; Type: " <<  tiles[row][column].type << endl;
 
 	/*glm::vec2 tilingOffset((int)GetPosition().x / tileWidth, (int)GetPosition().y / tileHeight);
 	int lastRow = (int)levelHeight / (int)tileHeight - 1;
@@ -374,7 +398,7 @@ Tile Tilemap::GetTile(unsigned int pos)
 	}
 	
 	unsigned int column = pos % tilesetColumns;
-	unsigned int row	= pos / tilesetRows;
+	unsigned int row	= pos / tilesetColumns;
 
 	/*for (int i = 0; i < 3; i++)
 	{
@@ -388,18 +412,23 @@ Tile Tilemap::GetTile(unsigned int pos)
 	return tiles[row][column];
 }
 
-glm::vec2 Tilemap::WorldToGrid(float posX, float posY)
+TileType Tilemap::GetTileType(unsigned int row, unsigned int column)
 {
-	unsigned int row = (levelRows - 1) - (int)posY / tileHeight;
-	unsigned int col = posX / tileWidth;
+	return GetTile(level[row][column]).type;
+}
+
+glm::vec2 Tilemap::WorldToGrid(float posY, float posX)
+{
+	unsigned int row = (levelRows - 1) - (int)posX / tileHeight;
+	unsigned int col = posY / tileWidth;
 
 	return glm::vec2(row, col);
 }
 
 glm::vec2 Tilemap::GridToWorld(unsigned int row, unsigned int col)
 {
-	float posX = col * tileWidth;
 	float posY = -((int)(row - levelRows + 1) * (int)tileHeight) + lastRowOffset;
+	float posX = col * tileWidth;
 
 	return glm::vec2(posX, posY);
 }

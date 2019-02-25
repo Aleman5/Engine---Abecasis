@@ -33,6 +33,9 @@ public:
 		unsigned int frames[]	// Frames of the new Animation
 	);
 
+	void SetIsLoop(bool isLooping) { this->isLooping = isLooping; if (isLooping) isFinished = false; };
+	bool IsFinished() { return isFinished; };
+
 	Animation(
 		Sprite* sprite,			// Sprite reference
 		unsigned int frames[],	// Frames of the animation

@@ -4,8 +4,9 @@
 #include "Shape.h"
 #include "Animation.h"
 #include "TextureImporter.h"
+#include "Tilemap.h"
 
-class Tilemap;
+//class Tilemap;
 
 class ENGINEDLL_API Sprite : public Shape
 {
@@ -20,6 +21,8 @@ class ENGINEDLL_API Sprite : public Shape
 	unsigned int widthOfFrame;	// Widht of each frame
 	unsigned int heightOfFrame;	// Height of each frame
 
+	vec2 originalPosition;		// Position where the sprites restart
+
 	float* verticesTextureData;	// Data of each vertice of the Texture (vec2)
 	float* uvBufferData;		// Data of each UV of the Buffer (vec2)
 
@@ -28,11 +31,14 @@ class ENGINEDLL_API Sprite : public Shape
 	bool isAnimated;			// Is animated? Yes/No
 	bool isInteractable;		// Does the Sprite collide with the Tilemap? Yes/No
 
-	void CheckCollisionWithTilemap();
+	
 
 public:
 	void Draw() override;
 	void Update();
+	TileType Move(float x, float y, float z);
+
+	TileType CheckTileTypeCollisionWith(float x, float y, float z);
 
 	unsigned int SetTextureUV(
 		float* vertices,	// Data of the vertices
@@ -50,6 +56,8 @@ public:
 		unsigned int y  // Equivalent to V
 	);
 
+	void SetOriginalPosition(float x, float y);
+	vec2 GetOriginalPosition() { return originalPosition; };
 	Animation* GetAnimation() { if (isAnimated) return anim; };
 
 	Sprite(Renderer* renderer,			// Renderer reference

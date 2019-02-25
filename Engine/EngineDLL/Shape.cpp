@@ -8,6 +8,11 @@ Shape::~Shape()
 {
 }
 
+void Shape::Update()
+{
+	Entity::Update();
+}
+
 void Shape::ShouldDispose()
 {
 	if (shouldDispose)

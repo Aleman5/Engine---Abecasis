@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "Tilemap.h"
+//#include "Tilemap.h"
 
 Sprite::Sprite(
 	Renderer* renderer,			 // Renderer reference
@@ -21,22 +21,25 @@ Sprite::Sprite(
 	count = 4;
 	variables = 3;
 
-	verticesData = new float[count * 3]{
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		-1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
+	header = TextureImporter::loadBMP_custom(imagePath);
+
+	widthOfFrame = (int)(header.width / sColumns);
+	heightOfFrame = (int)(header.height / sRows);
+
+	float valueX = (float)widthOfFrame / 2;
+	float valueY = (float)heightOfFrame / 2;
+
+	float* verticesData = new float[count * variables]
+	{
+		-valueX, valueY, 0.0f,
+		valueX, valueY, 0.0f,
+		-valueX, -valueY, 0.0f,
+		valueX, -valueY, 0.0f
 	};
 
 	drawMode = GL_TRIANGLE_STRIP;
 
 	bufferId = SetVertices(verticesData, count);
-
-	header = TextureImporter::loadBMP_custom(imagePath);
-
-	widthOfFrame  = (int) (header.width  / sColumns);
-	heightOfFrame = (int) (header.height / sRows);
-
 	textureId = renderer->GenTexture(header.width, header.height, header.data);
 
 	unsigned int frames[1] = { 0 };
@@ -76,8 +79,20 @@ void Sprite::Draw()
 void Sprite::Update()
 {
 	if (isAnimated) anim->Update();
-	
-	if (isInteractable) CheckCollisionWithTilemap();
+
+	Shape::Update();
+}
+
+TileType Sprite::Move(float x, float y, float z)
+{
+	Translate(x, y, z);
+
+	TileType tileType = Background;
+
+	if (isInteractable)
+		tileType = CheckTileTypeCollisionWith(x, y, z);
+
+	return tileType;
 }
 
 unsigned int Sprite::SetTextureUV(float* vertices, int count, int variables)
@@ -111,22 +126,129 @@ float* Sprite::SetUV(unsigned int u, unsigned int v)
 
 	float* bufferData = new float[count * 2]
 	{
+		minU, minV,
+		maxU, minV,
 		minU, maxV,
 		maxU, maxV,
-		minU, minV,
-		maxU, minV
 	};
 
 	return bufferData;
 }
 
-void Sprite::CheckCollisionWithTilemap()
+void Sprite::SetOriginalPosition(float x, float y)
 {
-	// Acá llamar a una función del Tilemap que reciba la posición actual del Sprite.
-	// Y que esa función del Tilemap devuelva un array de vec3 con todos los tiles 
-	// con los que pueda colisionar. (o... que solo me devuelva los que están a la
-	// derecha e izquierda ¬¬).
+	originalPosition.x = x;
+	originalPosition.y = y;
 
-	TilesAround posOfTile = tilemap->GetAroundTiles(GetPosition());
+	Teleport(originalPosition.x, originalPosition.y, 0.0f);
+}
 
+TileType Sprite::CheckTileTypeCollisionWith(float x, float y, float z)
+{
+	TileType tileType = Background;
+
+	float horOffset = col.x / 2.0f;
+	float verOffset = col.y / 2.0f;
+	float newPosX = GetPosition().x;
+	float newPosY = GetPosition().y;
+	int possibleHorCols = glm::max(col.y / heightOfFrame + 1.0f, 2.0f);
+	int possibleVerCols = glm::max(col.x / widthOfFrame + 1.0f, 2.0f);
+
+	if (x != 0.0f)
+	{
+		for (int i = -possibleHorCols / 2; i <= possibleHorCols / 2; i++)
+		{
+			if (x > 0.0f)
+			{
+				glm::vec2 rightTileCoord = tilemap->WorldToGrid(
+					GetPosition().x + horOffset,
+					GetPosition().y + (verOffset / (possibleHorCols / 2)) * i + heightOfFrame);
+
+				tileType = tilemap->GetTileType(
+					rightTileCoord.x,
+					rightTileCoord.y);
+
+				if (tileType == Obstacle)
+				{
+					newPosX = (tilemap->GridToWorld(
+						rightTileCoord.x,
+						rightTileCoord.y)
+						).x - horOffset;
+					break;
+				}
+			}
+			else
+			{
+				glm::vec2 leftTileCoord = tilemap->WorldToGrid(
+					GetPosition().x - horOffset,
+					GetPosition().y + (verOffset / (possibleHorCols / 2)) * i + heightOfFrame);
+
+				tileType = tilemap->GetTileType(
+					leftTileCoord.x,
+					leftTileCoord.y);
+
+				if (tileType == Obstacle)
+				{
+					newPosX = (tilemap->GridToWorld(leftTileCoord.x,
+						leftTileCoord.y)
+						).x + horOffset + widthOfFrame;
+					break;
+				}
+			}
+		}
+	}
+
+	if (y != 0.0f)
+	{
+		for (int i = -possibleVerCols / 2; i <= possibleVerCols / 2; i++)
+		{
+			if (y > 0.0f)
+			{
+				glm::vec2 upperTileCoord = tilemap->WorldToGrid(
+					GetPosition().x + (horOffset / (possibleVerCols / 2)) * i,
+					GetPosition().y + verOffset);
+
+				tileType = tilemap->GetTileType(
+					upperTileCoord.x,
+					upperTileCoord.y);
+
+				if (tileType == Obstacle)
+				{
+					newPosY = (tilemap->GridToWorld(
+						upperTileCoord.x,
+						upperTileCoord.y)
+						).y - verOffset - tilemap->GetLastRowOffset();
+					break;
+				}
+			}
+			else
+			{
+				glm::vec2 lowerTileCoord = tilemap->WorldToGrid(
+					GetPosition().x + (horOffset / (possibleVerCols / 2)) * i,
+					GetPosition().y - verOffset);
+
+				tileType = tilemap->GetTileType(
+					lowerTileCoord.x,
+					lowerTileCoord.y);
+				//cout << "[" << lowerTileCoord.x << "][" << lowerTileCoord.y << "]: " << tileType << endl;
+				if (tileType == Obstacle)
+				{
+					newPosY = (tilemap->GridToWorld(
+						lowerTileCoord.x,
+						lowerTileCoord.y)
+						).y + verOffset;
+					break;
+				}
+			}
+		}
+	}
+
+	if (newPosX != GetPosition().x || newPosY != GetPosition().y)
+	{
+		//cout << "My pos:     " << GetPosition().x << " " << GetPosition().y << endl;
+		//cout << "My new pos: " << newPosX << " " << newPosY << endl;
+		Teleport(newPosX, newPosY, GetPosition().z);
+	}
+
+	return tileType;
 }

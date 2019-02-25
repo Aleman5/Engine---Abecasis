@@ -32,6 +32,10 @@ protected:
 	bool isStatic;	// Is static? Yes/No
 	Layers tag;		// Tag
 
+	Entity* collision;
+
+	void Update();
+
 public:
 	virtual void Draw() = 0;
 	virtual void ShouldDispose() = 0;
@@ -42,6 +46,11 @@ public:
 	);
 	void Translate(
 		float newX,	// Value in X
+		float newY,	// Value in Y
+		float newZ	// Value in Z
+	);
+	void Teleport(
+		float newX, // Value in X
 		float newY,	// Value in Y
 		float newZ	// Value in Z
 	);
@@ -66,6 +75,9 @@ public:
 		float* vertices,	// Vertices data
 		int count			// Total of vertices
 	) = 0;
+
+	void CollisionWith(Entity* collision) { this->collision = collision; };
+	Entity* OnCollisionEnter() { return collision; };
 
 	void SetMass(float newMass)		{ mass = newMass;			 } // Set the new value mass
 	void SetIsStatic(bool isStatic) { this->isStatic = isStatic; } // Set the new value mass

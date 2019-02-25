@@ -88,6 +88,11 @@ public:
 		glm::vec3 newPos			// Position added to the actual View Matrix position
 	);
 
+	void ResetCamera(
+		float x,
+		float y
+	);
+
 	void loadIdentityMatrix();
 	void SetModelMatrix(
 		glm::mat4 model				// Model matrix of the entity

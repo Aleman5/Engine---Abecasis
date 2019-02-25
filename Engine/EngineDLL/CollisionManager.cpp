@@ -89,6 +89,9 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 
 								(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
 								(*it1)->Translate(glm::vec3(0.0f, -pY + move, 0.0f));
+
+								(*it1)->CollisionWith(*it2);
+								(*it2)->CollisionWith(*it1);
 							}
 							else // Entity 1 is pushed back
 							{
@@ -96,6 +99,9 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 									(*it1)->Translate(glm::vec3(0.0f, pY, 0.0f));
 								else
 									(*it1)->Translate(glm::vec3(0.0f, -pY, 0.0f));
+
+								(*it1)->CollisionWith(*it2);
+								(*it2)->CollisionWith(*it1);
 							}
 						}
 						else // Entity 2 is pushed back
@@ -104,6 +110,9 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 								(*it2)->Translate(glm::vec3(0.0f, pY, 0.0f));
 							else
 								(*it2)->Translate(glm::vec3(0.0f, -pY, 0.0f));
+
+							(*it1)->CollisionWith(*it2);
+							(*it2)->CollisionWith(*it1);
 						}
 					}
 					else
@@ -122,6 +131,9 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 
 								(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
 								(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
+
+								(*it1)->CollisionWith(*it2);
+								(*it2)->CollisionWith(*it1);
 							}
 							else // Entity 1 is pushed back
 							{
@@ -129,6 +141,9 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 									(*it1)->Translate(glm::vec3(pX, 0.0f, 0.0f));
 								else
 									(*it1)->Translate(glm::vec3(-pX, 0.0f, 0.0f));
+
+								(*it1)->CollisionWith(*it2);
+								(*it2)->CollisionWith(*it1);
 							}
 						}
 						else // Entity 2 is pushed back
@@ -137,6 +152,9 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 								(*it2)->Translate(glm::vec3(pX, 0.0f, 0.0f));
 							else
 								(*it2)->Translate(glm::vec3(-pX, 0.0f, 0.0f));
+
+							(*it1)->CollisionWith(*it2);
+							(*it2)->CollisionWith(*it1);
 						}
 					}
 				}

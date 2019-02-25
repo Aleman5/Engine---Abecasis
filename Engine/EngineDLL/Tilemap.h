@@ -10,11 +10,13 @@ enum TileType
 {
 	Obstacle,
 	Background,
-	Trigger
+	Win_Trigger,
+	Death_Trigger
 };
 
 struct Tile
 {
+	int index;
 	TileType type;
 	float* uvData;
 };
@@ -90,8 +92,13 @@ public:
 		unsigned int pos	// Position of the Tile
 	);
 
-	glm::vec2 WorldToGrid(float posX, float posY);
+	TileType GetTileType(unsigned int row, unsigned int column);
+
+	glm::vec2 WorldToGrid(float posY, float posX);
 	glm::vec2 GridToWorld(unsigned int row, unsigned int col);
+
+	float GetLastRowOffset() const { return lastRowOffset; }
+	float GetLastColumnOffset() const { return lastColumnOffset; }
 
 	TilesAround GetAroundTiles(// Returns the four tiles around the Sprite
 		glm::vec3 spritePos	   // Position of the Sprite to consider

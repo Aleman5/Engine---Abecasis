@@ -8,6 +8,10 @@ GameBase::~GameBase()
 {
 }
 
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+}
+
 bool GameBase::Start(int width, int height, const char* windowMe)
 {
 	Defs* defs = Defs::getInstance();
@@ -16,6 +20,11 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 
 	currentFrame = 0.0f;
 	lastFrame = 0.0f;
+
+	if (!glfwInit())
+	{
+		return false;
+	}
 
 	window = new Window();
 	if (!window->Start(width, height, windowMe))
@@ -30,7 +39,9 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		delete renderer;
 		return false;
 	}
-	
+
+	glfwSetKeyCallback((GLFWwindow*)window->GetContext(), KeyCallback);
+
 	if (!OnStart())
 	{
 		return false;
@@ -63,22 +74,26 @@ void GameBase::Loop()
 		Defs::getInstance()->UpdateDeltaTime();
 
 		state = OnUpdate();
+
+		window->PollEvents();
+
 		state = OnDraw();
 
 		renderer->SwapBuffers();
-
-		window->PollEvents();
 	}
 }
 
-/*void GameBase::Time()
+bool GameBase::input(int key)
 {
-	currentFrame = glfwGetTime();		// Save the actual time
-	deltaTime = currentFrame - lastFrame;	// Make a difference btw the actualFrame and the lastFrame
-	lastFrame = currentFrame;			// Save the lastFrame with the actual time
+	int state = glfwGetKey((GLFWwindow*)window->GetContext(), key);
+	if (state == GLFW_PRESS) return true;
+	return false;
+}
 
-	//cout << deltaTime << endl;
-}*/
+Window* GameBase::GetWindow()
+{
+	return window;
+}
 
 Renderer* GameBase::GetRenderer()
 {

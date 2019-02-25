@@ -30,7 +30,8 @@ public:
 	);
 	bool Stop();
 	void Loop();
-	//void Time();
+	bool input(int key);
+	Window* GetWindow();
 	Renderer* GetRenderer();
 
 	GameBase();

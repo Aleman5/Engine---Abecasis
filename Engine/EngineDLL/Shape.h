@@ -10,6 +10,7 @@ protected:
 	int count;				// Total vertices
 	int variables;			// Total data for each vertice
 
+	void Update();
 public:
 	virtual void Draw() = 0;
 	void ShouldDispose() override;

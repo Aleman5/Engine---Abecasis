@@ -189,6 +189,20 @@ void Renderer::MoveCamera(glm::vec3 newPos)
 	);
 }
 
+void Renderer::ResetCamera(float x, float y)
+{
+	glm::vec3 newPos = glm::vec3(x, y, 3);
+
+	cameraPosition = glm::vec3(newPos.x, newPos.y, newPos.z);
+	eyePosition = glm::vec3(0.0f, newPos.y, 0.0f);
+
+	viewMatrix = glm::lookAt(
+		cameraPosition,
+		eyePosition,
+		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
+	);
+}
+
 void Renderer::loadIdentityMatrix()
 {
 	modelMatrix = glm::mat4(1.0f);
