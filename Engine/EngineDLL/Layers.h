@@ -3,7 +3,7 @@
 enum Layers
 {
 	Default,
-	Player,
+	Character,
 	Enemy,
 	Wall,
 	Count

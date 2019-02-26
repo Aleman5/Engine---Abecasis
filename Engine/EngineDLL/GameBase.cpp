@@ -8,9 +8,9 @@ GameBase::~GameBase()
 {
 }
 
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+/*void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-}
+}*/
 
 bool GameBase::Start(int width, int height, const char* windowMe)
 {
@@ -20,11 +20,6 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 
 	currentFrame = 0.0f;
 	lastFrame = 0.0f;
-
-	if (!glfwInit())
-	{
-		return false;
-	}
 
 	window = new Window();
 	if (!window->Start(width, height, windowMe))
@@ -40,7 +35,7 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		return false;
 	}
 
-	glfwSetKeyCallback((GLFWwindow*)window->GetContext(), KeyCallback);
+	//glfwSetKeyCallback((GLFWwindow*)window->GetContext(), KeyCallback);
 
 	if (!OnStart())
 	{
@@ -74,21 +69,18 @@ void GameBase::Loop()
 		Defs::getInstance()->UpdateDeltaTime();
 
 		state = OnUpdate();
-
-		window->PollEvents();
-
 		state = OnDraw();
 
 		renderer->SwapBuffers();
 	}
 }
 
-bool GameBase::input(int key)
+/*bool GameBase::input(int key)
 {
 	int state = glfwGetKey((GLFWwindow*)window->GetContext(), key);
 	if (state == GLFW_PRESS) return true;
 	return false;
-}
+}*/
 
 Window* GameBase::GetWindow()
 {

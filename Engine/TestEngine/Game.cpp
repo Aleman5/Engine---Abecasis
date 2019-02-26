@@ -10,20 +10,17 @@ Game::~Game()
 
 bool Game::OnStart()
 {
+	input = Input::getInstance();
+	input->SetWindowContext(GetWindow());
+
 	CollisionManager* cmgr = CollisionManager::getInstance();
 	
-	cmgr->SetRelation(Player, Enemy);
-	cmgr->SetRelation(Player, Wall);
+	cmgr->SetRelation(Character, Enemy);
+	cmgr->SetRelation(Character, Wall);
 	cmgr->SetRelation(Enemy, Wall);
 
 	speed = 100.0f;
-	translating = 0.0f;
-	rotating = 0.0f;
-	scalling = 0.0f;
-
-	playerSpeed = 100.0f;
-
-	gameState = 0;
+	gameState = CONTINUE;
 
 	material = new Material();
 	material->LoadShader("Shaders\\SimpleVertexShader.vertexshader"		// Vertex Shader
@@ -36,7 +33,7 @@ bool Game::OnStart()
 	);
 	//																									 4800  960
 	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "SpaceTiles.bmp", 3, 4, "SpaceLevel3.csv", 4800, 960);
-	tilemap->Translate(glm::vec3(0.0f, 64.0f, 0.0f));
+	tilemap->SetOriginalPosition(0.0f, 64.0f);
 	GetRenderer()->MoveCamera(glm::vec3(0.0f, 64.0f, 0.0f));
 
 	tilemap->SetTileProperty(0, Obstacle);
@@ -51,17 +48,19 @@ bool Game::OnStart()
 	tilemap->SetTileProperty(9, Death_Trigger);
 	tilemap->SetTileProperty(10,Win_Trigger);
 
-	player = new Sprite(GetRenderer(), matTexture, Player, "Ship3.bmp", true, 2, 6, 40.0f, 20.0f, true, tilemap);
-	unsigned int frames[6] = { 0, 1, 2, 3, 4, 5 };
-	player->GetAnimation()->SetNewAnimation(frames);
+	player = new Player(GetRenderer(), matTexture, Character, "Ship3.bmp", true, 2, 6, 40.0f, 20.0f, true, tilemap);
+	player->SetSpeed(100.0f);
 
-	asteroids = new list<Sprite*>;
+	asteroids = new list<Asteroid*>;
 	for (int i = 0; i < totalAsteroids; i++)
-		asteroids->push_back(new Sprite(GetRenderer(), matTexture, Enemy, "Asteroid.bmp", false, 1, 1, 32.0f, 32.0f, false, tilemap));
+		asteroids->push_back(new Asteroid(GetRenderer(), matTexture, Enemy, "Asteroid.bmp", false, 1, 1, 32.0f, 32.0f, false, tilemap));
 
-	cmgr->AddEntity(player->GetEntity());
-	for (list<Sprite*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
-		cmgr->AddEntity((*ast)->GetEntity());
+	cmgr->AddEntity(player->GetSprite()->GetEntity());
+	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
+	{
+		(*ast)->SetSpeed(100.0f);
+		cmgr->AddEntity((*ast)->GetSprite()->GetEntity());
+	}
 
 	player->SetOriginalPosition(100.0f, 400.0f);
 
@@ -72,7 +71,7 @@ bool Game::OnStart()
 
 void Game::FillAsteroidsData()
 {
-	list<Sprite*>::iterator ast = asteroids->begin();
+	list<Asteroid*>::iterator ast = asteroids->begin();
 	(*ast)->SetOriginalPosition(500.0f, 400.0f);
 	ast++;
 	(*ast)->SetOriginalPosition(830.0f, 400.0f);
@@ -83,13 +82,13 @@ void Game::FillAsteroidsData()
 	ast++;
 	(*ast)->SetOriginalPosition(1050.0f, 500.0f);
 	ast++;
-	(*ast)->SetOriginalPosition(1500.0f, 350.0f);
+	(*ast)->SetOriginalPosition(1600.0f, 350.0f);
 	ast++;
 	(*ast)->SetOriginalPosition(1750.0f, 600.0f);
 	ast++;
 	(*ast)->SetOriginalPosition(1900.0f, 400.0f);
 	ast++;
-	(*ast)->SetOriginalPosition(2300.0f, 600.0f);
+	(*ast)->SetOriginalPosition(2300.0f, 520.0f);
 	ast++;
 	(*ast)->SetOriginalPosition(2500.0f, 500.0f);
 	ast++;
@@ -137,87 +136,70 @@ bool Game::OnStop()
 
 bool Game::OnUpdate()
 {
-	translating += speed * Defs::getInstance()->deltaTime;
-	
 	switch (gameState)
 	{
-	case 0:
+	case CONTINUE:
 	{
 		vec2 move = vec2(speed * Defs::getInstance()->deltaTime, 0.0f);
 
-		tilemap->Translate(glm::vec3(move.x, 0.0f, 0.0f));
 		GetRenderer()->MoveCamera(glm::vec3(move.x, 0.0f, 0.0f));
+		tilemap->Translate(glm::vec3(move.x, 0.0f, 0.0f));
+		//tilemap->Move(move.x, 0.0f);
 
-		if (input(GLFW_KEY_W))
-			move.y += playerSpeed * Defs::getInstance()->deltaTime;
+		player->Move();
 
-		if (input(GLFW_KEY_S))
-			move.y -= playerSpeed * Defs::getInstance()->deltaTime;
-
-		if (input(GLFW_KEY_D))
-			move.x += playerSpeed * Defs::getInstance()->deltaTime;
-
-		if (input(GLFW_KEY_A))
-			move.x -= playerSpeed * Defs::getInstance()->deltaTime;
-
-		TileType hit = player->Move(move.x, move.y, 0.0f);
-
-		switch (hit)
+		switch (player->GetHit())
 		{
 		case Win_Trigger:
 		{
-			gameState = 1;
+			gameState = WIN;
+			cout << "You won this fantastic game! Good job!" << endl;
 		}
 			break;
 		case Death_Trigger:
 		{
-			gameState = -1;
-
-			unsigned int frames[6] = { 6, 7, 8, 9, 10, 11 };
-			player->GetAnimation()->SetNewAnimation(frames);
-			player->GetAnimation()->SetIsLoop(false);
+			gameState = LOSE;
+			player->Die();
 		}
 			break;
 		}
 
-		Entity* col = player->OnCollisionEnter();
+		Entity* col = player->GetSprite()->OnCollisionEnter();
 		if (col)
-		{
 			if (col->GetTag() == Enemy)
 			{
-				gameState = -1;
-				unsigned int frames[6] = { 6, 7, 8, 9, 10, 11 };
-				player->GetAnimation()->SetNewAnimation(frames);
-				player->GetAnimation()->SetIsLoop(false);
+				gameState = LOSE;
+				player->Die();
 			}
-		}
 	}
 		break;
-	case 1:  // Win
+	case WIN:
 	{
 
 	}
 		break;
-	case -1: // Lose
+	case LOSE:
 	{
-		if (player->GetAnimation()->IsFinished())
+		if (player->GetSprite()->GetAnimation()->IsFinished())
 			Restart();
 	}
 		break;
 	}
 
-	for (list<Sprite*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
-		(*ast)->Translate(-speed * Defs::getInstance()->deltaTime / 2, 0.0f,  0.0f);
+	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
+		(*ast)->Move();
 	
 	tilemap->UpdateUV();
 
 	player->Update();
 
-	for (list<Sprite*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
+	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
 		(*ast)->Update();
 
 	if (gameState == 0)
 		CollisionManager::getInstance()->DetectCollisions();
+
+	input->PollEvents();
 
 	return true;
 }
@@ -225,7 +207,7 @@ bool Game::OnUpdate()
 bool Game::OnDraw()
 {
 	player->Draw();
-	for (list<Sprite*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
+	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
 		(*ast)->Draw();
 
 	tilemap->Draw();
@@ -235,23 +217,11 @@ bool Game::OnDraw()
 
 void Game::Restart()
 {
-	// Positions
 	tilemap->Teleport(0.0f, 64.0f, 0.0f);
 	GetRenderer()->ResetCamera(0.0f, 64.0f);
-	player->Teleport(
-		player->GetOriginalPosition().x,
-		player->GetOriginalPosition().y,
-		0.0f);
-	for (list<Sprite*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
-		(*ast)->Teleport(
-			(*ast)->GetOriginalPosition().x,
-			(*ast)->GetOriginalPosition().y,
-			0.0f);
+	player->ReturnToOriginalPosition();
+	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
+		(*ast)->ReturnToOriginalPosition();
 
-	// Animations
-	unsigned int frames[6] = { 0, 1, 2, 3, 4, 5 };
-	player->GetAnimation()->SetNewAnimation(frames);
-	player->GetAnimation()->SetIsLoop(true);
-
-	gameState = 0;
+	gameState = CONTINUE;
 }

@@ -30,7 +30,7 @@ public:
 	);
 	bool Stop();
 	void Loop();
-	bool input(int key);
+	//bool input(int key);
 	Window* GetWindow();
 	Renderer* GetRenderer();
 

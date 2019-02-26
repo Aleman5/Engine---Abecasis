@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Exports.h"
+#include "Definitions.h"
 #include "Entity.h"
 #include "TextureImporter.h"
 
@@ -61,6 +62,13 @@ class ENGINEDLL_API Tilemap : public Entity
 	float lastRowOffset;
 	float lastColumnOffset;
 
+	float speed;
+
+	vec2 actualPosition;
+	vec2 realPosition;
+
+	vec2 accumTrans;
+
 	const char* texturePath;
 
 	vector<vector<int>> LoadLevel(
@@ -74,6 +82,7 @@ class ENGINEDLL_API Tilemap : public Entity
 
 public:
 	void Draw() override;
+	void Move(float x, float y);
 	void UpdateUV();
 	void SetTileProperty(
 		unsigned int index,	// Index of the Tile
@@ -87,6 +96,9 @@ public:
 		int count			// Total Vertices
 	) override;
 
+	void SetSpeed(float speed) { this->speed = speed; };
+	void SetOriginalPosition(float x, float y);
+
 	Tile GetTile(
 		unsigned int pos	// Position of the Tile
 	);
@@ -96,8 +108,9 @@ public:
 	glm::vec2 WorldToGrid(float posY, float posX);
 	glm::vec2 GridToWorld(unsigned int row, unsigned int col);
 
-	float GetLastRowOffset() const { return lastRowOffset; }
-	float GetLastColumnOffset() const { return lastColumnOffset; }
+	float GetSpeed() { return speed; };
+	float GetLastRowOffset() const { return lastRowOffset; };
+	float GetLastColumnOffset() const { return lastColumnOffset; };
 
 	Tilemap(
 		Renderer* renderer,				// Renderer reference

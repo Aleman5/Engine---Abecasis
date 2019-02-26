@@ -19,7 +19,6 @@ public:
 	);
 	bool Stop();
 	bool ShouldClose();
-	void PollEvents();
 
 	void* GetContext() { return window;		  }; // Returns a pointer to void
 	int GetWidth()	   { return windowWidth;  }; // Returns the Width of the Window

@@ -27,11 +27,13 @@ texturePath(tilesetPath)
 	unsigned int windowWidth = renderer->GetWindowWidht();
 	unsigned int windowHeight = renderer->GetWindowHeight();
 
-	activeTilesColumns = (windowWidth % tileWidth == 0) ? windowWidth / tileWidth : windowWidth / tileWidth + 1;
-	activeTilesRows = (windowHeight % tileHeight == 0) ? windowHeight / tileHeight : windowHeight / tileHeight + 1;
+	activeTilesColumns = (windowWidth % tileWidth == 0) ? windowWidth / tileWidth + 1 : windowWidth / tileWidth + 1;
+	activeTilesRows = (windowHeight % tileHeight == 0) ? windowHeight / tileHeight + 1 : windowHeight / tileHeight + 1;
 
 	lastRowOffset = windowHeight % tileHeight;
 	lastColumnOffset = windowWidth % tileWidth;
+
+	actualPosition = realPosition = vec2(0.0f, 0.0f);
 
 	int totalActiveTiles = activeTilesRows * activeTilesColumns;
 
@@ -232,6 +234,91 @@ void Tilemap::UpdateUV()
 	uvBufferId = renderer->GenBuffer(uvBufferData, uvBufferSize);
 }
 
+void Tilemap::Move(float x, float y)
+{
+	realPosition.x += x;
+	realPosition.y += y;
+
+	vec2 diff = realPosition - actualPosition;
+
+	if (diff.x >= tileWidth * 2)
+	{
+		Translate(vec3(diff.x, 0.0f, 0.0f));
+
+		actualPosition = realPosition;
+
+		UpdateUV();
+	}
+
+	/*if (fabsf(diff.y) >= tileHeight * 2)
+	{
+		Translate(vec3(0.0f, diff.y, 0.0f));
+
+		actualPosition = realPosition;
+	}*/
+
+	/*float screenOffsetX = renderer->GetWindowWidht();
+	float translateX = 0.0f;
+
+	if (vectorPosition.x + accumTrans.x + x < levelWidth - screenOffsetX)
+		translateX = (vectorPosition.x + accumTrans.x + x > 0.0f) ? x : -(vectorPosition.x + accumTrans.x);
+
+	accumTrans.x += translateX;
+
+	float accumTransX = abs(accumTrans.x);
+
+	if (accumTransX >= tileWidth)
+	{
+		if (accumTransX >= tileWidth)
+		{
+			Translate(glm::sign(accumTrans.x) * (int)tileWidth, 0.0f, 0.0f);
+			accumTrans.x -= glm::sign(accumTrans.x) * (int)tileWidth;
+		}
+		UpdateUV();
+	}*/
+
+	/*float screenOffsetX = renderer->GetWindowWidht();
+	float screenOffsetY = renderer->GetWindowHeight();
+	float translateX = 0.0f;
+	float translateY = 0.0f;
+
+	if (vectorPosition.x + accumTrans.x + x < levelWidth - screenOffsetX)
+		translateX = (vectorPosition.x + accumTrans.x + x > 0.0f) ? x : -(vectorPosition.x + accumTrans.x);
+	else
+		translateX = levelWidth - screenOffsetX - vectorPosition.x - accumTrans.x;
+
+	if (vectorPosition.y + accumTrans.y + y < levelHeight - screenOffsetY)
+		translateY = (vectorPosition.y + accumTrans.y + y > 0.0f) ? y : -(vectorPosition.y + accumTrans.y);
+	else
+		translateY = levelHeight - screenOffsetY - vectorPosition.y - accumTrans.y;
+
+	accumTrans.x += translateX;
+	accumTrans.y += translateY;
+
+	float accumTransX = abs(accumTrans.x);
+	float accumTransY = abs(accumTrans.y);
+
+	if (accumTransX >= tileWidth || accumTransY >= tileHeight)
+	{
+		if (accumTransX >= tileWidth)
+		{
+			Translate(glm::sign(accumTrans.x) * (int)tileWidth, 0.0f, 0.0f);
+			accumTrans.x -= glm::sign(accumTrans.x) * (int)tileWidth;
+		}
+
+		if (accumTransY >= tileHeight)
+		{
+			Translate(0.0f, glm::sign(accumTrans.y) * (int)tileHeight, 0.0f);
+			accumTrans.y -= glm::sign(accumTrans.y) * (int)tileWidth;
+		}
+
+		UpdateUV();
+	}
+
+	//renderer->MoveCamera(vec3((vectorPosition.x + accumTrans.x) * Defs::getInstance()->deltaTime, (vectorPosition.y + accumTrans.y) * Defs::getInstance()->deltaTime, 0.0f));
+	*/
+}
+
 void Tilemap::SetTileProperty(unsigned int index, TileType type)
 {
 	if (index >= tilesetColumns * tilesetRows)
@@ -257,8 +344,6 @@ void Tilemap::Draw()
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
-	renderer->EnableBlend();
-
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(vertexBufferId, 0);
@@ -266,8 +351,6 @@ void Tilemap::Draw()
 	renderer->DrawBuffer(0, countOfVertices * activeTilesColumns * activeTilesRows, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
-
-	renderer->DisableBlend();
 }
 
 void Tilemap::ShouldDispose()
@@ -286,6 +369,13 @@ unsigned int Tilemap::SetVertices(float* vertices, int count)
 	shouldDispose = true;
 
 	return id;
+}
+
+void Tilemap::SetOriginalPosition(float x, float y)
+{
+	actualPosition = realPosition = vec2(x, y);
+
+	Translate(actualPosition.x, actualPosition.y, 0.0f);
 }
 
 Tile Tilemap::GetTile(unsigned int pos)
@@ -309,7 +399,7 @@ TileType Tilemap::GetTileType(unsigned int row, unsigned int column)
 
 glm::vec2 Tilemap::WorldToGrid(float posY, float posX)
 {
-	unsigned int row = (levelRows - 1) - (int)posX / tileHeight;
+	unsigned int row = (levelRows - 3) - (int)posX / tileHeight;
 	unsigned int col = posY / tileWidth;
 
 	return glm::vec2(row, col);
